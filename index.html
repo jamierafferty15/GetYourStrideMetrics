@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StrideMetrics</title>
+
+    <style>
+
+        :root {
+            --page-bg: #f4f6f8;
+            --card-bg: #ffffff;
+            --soft-bg: #f7f7f7;
+            --header-bg: #eeeeee;
+            --info-bg: #f0f4f7;
+
+            --text: #222222;
+            --muted-text: #666666;
+            --light-text: #888888;
+
+            --border: #dddddd;
+            --row-border: #e4e4e4;
+
+            --button-bg: #222222;
+            --button-hover: #444444;
+            --button-text: #ffffff;
+
+            --preset-bg: #eeeeee;
+            --preset-hover: #dddddd;
+
+            --error-bg: #fff1f1;
+            --error-text: #9b1c1c;
+
+            --shadow:
+                0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+
+        body.dark-mode {
+            --page-bg: #121212;
+            --card-bg: #1e1e1e;
+            --soft-bg: #292929;
+            --header-bg: #333333;
+            --info-bg: #252c31;
+
+            --text: #f2f2f2;
+            --muted-text: #b0b0b0;
+            --light-text: #888888;
+
+            --border: #444444;
+            --row-border: #3b3b3b;
+
+            --button-bg: #f2f2f2;
+            --button-hover: #d8d8d8;
+            --button-text: #111111;
+
+            --preset-bg: #333333;
+            --preset-hover: #444444;
+
+            --error-bg: #3a2020;
+            --error-text: #ffaaaa;
+
+            --shadow:
+                0 4px 20px rgba(0, 0, 0, 0.35);
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+
+            background-color: var(--page-bg);
+            color: var(--text);
+
+            margin: 0;
+            padding: 40px 20px;
+
+            transition:
+                background-color 0.25s ease,
+                color 0.25s ease;
+        }
+
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+
+            background-color: var(--card-bg);
+
+            padding: 30px;
+
+            border-radius: 16px;
+
+            box-shadow: var(--shadow);
+
+            transition:
+                background-color 0.25s ease;
+        }
+
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background-color: var(--button-bg);
+            color: var(--button-text);
+
+            font-size: 22px;
+        }
+
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+
+        h2 {
+            margin-top: 36px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+
+        p {
+            line-height: 1.5;
+        }
+
+
+        .subtitle {
+            color: var(--muted-text);
+            margin-top: 7px;
+            margin-bottom: 0;
+        }
+
+
+        .tagline {
+            margin-top: 3px;
+            margin-bottom: 0;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            color: var(--muted-text);
+        }
+
+
+        .theme-button {
+            width: auto;
+            margin: 0;
+
+            padding: 10px 14px;
+
+            border: 1px solid var(--border);
+
+            background-color: var(--soft-bg);
+            color: var(--text);
+
+            font-size: 14px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+        }
+
+
+        .theme-button:hover {
+            background-color: var(--preset-hover);
+        }
+
+
+        label {
+            display: block;
+
+            margin-top: 15px;
+            margin-bottom: 6px;
+
+            font-weight: bold;
+        }
+
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            background-color: var(--card-bg);
+            color: var(--text);
+        }
+
+
+        input:focus,
+        select:focus {
+            outline: 2px solid var(--muted-text);
+            outline-offset: 2px;
+        }
+
+
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+
+        .preset-button {
+            width: auto;
+            margin: 0;
+
+            padding: 9px 15px;
+
+            background-color: var(--preset-bg);
+            color: var(--text);
+
+            border: 1px solid var(--border);
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+
+        .preset-button:hover {
+            background-color: var(--preset-hover);
+        }
+
+
+        .distance-row {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+        }
+
+
+        .distance-field {
+            flex: 3;
+        }
+
+
+        .unit-field {
+            flex: 1;
+        }
+
+
+        .time-row {
+            display: flex;
+            gap: 10px;
+        }
+
+
+        .time-field {
+            flex: 1;
+        }
+
+
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+
+        .calculate-button {
+            flex: 4;
+            width: 100%;
+            margin: 0;
+
+            padding: 14px;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            border: none;
+            border-radius: 10px;
+
+            background-color: var(--button-bg);
+            color: var(--button-text);
+
+            cursor: pointer;
+        }
+
+
+        .calculate-button:hover {
+            background-color: var(--button-hover);
+        }
+
+
+        .reset-button {
+            flex: 1;
+            width: 100%;
+            margin: 0;
+
+            padding: 14px;
+
+            font-size: 15px;
+
+            border: 1px solid var(--border);
+            border-radius: 10px;
+
+            background-color: var(--soft-bg);
+            color: var(--text);
+
+            cursor: pointer;
+        }
+
+
+        .reset-button:hover {
+            background-color: var(--preset-hover);
+        }
+
+
+        .error-message {
+            display: none;
+
+            margin-top: 18px;
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background-color: var(--error-bg);
+            color: var(--error-text);
+
+            font-weight: bold;
+        }
+
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+
+        .result-card {
+            background-color: var(--soft-bg);
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+
+        .result-label {
+            font-size: 14px;
+            color: var(--muted-text);
+            margin-bottom: 8px;
+        }
+
+
+        .result-value {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+
+        .data-table {
+            margin-top: 20px;
+
+            background-color: var(--soft-bg);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+
+        .data-row {
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr 1fr;
+
+            gap: 15px;
+
+            align-items: center;
+
+            padding: 14px 18px;
+
+            border-bottom:
+                1px solid var(--row-border);
+        }
+
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .table-header {
+            background-color: var(--header-bg);
+
+            font-size: 13px;
+            color: var(--muted-text);
+            font-weight: bold;
+        }
+
+
+        .distance-name {
+            font-weight: bold;
+        }
+
+
+        .time-value,
+        .pace-value {
+            text-align: right;
+
+            font-variant-numeric:
+                tabular-nums;
+        }
+
+
+        .pace-value {
+            color: var(--muted-text);
+        }
+
+
+        .note {
+            margin-top: 10px;
+
+            color: var(--muted-text);
+
+            font-size: 14px;
+        }
+
+
+        .info-box {
+            margin-top: 18px;
+
+            padding: 16px 18px;
+
+            background-color: var(--info-bg);
+
+            border-radius: 12px;
+        }
+
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+
+        .training-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+
+        .training-card {
+            background-color: var(--soft-bg);
+
+            padding: 18px;
+
+            border-radius: 12px;
+        }
+
+
+        .training-title {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+
+        .training-purpose {
+            color: var(--muted-text);
+
+            font-size: 14px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .training-pace {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+
+        .training-mile {
+            color: var(--muted-text);
+            font-size: 14px;
+        }
+
+
+        .saved-message {
+            min-height: 18px;
+
+            margin-top: 10px;
+
+            font-size: 13px;
+            color: var(--muted-text);
+
+            text-align: right;
+        }
+
+
+        .footer {
+            margin-top: 38px;
+            padding-top: 20px;
+
+            border-top: 1px solid var(--row-border);
+
+            text-align: center;
+        }
+
+
+        .footer-brand {
+            font-size: 13px;
+            font-weight: bold;
+
+            color: var(--muted-text);
+        }
+
+
+        .footer-domain {
+            margin-top: 4px;
+
+            font-size: 12px;
+
+            color: var(--light-text);
+        }
+
+
+        .version {
+            margin-top: 6px;
+
+            color: var(--light-text);
+
+            font-size: 12px;
+        }
+
+
+        @media (max-width: 700px) {
+
+            .result-cards {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .training-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 20px 10px;
+            }
+
+
+            .container {
+                padding: 20px;
+            }
+
+
+            .top-bar {
+                align-items: center;
+            }
+
+
+            h1 {
+                font-size: 30px;
+            }
+
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+            }
+
+
+            .distance-row,
+            .time-row {
+                flex-direction: column;
+            }
+
+
+            .distance-field,
+            .unit-field,
+            .time-field {
+                width: 100%;
+            }
+
+
+            .result-cards {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .button-row {
+                flex-direction: column;
+            }
+
+
+            .data-row {
+                grid-template-columns:
+                    1.3fr 1fr 1fr;
+
+                gap: 8px;
+
+                padding: 13px 12px;
+
+                font-size: 14px;
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .result-cards {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+
+        <div class="top-bar">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    🏃
+                </div>
+
+                <div>
+
+                    <h1>
+                        StrideMetrics
+                    </h1>
+
+                    <p class="tagline">
+                        Pace. Performance. Training.
+                    </p>
+
+                    <p class="subtitle">
+                        Simple running metrics that make sense.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="themeToggle"
+                class="theme-button"
+                type="button"
+            >
+                🌙 Dark
+            </button>
+
+        </div>
+
+
+
+        <h2>
+            Enter your run
+        </h2>
+
+
+        <div class="presets">
+
+            <button
+                class="preset-button"
+                data-distance="5"
+                type="button"
+            >
+                5K
+            </button>
+
+            <button
+                class="preset-button"
+                data-distance="10"
+                type="button"
+            >
+                10K
+            </button>
+
+            <button
+                class="preset-button"
+                data-distance="21.0975"
+                type="button"
+            >
+                Half marathon
+            </button>
+
+            <button
+                class="preset-button"
+                data-distance="42.195"
+                type="button"
+            >
+                Marathon
+            </button>
+
+        </div>
+
+
+
+        <div class="distance-row">
+
+            <div class="distance-field">
+
+                <label for="distance">
+                    Distance:
+                </label>
+
+                <input
+                    type="number"
+                    id="distance"
+                    step="0.01"
+                    min="0.01"
+                    value="10"
+                >
+
+            </div>
+
+
+            <div class="unit-field">
+
+                <label for="distanceUnit">
+                    Unit:
+                </label>
+
+                <select id="distanceUnit">
+
+                    <option value="km">
+                        Kilometres
+                    </option>
+
+                    <option value="miles">
+                        Miles
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="time-row">
+
+            <div class="time-field">
+
+                <label for="hours">
+                    Hours:
+                </label>
+
+                <input
+                    type="number"
+                    id="hours"
+                    value="0"
+                    min="0"
+                >
+
+            </div>
+
+
+            <div class="time-field">
+
+                <label for="minutes">
+                    Minutes:
+                </label>
+
+                <input
+                    type="number"
+                    id="minutes"
+                    value="45"
+                    min="0"
+                    max="59"
+                >
+
+            </div>
+
+
+            <div class="time-field">
+
+                <label for="seconds">
+                    Seconds:
+                </label>
+
+                <input
+                    type="number"
+                    id="seconds"
+                    value="0"
+                    min="0"
+                    max="59"
+                >
+
+            </div>
+
+        </div>
+
+
+
+        <div class="button-row">
+
+            <button
+                id="calculate"
+                class="calculate-button"
+                type="button"
+            >
+                Calculate
+            </button>
+
+
+            <button
+                id="reset"
+                class="reset-button"
+                type="button"
+            >
+                Reset
+            </button>
+
+        </div>
+
+
+        <div
+            id="savedMessage"
+            class="saved-message"
+        ></div>
+
+
+        <div
+            id="errorMessage"
+            class="error-message"
+        ></div>
+
+
+
+        <div class="result-cards">
+
+            <div class="result-card">
+
+                <div class="result-label">
+                    Pace / km
+                </div>
+
+                <div
+                    class="result-value"
+                    id="paceKmResult"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <div class="result-label">
+                    Pace / mile
+                </div>
+
+                <div
+                    class="result-value"
+                    id="paceMileResult"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <div class="result-label">
+                    Speed
+                </div>
+
+                <div
+                    class="result-value"
+                    id="kmhResult"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="result-card">
+
+                <div class="result-label">
+                    Speed
+                </div>
+
+                <div
+                    class="result-value"
+                    id="mphResult"
+                >
+                    --
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <h2>
+            Same-pace equivalents
+        </h2>
+
+
+        <div class="data-table">
+
+            <div class="data-row table-header">
+                <span>Distance</span>
+                <span class="time-value">Time</span>
+                <span class="pace-value">Pace</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">5K</span>
+                <span class="time-value" id="same5k">--</span>
+                <span class="pace-value" id="samePace5k">--</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">10K</span>
+                <span class="time-value" id="same10k">--</span>
+                <span class="pace-value" id="samePace10k">--</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">Half marathon</span>
+                <span class="time-value" id="sameHalf">--</span>
+                <span class="pace-value" id="samePaceHalf">--</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">Marathon</span>
+                <span class="time-value" id="sameMarathon">--</span>
+                <span class="pace-value" id="samePaceMarathon">--</span>
+            </div>
+
+        </div>
+
+
+        <p class="note">
+            These times assume you maintain exactly the same pace
+            for the entire distance.
+        </p>
+
+
+
+        <h2>
+            Predicted race times
+        </h2>
+
+
+        <div class="info-box">
+
+            <strong>
+                A more realistic estimate
+            </strong>
+
+            StrideMetrics adjusts your performance to account for
+            the increasing difficulty of maintaining the same pace
+            over different race distances.
+
+        </div>
+
+
+        <div class="data-table">
+
+            <div class="data-row table-header">
+                <span>Distance</span>
+                <span class="time-value">Prediction</span>
+                <span class="pace-value">Avg pace</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">5K</span>
+                <span class="time-value" id="predicted5k">--</span>
+                <span class="pace-value" id="predictedPace5k">--</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">10K</span>
+                <span class="time-value" id="predicted10k">--</span>
+                <span class="pace-value" id="predictedPace10k">--</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">Half marathon</span>
+                <span class="time-value" id="predictedHalf">--</span>
+                <span class="pace-value" id="predictedPaceHalf">--</span>
+            </div>
+
+            <div class="data-row">
+                <span class="distance-name">Marathon</span>
+                <span class="time-value" id="predictedMarathon">--</span>
+                <span class="pace-value" id="predictedPaceMarathon">--</span>
+            </div>
+
+        </div>
+
+
+        <p class="note">
+
+            Predictions are estimates. Training, endurance,
+            terrain, weather and race conditions can all affect
+            actual performance.
+
+        </p>
+
+
+
+        <h2>
+            Suggested training paces
+        </h2>
+
+
+        <div class="info-box">
+
+            <strong>
+                Turn your performance into training guidance
+            </strong>
+
+            These ranges are calculated from your estimated
+            current race fitness. They are general training
+            guidance rather than a personalised training plan.
+
+        </div>
+
+
+
+        <div class="training-grid">
+
+            <div class="training-card">
+
+                <div class="training-title">
+                    Easy
+                </div>
+
+                <div class="training-purpose">
+                    Comfortable aerobic running
+                </div>
+
+                <div
+                    class="training-pace"
+                    id="easyPace"
+                >
+                    --
+                </div>
+
+                <div
+                    class="training-mile"
+                    id="easyPaceMile"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="training-card">
+
+                <div class="training-title">
+                    Steady
+                </div>
+
+                <div class="training-purpose">
+                    Controlled sustained running
+                </div>
+
+                <div
+                    class="training-pace"
+                    id="steadyPace"
+                >
+                    --
+                </div>
+
+                <div
+                    class="training-mile"
+                    id="steadyPaceMile"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="training-card">
+
+                <div class="training-title">
+                    Tempo / threshold
+                </div>
+
+                <div class="training-purpose">
+                    Strong but controlled effort
+                </div>
+
+                <div
+                    class="training-pace"
+                    id="tempoPace"
+                >
+                    --
+                </div>
+
+                <div
+                    class="training-mile"
+                    id="tempoPaceMile"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="training-card">
+
+                <div class="training-title">
+                    Intervals
+                </div>
+
+                <div class="training-purpose">
+                    Shorter faster repetitions
+                </div>
+
+                <div
+                    class="training-pace"
+                    id="intervalPace"
+                >
+                    --
+                </div>
+
+                <div
+                    class="training-mile"
+                    id="intervalPaceMile"
+                >
+                    --
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <p class="note">
+
+            Training ranges are intentionally approximate.
+            Easy running should feel easy; harder sessions should
+            be adjusted for fitness, terrain, fatigue and conditions.
+
+        </p>
+
+
+
+        <div class="footer">
+
+            <div class="footer-brand">
+                StrideMetrics
+            </div>
+
+            <div class="footer-domain">
+                getyourstridemetrics
+            </div>
+
+            <div class="version">
+                v0.1
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        const calculateButton =
+            document.getElementById("calculate");
+
+        const resetButton =
+            document.getElementById("reset");
+
+        const themeToggle =
+            document.getElementById("themeToggle");
+
+        const presetButtons =
+            document.querySelectorAll(".preset-button");
+
+        const distanceInput =
+            document.getElementById("distance");
+
+        const distanceUnitInput =
+            document.getElementById("distanceUnit");
+
+        const hoursInput =
+            document.getElementById("hours");
+
+        const minutesInput =
+            document.getElementById("minutes");
+
+        const secondsInput =
+            document.getElementById("seconds");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        const savedMessage =
+            document.getElementById("savedMessage");
+
+
+        const RIEGEL_EXPONENT = 1.06;
+
+
+        const raceDistances = {
+            fiveK: 5,
+            tenK: 10,
+            halfMarathon: 21.0975,
+            marathon: 42.195
+        };
+
+
+        function formatTime(totalSeconds) {
+
+            totalSeconds =
+                Math.round(totalSeconds);
+
+            const hours =
+                Math.floor(totalSeconds / 3600);
+
+            const minutes =
+                Math.floor(
+                    (totalSeconds % 3600) / 60
+                );
+
+            const seconds =
+                totalSeconds % 60;
+
+
+            if (hours > 0) {
+
+                return (
+                    hours +
+                    ":" +
+                    String(minutes).padStart(2, "0") +
+                    ":" +
+                    String(seconds).padStart(2, "0")
+                );
+
+            }
+
+
+            return (
+                minutes +
+                ":" +
+                String(seconds).padStart(2, "0")
+            );
+
+        }
+
+
+        function formatPace(totalSeconds) {
+
+            let minutes =
+                Math.floor(totalSeconds / 60);
+
+            let seconds =
+                Math.round(totalSeconds % 60);
+
+
+            if (seconds === 60) {
+                minutes += 1;
+                seconds = 0;
+            }
+
+
+            return (
+                minutes +
+                ":" +
+                String(seconds).padStart(2, "0")
+            );
+
+        }
+
+
+        function formatPaceRange(
+            fasterSeconds,
+            slowerSeconds
+        ) {
+
+            return (
+                formatPace(fasterSeconds) +
+                "–" +
+                formatPace(slowerSeconds) +
+                " /km"
+            );
+
+        }
+
+
+        function formatMileRange(
+            fasterSecondsKm,
+            slowerSecondsKm
+        ) {
+
+            const fasterMile =
+                fasterSecondsKm * 1.609344;
+
+            const slowerMile =
+                slowerSecondsKm * 1.609344;
+
+
+            return (
+                formatPace(fasterMile) +
+                "–" +
+                formatPace(slowerMile) +
+                " /mile"
+            );
+
+        }
+
+
+        function showError(message) {
+
+            errorMessage.textContent =
+                message;
+
+            errorMessage.style.display =
+                "block";
+
+        }
+
+
+        function clearError() {
+
+            errorMessage.textContent =
+                "";
+
+            errorMessage.style.display =
+                "none";
+
+        }
+
+
+        function validateInputs(
+            distance,
+            hours,
+            minutes,
+            seconds
+        ) {
+
+            if (
+                !Number.isFinite(distance) ||
+                distance <= 0
+            ) {
+                return "Please enter a distance greater than 0.";
+            }
+
+
+            if (
+                !Number.isFinite(hours) ||
+                hours < 0
+            ) {
+                return "Hours cannot be negative.";
+            }
+
+
+            if (
+                !Number.isFinite(minutes) ||
+                minutes < 0 ||
+                minutes > 59
+            ) {
+                return "Minutes must be between 0 and 59.";
+            }
+
+
+            if (
+                !Number.isFinite(seconds) ||
+                seconds < 0 ||
+                seconds > 59
+            ) {
+                return "Seconds must be between 0 and 59.";
+            }
+
+
+            const totalSeconds =
+                (hours * 3600) +
+                (minutes * 60) +
+                seconds;
+
+
+            if (totalSeconds <= 0) {
+                return "Please enter a finishing time greater than 0.";
+            }
+
+
+            return "";
+
+        }
+
+
+        function predictRaceTime(
+            knownTime,
+            knownDistance,
+            targetDistance
+        ) {
+
+            return (
+                knownTime *
+                Math.pow(
+                    targetDistance / knownDistance,
+                    RIEGEL_EXPONENT
+                )
+            );
+
+        }
+
+
+        function displaySamePace(
+            paceSecondsPerKm
+        ) {
+
+            const races = [
+
+                {
+                    timeId: "same5k",
+                    paceId: "samePace5k",
+                    distance: raceDistances.fiveK
+                },
+
+                {
+                    timeId: "same10k",
+                    paceId: "samePace10k",
+                    distance: raceDistances.tenK
+                },
+
+                {
+                    timeId: "sameHalf",
+                    paceId: "samePaceHalf",
+                    distance: raceDistances.halfMarathon
+                },
+
+                {
+                    timeId: "sameMarathon",
+                    paceId: "samePaceMarathon",
+                    distance: raceDistances.marathon
+                }
+
+            ];
+
+
+            races.forEach(function (race) {
+
+                const raceTime =
+                    paceSecondsPerKm *
+                    race.distance;
+
+
+                document
+                    .getElementById(race.timeId)
+                    .textContent =
+                    formatTime(raceTime);
+
+
+                document
+                    .getElementById(race.paceId)
+                    .textContent =
+                    formatPace(paceSecondsPerKm) +
+                    " /km";
+
+            });
+
+        }
+
+
+        function getPredictions(
+            totalSeconds,
+            distanceKm
+        ) {
+
+            return {
+
+                fiveK:
+                    predictRaceTime(
+                        totalSeconds,
+                        distanceKm,
+                        raceDistances.fiveK
+                    ),
+
+                tenK:
+                    predictRaceTime(
+                        totalSeconds,
+                        distanceKm,
+                        raceDistances.tenK
+                    ),
+
+                half:
+                    predictRaceTime(
+                        totalSeconds,
+                        distanceKm,
+                        raceDistances.halfMarathon
+                    ),
+
+                marathon:
+                    predictRaceTime(
+                        totalSeconds,
+                        distanceKm,
+                        raceDistances.marathon
+                    )
+
+            };
+
+        }
+
+
+        function displayPredictions(
+            predictions
+        ) {
+
+            const predictionData = [
+
+                {
+                    timeId: "predicted5k",
+                    paceId: "predictedPace5k",
+                    time: predictions.fiveK,
+                    distance: raceDistances.fiveK
+                },
+
+                {
+                    timeId: "predicted10k",
+                    paceId: "predictedPace10k",
+                    time: predictions.tenK,
+                    distance: raceDistances.tenK
+                },
+
+                {
+                    timeId: "predictedHalf",
+                    paceId: "predictedPaceHalf",
+                    time: predictions.half,
+                    distance: raceDistances.halfMarathon
+                },
+
+                {
+                    timeId: "predictedMarathon",
+                    paceId: "predictedPaceMarathon",
+                    time: predictions.marathon,
+                    distance: raceDistances.marathon
+                }
+
+            ];
+
+
+            predictionData.forEach(function (race) {
+
+                document
+                    .getElementById(race.timeId)
+                    .textContent =
+                    formatTime(race.time);
+
+
+                document
+                    .getElementById(race.paceId)
+                    .textContent =
+                    formatPace(
+                        race.time /
+                        race.distance
+                    ) +
+                    " /km";
+
+            });
+
+        }
+
+
+        function displayTrainingPaces(
+            predictions
+        ) {
+
+            const predicted10kPace =
+                predictions.tenK /
+                raceDistances.tenK;
+
+
+            const predicted5kPace =
+                predictions.fiveK /
+                raceDistances.fiveK;
+
+
+            const trainingRanges = {
+
+                easy: {
+                    fast: predicted10kPace + 60,
+                    slow: predicted10kPace + 90
+                },
+
+                steady: {
+                    fast: predicted10kPace + 30,
+                    slow: predicted10kPace + 60
+                },
+
+                tempo: {
+                    fast: predicted10kPace + 10,
+                    slow: predicted10kPace + 25
+                },
+
+                interval: {
+                    fast: predicted5kPace - 5,
+                    slow: predicted5kPace + 5
+                }
+
+            };
+
+
+            function displayRange(
+                range,
+                kmId,
+                mileId
+            ) {
+
+                document
+                    .getElementById(kmId)
+                    .textContent =
+                    formatPaceRange(
+                        range.fast,
+                        range.slow
+                    );
+
+
+                document
+                    .getElementById(mileId)
+                    .textContent =
+                    formatMileRange(
+                        range.fast,
+                        range.slow
+                    );
+
+            }
+
+
+            displayRange(
+                trainingRanges.easy,
+                "easyPace",
+                "easyPaceMile"
+            );
+
+
+            displayRange(
+                trainingRanges.steady,
+                "steadyPace",
+                "steadyPaceMile"
+            );
+
+
+            displayRange(
+                trainingRanges.tempo,
+                "tempoPace",
+                "tempoPaceMile"
+            );
+
+
+            displayRange(
+                trainingRanges.interval,
+                "intervalPace",
+                "intervalPaceMile"
+            );
+
+        }
+
+
+        function saveInputs() {
+
+            const strideMetricsSettings = {
+
+                distance:
+                    distanceInput.value,
+
+                distanceUnit:
+                    distanceUnitInput.value,
+
+                hours:
+                    hoursInput.value,
+
+                minutes:
+                    minutesInput.value,
+
+                seconds:
+                    secondsInput.value
+
+            };
+
+
+            localStorage.setItem(
+                "strideMetricsInputs",
+                JSON.stringify(
+                    strideMetricsSettings
+                )
+            );
+
+
+            savedMessage.textContent =
+                "Run details saved automatically.";
+
+        }
+
+
+        function loadSavedInputs() {
+
+            const savedInputs =
+                localStorage.getItem(
+                    "strideMetricsInputs"
+                );
+
+
+            if (!savedInputs) {
+                return;
+            }
+
+
+            try {
+
+                const settings =
+                    JSON.parse(savedInputs);
+
+
+                distanceInput.value =
+                    settings.distance ?? "10";
+
+
+                distanceUnitInput.value =
+                    settings.distanceUnit ?? "km";
+
+
+                hoursInput.value =
+                    settings.hours ?? "0";
+
+
+                minutesInput.value =
+                    settings.minutes ?? "45";
+
+
+                secondsInput.value =
+                    settings.seconds ?? "0";
+
+
+                savedMessage.textContent =
+                    "Your last run details were restored.";
+
+            } catch (error) {
+
+                console.log(
+                    "Could not restore saved inputs."
+                );
+
+            }
+
+        }
+
+
+        function saveTheme(theme) {
+
+            localStorage.setItem(
+                "strideMetricsTheme",
+                theme
+            );
+
+        }
+
+
+        function updateThemeButton() {
+
+            const darkMode =
+                document.body
+                    .classList
+                    .contains("dark-mode");
+
+
+            if (darkMode) {
+
+                themeToggle.textContent =
+                    "☀️ Light";
+
+            } else {
+
+                themeToggle.textContent =
+                    "🌙 Dark";
+
+            }
+
+        }
+
+
+        function loadTheme() {
+
+            const savedTheme =
+                localStorage.getItem(
+                    "strideMetricsTheme"
+                );
+
+
+            if (savedTheme === "dark") {
+
+                document.body
+                    .classList
+                    .add("dark-mode");
+
+            }
+
+
+            updateThemeButton();
+
+        }
+
+
+        function toggleTheme() {
+
+            document.body
+                .classList
+                .toggle("dark-mode");
+
+
+            const darkMode =
+                document.body
+                    .classList
+                    .contains("dark-mode");
+
+
+            if (darkMode) {
+
+                saveTheme("dark");
+
+            } else {
+
+                saveTheme("light");
+
+            }
+
+
+            updateThemeButton();
+
+        }
+
+
+        function calculatePace() {
+
+            clearError();
+
+
+            const distance =
+                Number(distanceInput.value);
+
+
+            const distanceUnit =
+                distanceUnitInput.value;
+
+
+            const hours =
+                Number(hoursInput.value);
+
+
+            const minutes =
+                Number(minutesInput.value);
+
+
+            const seconds =
+                Number(secondsInput.value);
+
+
+            const validationMessage =
+                validateInputs(
+                    distance,
+                    hours,
+                    minutes,
+                    seconds
+                );
+
+
+            if (validationMessage !== "") {
+
+                showError(
+                    validationMessage
+                );
+
+                return;
+
+            }
+
+
+            const totalSeconds =
+                (hours * 3600) +
+                (minutes * 60) +
+                seconds;
+
+
+            let distanceKm;
+
+
+            if (distanceUnit === "miles") {
+
+                distanceKm =
+                    distance * 1.609344;
+
+            } else {
+
+                distanceKm =
+                    distance;
+
+            }
+
+
+            const paceSecondsPerKm =
+                totalSeconds /
+                distanceKm;
+
+
+            const paceSecondsPerMile =
+                paceSecondsPerKm *
+                1.609344;
+
+
+            const speedKmh =
+                distanceKm /
+                (totalSeconds / 3600);
+
+
+            const speedMph =
+                speedKmh /
+                1.609344;
+
+
+            document
+                .getElementById("paceKmResult")
+                .textContent =
+                formatPace(
+                    paceSecondsPerKm
+                ) +
+                " /km";
+
+
+            document
+                .getElementById("paceMileResult")
+                .textContent =
+                formatPace(
+                    paceSecondsPerMile
+                ) +
+                " /mile";
+
+
+            document
+                .getElementById("kmhResult")
+                .textContent =
+                speedKmh.toFixed(2) +
+                " km/h";
+
+
+            document
+                .getElementById("mphResult")
+                .textContent =
+                speedMph.toFixed(2) +
+                " mph";
+
+
+            displaySamePace(
+                paceSecondsPerKm
+            );
+
+
+            const predictions =
+                getPredictions(
+                    totalSeconds,
+                    distanceKm
+                );
+
+
+            displayPredictions(
+                predictions
+            );
+
+
+            displayTrainingPaces(
+                predictions
+            );
+
+
+            saveInputs();
+
+        }
+
+
+        function resetStrideMetrics() {
+
+            distanceInput.value =
+                "10";
+
+
+            distanceUnitInput.value =
+                "km";
+
+
+            hoursInput.value =
+                "0";
+
+
+            minutesInput.value =
+                "45";
+
+
+            secondsInput.value =
+                "0";
+
+
+            localStorage.removeItem(
+                "strideMetricsInputs"
+            );
+
+
+            savedMessage.textContent =
+                "Reset to default 10K in 45:00.";
+
+
+            calculatePace();
+
+        }
+
+
+        function selectPreset(
+            distance
+        ) {
+
+            distanceInput.value =
+                distance;
+
+
+            distanceUnitInput.value =
+                "km";
+
+
+            calculatePace();
+
+        }
+
+
+        calculateButton.addEventListener(
+            "click",
+            calculatePace
+        );
+
+
+        resetButton.addEventListener(
+            "click",
+            resetStrideMetrics
+        );
+
+
+        themeToggle.addEventListener(
+            "click",
+            toggleTheme
+        );
+
+
+        presetButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        selectPreset(
+                            button.dataset.distance
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        const inputs = [
+            distanceInput,
+            hoursInput,
+            minutesInput,
+            secondsInput
+        ];
+
+
+        inputs.forEach(
+            function (input) {
+
+                input.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key === "Enter"
+                        ) {
+                            calculatePace();
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+        distanceUnitInput.addEventListener(
+            "change",
+            calculatePace
+        );
+
+
+        loadTheme();
+
+        loadSavedInputs();
+
+        calculatePace();
+
+    </script>
+
+</body>
+
+</html>
