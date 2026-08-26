@@ -1,0 +1,17 @@
+{
+  "name": "GetYourStrideMetrics",
+  "short_name": "StrideMetrics",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#9BC53D",
+  "description": "Running pace, race prediction and training pace calculator.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
