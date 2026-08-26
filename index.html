@@ -47,6 +47,7 @@
         content="GetYourStrideMetrics"
     >
 
+
     <style>
 
         :root {
@@ -69,6 +70,9 @@
 
             --preset-bg: #eeeeee;
             --preset-hover: #dddddd;
+
+            --accent: #9BC53D;
+            --accent-text: #182000;
 
             --error-bg: #fff1f1;
             --error-text: #9b1c1c;
@@ -138,9 +142,6 @@
             border-radius: 16px;
 
             box-shadow: var(--shadow);
-
-            transition:
-                background-color 0.25s ease;
         }
 
 
@@ -148,6 +149,7 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+
             gap: 20px;
         }
 
@@ -155,13 +157,18 @@
         .brand {
             display: flex;
             align-items: center;
+
             gap: 12px;
+
+            min-width: 0;
         }
 
 
         .brand-mark {
             width: 44px;
             height: 44px;
+
+            flex-shrink: 0;
 
             display: flex;
             align-items: center;
@@ -176,28 +183,30 @@
         }
 
 
+        .brand-text {
+            min-width: 0;
+        }
+
+
         h1 {
             margin: 0;
+
             font-size: 34px;
+
+            overflow-wrap: anywhere;
         }
 
 
         h2 {
             margin-top: 36px;
             margin-bottom: 10px;
+
             font-size: 20px;
         }
 
 
         p {
             line-height: 1.5;
-        }
-
-
-        .subtitle {
-            color: var(--muted-text);
-            margin-top: 7px;
-            margin-bottom: 0;
         }
 
 
@@ -212,20 +221,26 @@
         }
 
 
+        .subtitle {
+            margin-top: 5px;
+            margin-bottom: 0;
+
+            color: var(--muted-text);
+        }
+
+
         .theme-button {
-            width: auto;
-            margin: 0;
+            flex-shrink: 0;
 
             padding: 10px 14px;
 
             border: 1px solid var(--border);
+            border-radius: 10px;
 
             background-color: var(--soft-bg);
             color: var(--text);
 
             font-size: 14px;
-
-            border-radius: 10px;
 
             cursor: pointer;
         }
@@ -249,7 +264,9 @@
         input,
         select {
             width: 100%;
+
             padding: 10px;
+
             font-size: 16px;
 
             border: 1px solid var(--border);
@@ -262,7 +279,7 @@
 
         input:focus,
         select:focus {
-            outline: 2px solid var(--muted-text);
+            outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
 
@@ -270,27 +287,30 @@
         .presets {
             display: flex;
             flex-wrap: wrap;
+
             gap: 8px;
+
             margin-top: 15px;
         }
 
 
         .preset-button {
-            width: auto;
-            margin: 0;
-
             padding: 9px 15px;
+
+            border: 1px solid var(--border);
+            border-radius: 20px;
 
             background-color: var(--preset-bg);
             color: var(--text);
 
-            border: 1px solid var(--border);
-
-            border-radius: 20px;
-
             font-size: 14px;
 
             cursor: pointer;
+
+            transition:
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
         }
 
 
@@ -299,10 +319,21 @@
         }
 
 
+        .preset-button.active {
+            background-color: var(--accent);
+            border-color: var(--accent);
+
+            color: var(--accent-text);
+
+            font-weight: bold;
+        }
+
+
         .distance-row {
             display: flex;
-            gap: 10px;
             align-items: end;
+
+            gap: 10px;
         }
 
 
@@ -318,6 +349,7 @@
 
         .time-row {
             display: flex;
+
             gap: 10px;
         }
 
@@ -329,26 +361,26 @@
 
         .button-row {
             display: flex;
+
             gap: 10px;
+
             margin-top: 25px;
         }
 
 
         .calculate-button {
             flex: 4;
-            width: 100%;
-            margin: 0;
 
             padding: 14px;
-
-            font-size: 17px;
-            font-weight: bold;
 
             border: none;
             border-radius: 10px;
 
             background-color: var(--button-bg);
             color: var(--button-text);
+
+            font-size: 17px;
+            font-weight: bold;
 
             cursor: pointer;
         }
@@ -361,18 +393,16 @@
 
         .reset-button {
             flex: 1;
-            width: 100%;
-            margin: 0;
 
             padding: 14px;
-
-            font-size: 15px;
 
             border: 1px solid var(--border);
             border-radius: 10px;
 
             background-color: var(--soft-bg);
             color: var(--text);
+
+            font-size: 15px;
 
             cursor: pointer;
         }
@@ -398,30 +428,48 @@
         }
 
 
+        .saved-message {
+            min-height: 18px;
+
+            margin-top: 10px;
+
+            color: var(--muted-text);
+
+            font-size: 13px;
+
+            text-align: right;
+        }
+
+
         .result-cards {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+
+            grid-template-columns:
+                repeat(4, 1fr);
 
             gap: 12px;
+
             margin-top: 20px;
         }
 
 
         .result-card {
-            background-color: var(--soft-bg);
-
             padding: 18px;
 
             border-radius: 12px;
+
+            background-color: var(--soft-bg);
 
             text-align: center;
         }
 
 
         .result-label {
-            font-size: 14px;
-            color: var(--muted-text);
             margin-bottom: 8px;
+
+            color: var(--muted-text);
+
+            font-size: 14px;
         }
 
 
@@ -434,11 +482,11 @@
         .data-table {
             margin-top: 20px;
 
-            background-color: var(--soft-bg);
+            overflow: hidden;
 
             border-radius: 12px;
 
-            overflow: hidden;
+            background-color: var(--soft-bg);
         }
 
 
@@ -448,9 +496,9 @@
             grid-template-columns:
                 1.5fr 1fr 1fr;
 
-            gap: 15px;
-
             align-items: center;
+
+            gap: 15px;
 
             padding: 14px 18px;
 
@@ -467,8 +515,9 @@
         .table-header {
             background-color: var(--header-bg);
 
-            font-size: 13px;
             color: var(--muted-text);
+
+            font-size: 13px;
             font-weight: bold;
         }
 
@@ -503,17 +552,17 @@
 
         .info-box {
             margin-top: 18px;
-
             padding: 16px 18px;
 
-            background-color: var(--info-bg);
-
             border-radius: 12px;
+
+            background-color: var(--info-bg);
         }
 
 
         .info-box strong {
             display: block;
+
             margin-bottom: 5px;
         }
 
@@ -531,52 +580,43 @@
 
 
         .training-card {
-            background-color: var(--soft-bg);
-
             padding: 18px;
 
             border-radius: 12px;
+
+            background-color: var(--soft-bg);
         }
 
 
         .training-title {
-            font-weight: bold;
-            font-size: 17px;
             margin-bottom: 5px;
+
+            font-size: 17px;
+            font-weight: bold;
         }
 
 
         .training-purpose {
+            margin-bottom: 14px;
+
             color: var(--muted-text);
 
             font-size: 14px;
-
-            margin-bottom: 14px;
         }
 
 
         .training-pace {
+            margin-bottom: 4px;
+
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 4px;
         }
 
 
         .training-mile {
             color: var(--muted-text);
+
             font-size: 14px;
-        }
-
-
-        .saved-message {
-            min-height: 18px;
-
-            margin-top: 10px;
-
-            font-size: 13px;
-            color: var(--muted-text);
-
-            text-align: right;
         }
 
 
@@ -584,26 +624,27 @@
             margin-top: 38px;
             padding-top: 20px;
 
-            border-top: 1px solid var(--row-border);
+            border-top:
+                1px solid var(--row-border);
 
             text-align: center;
         }
 
 
         .footer-brand {
+            color: var(--muted-text);
+
             font-size: 13px;
             font-weight: bold;
-
-            color: var(--muted-text);
         }
 
 
         .footer-domain {
             margin-top: 4px;
 
-            font-size: 12px;
-
             color: var(--light-text);
+
+            font-size: 12px;
         }
 
 
@@ -623,6 +664,7 @@
                     repeat(2, 1fr);
             }
 
+
             .training-grid {
                 grid-template-columns: 1fr;
             }
@@ -633,28 +675,66 @@
         @media (max-width: 600px) {
 
             body {
-                padding: 20px 10px;
+                padding: 10px;
             }
 
 
             .container {
-                padding: 20px;
+                padding: 18px;
+
+                border-radius: 14px;
             }
 
 
             .top-bar {
-                align-items: center;
+                align-items: flex-start;
+
+                gap: 10px;
             }
 
 
-            h1 {
-                font-size: 27px;
+            .brand {
+                gap: 9px;
             }
 
 
             .brand-mark {
-                width: 40px;
-                height: 40px;
+                width: 38px;
+                height: 38px;
+
+                border-radius: 10px;
+
+                font-size: 19px;
+            }
+
+
+            h1 {
+                font-size: 23px;
+                line-height: 1.08;
+            }
+
+
+            .tagline {
+                margin-top: 4px;
+
+                font-size: 12px;
+            }
+
+
+            .subtitle {
+                display: none;
+            }
+
+
+            .theme-button {
+                padding: 8px 10px;
+
+                font-size: 12px;
+            }
+
+
+            h2 {
+                margin-top: 30px;
             }
 
 
@@ -671,14 +751,14 @@
             }
 
 
-            .result-cards {
-                grid-template-columns:
-                    repeat(2, 1fr);
+            .button-row {
+                flex-direction: column;
             }
 
 
-            .button-row {
-                flex-direction: column;
+            .result-cards {
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
 
@@ -698,12 +778,20 @@
 
         @media (max-width: 400px) {
 
+            h1 {
+                font-size: 21px;
+            }
+
+
             .result-cards {
                 grid-template-columns: 1fr;
             }
 
-            h1 {
-                font-size: 24px;
+
+            .preset-button {
+                padding: 8px 12px;
+
+                font-size: 13px;
             }
 
         }
@@ -726,7 +814,8 @@
                     🏃
                 </div>
 
-                <div>
+
+                <div class="brand-text">
 
                     <h1>
                         GetYourStrideMetrics
@@ -772,6 +861,7 @@
                 5K
             </button>
 
+
             <button
                 class="preset-button"
                 data-distance="10"
@@ -779,6 +869,7 @@
             >
                 10K
             </button>
+
 
             <button
                 class="preset-button"
@@ -788,12 +879,23 @@
                 Half marathon
             </button>
 
+
             <button
                 class="preset-button"
                 data-distance="42.195"
                 type="button"
             >
                 Marathon
+            </button>
+
+
+            <button
+                class="preset-button"
+                id="customPreset"
+                data-custom="true"
+                type="button"
+            >
+                Custom
             </button>
 
         </div>
@@ -1015,11 +1117,13 @@
                 <span class="pace-value">Pace</span>
             </div>
 
+
             <div class="data-row">
                 <span class="distance-name">5K</span>
                 <span class="time-value" id="same5k">--</span>
                 <span class="pace-value" id="samePace5k">--</span>
             </div>
+
 
             <div class="data-row">
                 <span class="distance-name">10K</span>
@@ -1027,11 +1131,13 @@
                 <span class="pace-value" id="samePace10k">--</span>
             </div>
 
+
             <div class="data-row">
                 <span class="distance-name">Half marathon</span>
                 <span class="time-value" id="sameHalf">--</span>
                 <span class="pace-value" id="samePaceHalf">--</span>
             </div>
+
 
             <div class="data-row">
                 <span class="distance-name">Marathon</span>
@@ -1060,9 +1166,9 @@
                 A more realistic estimate
             </strong>
 
-            GetYourStrideMetrics adjusts your performance to account for
-            the increasing difficulty of maintaining the same pace
-            over different race distances.
+            GetYourStrideMetrics adjusts your performance to account
+            for the increasing difficulty of maintaining the same
+            pace over different race distances.
 
         </div>
 
@@ -1075,11 +1181,13 @@
                 <span class="pace-value">Avg pace</span>
             </div>
 
+
             <div class="data-row">
                 <span class="distance-name">5K</span>
                 <span class="time-value" id="predicted5k">--</span>
                 <span class="pace-value" id="predictedPace5k">--</span>
             </div>
+
 
             <div class="data-row">
                 <span class="distance-name">10K</span>
@@ -1087,11 +1195,13 @@
                 <span class="pace-value" id="predictedPace10k">--</span>
             </div>
 
+
             <div class="data-row">
                 <span class="distance-name">Half marathon</span>
                 <span class="time-value" id="predictedHalf">--</span>
                 <span class="pace-value" id="predictedPaceHalf">--</span>
             </div>
+
 
             <div class="data-row">
                 <span class="distance-name">Marathon</span>
@@ -1264,7 +1374,7 @@
             </div>
 
             <div class="version">
-                v0.2
+                v0.3
             </div>
 
         </div>
@@ -1274,6 +1384,19 @@
 
 
     <script>
+
+        const KM_PER_MILE = 1.609344;
+
+        const RIEGEL_EXPONENT = 1.06;
+
+
+        const raceDistances = {
+            fiveK: 5,
+            tenK: 10,
+            halfMarathon: 21.0975,
+            marathon: 42.195
+        };
+
 
         const calculateButton =
             document.getElementById("calculate");
@@ -1286,6 +1409,9 @@
 
         const presetButtons =
             document.querySelectorAll(".preset-button");
+
+        const customPreset =
+            document.getElementById("customPreset");
 
         const distanceInput =
             document.getElementById("distance");
@@ -1309,29 +1435,24 @@
             document.getElementById("savedMessage");
 
 
-        const RIEGEL_EXPONENT = 1.06;
-
-
-        const raceDistances = {
-            fiveK: 5,
-            tenK: 10,
-            halfMarathon: 21.0975,
-            marathon: 42.195
-        };
-
 
         function formatTime(totalSeconds) {
 
             totalSeconds =
                 Math.round(totalSeconds);
 
+
             const hours =
-                Math.floor(totalSeconds / 3600);
+                Math.floor(
+                    totalSeconds / 3600
+                );
+
 
             const minutes =
                 Math.floor(
                     (totalSeconds % 3600) / 60
                 );
+
 
             const seconds =
                 totalSeconds % 60;
@@ -1359,18 +1480,27 @@
         }
 
 
+
         function formatPace(totalSeconds) {
 
             let minutes =
-                Math.floor(totalSeconds / 60);
+                Math.floor(
+                    totalSeconds / 60
+                );
+
 
             let seconds =
-                Math.round(totalSeconds % 60);
+                Math.round(
+                    totalSeconds % 60
+                );
 
 
             if (seconds === 60) {
+
                 minutes += 1;
+
                 seconds = 0;
+
             }
 
 
@@ -1381,6 +1511,7 @@
             );
 
         }
+
 
 
         function formatPaceRange(
@@ -1398,26 +1529,27 @@
         }
 
 
+
         function formatMileRange(
             fasterSecondsKm,
             slowerSecondsKm
         ) {
 
-            const fasterMile =
-                fasterSecondsKm * 1.609344;
-
-            const slowerMile =
-                slowerSecondsKm * 1.609344;
-
-
             return (
-                formatPace(fasterMile) +
+                formatPace(
+                    fasterSecondsKm *
+                    KM_PER_MILE
+                ) +
                 "–" +
-                formatPace(slowerMile) +
+                formatPace(
+                    slowerSecondsKm *
+                    KM_PER_MILE
+                ) +
                 " /mile"
             );
 
         }
+
 
 
         function showError(message) {
@@ -1431,6 +1563,7 @@
         }
 
 
+
         function clearError() {
 
             errorMessage.textContent =
@@ -1440,6 +1573,7 @@
                 "none";
 
         }
+
 
 
         function validateInputs(
@@ -1453,7 +1587,11 @@
                 !Number.isFinite(distance) ||
                 distance <= 0
             ) {
-                return "Please enter a distance greater than 0.";
+
+                return (
+                    "Please enter a distance greater than 0."
+                );
+
             }
 
 
@@ -1461,7 +1599,11 @@
                 !Number.isFinite(hours) ||
                 hours < 0
             ) {
-                return "Hours cannot be negative.";
+
+                return (
+                    "Hours cannot be negative."
+                );
+
             }
 
 
@@ -1470,7 +1612,11 @@
                 minutes < 0 ||
                 minutes > 59
             ) {
-                return "Minutes must be between 0 and 59.";
+
+                return (
+                    "Minutes must be between 0 and 59."
+                );
+
             }
 
 
@@ -1479,7 +1625,11 @@
                 seconds < 0 ||
                 seconds > 59
             ) {
-                return "Seconds must be between 0 and 59.";
+
+                return (
+                    "Seconds must be between 0 and 59."
+                );
+
             }
 
 
@@ -1490,13 +1640,89 @@
 
 
             if (totalSeconds <= 0) {
-                return "Please enter a finishing time greater than 0.";
+
+                return (
+                    "Please enter a finishing time greater than 0."
+                );
+
             }
 
 
             return "";
 
         }
+
+
+
+        function updatePresetSelection() {
+
+            const distance =
+                Number(distanceInput.value);
+
+            const unit =
+                distanceUnitInput.value;
+
+
+            let matchedPreset = false;
+
+
+            presetButtons.forEach(
+                function (button) {
+
+                    button.classList
+                        .remove("active");
+
+                }
+            );
+
+
+            if (unit === "km") {
+
+                presetButtons.forEach(
+                    function (button) {
+
+                        if (
+                            button.dataset.distance
+                        ) {
+
+                            const presetDistance =
+                                Number(
+                                    button.dataset.distance
+                                );
+
+
+                            if (
+                                Math.abs(
+                                    distance -
+                                    presetDistance
+                                ) < 0.0001
+                            ) {
+
+                                button.classList
+                                    .add("active");
+
+                                matchedPreset =
+                                    true;
+
+                            }
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if (!matchedPreset) {
+
+                customPreset.classList
+                    .add("active");
+
+            }
+
+        }
+
 
 
         function predictRaceTime(
@@ -1508,12 +1734,14 @@
             return (
                 knownTime *
                 Math.pow(
-                    targetDistance / knownDistance,
+                    targetDistance /
+                    knownDistance,
                     RIEGEL_EXPONENT
                 )
             );
 
         }
+
 
 
         function displaySamePace(
@@ -1537,40 +1765,49 @@
                 {
                     timeId: "sameHalf",
                     paceId: "samePaceHalf",
-                    distance: raceDistances.halfMarathon
+                    distance:
+                        raceDistances.halfMarathon
                 },
 
                 {
                     timeId: "sameMarathon",
                     paceId: "samePaceMarathon",
-                    distance: raceDistances.marathon
+                    distance:
+                        raceDistances.marathon
                 }
 
             ];
 
 
-            races.forEach(function (race) {
+            races.forEach(
+                function (race) {
 
-                const raceTime =
-                    paceSecondsPerKm *
-                    race.distance;
+                    document
+                        .getElementById(
+                            race.timeId
+                        )
+                        .textContent =
+                        formatTime(
+                            paceSecondsPerKm *
+                            race.distance
+                        );
 
 
-                document
-                    .getElementById(race.timeId)
-                    .textContent =
-                    formatTime(raceTime);
+                    document
+                        .getElementById(
+                            race.paceId
+                        )
+                        .textContent =
+                        formatPace(
+                            paceSecondsPerKm
+                        ) +
+                        " /km";
 
-
-                document
-                    .getElementById(race.paceId)
-                    .textContent =
-                    formatPace(paceSecondsPerKm) +
-                    " /km";
-
-            });
+                }
+            );
 
         }
+
 
 
         function getPredictions(
@@ -1613,11 +1850,12 @@
         }
 
 
+
         function displayPredictions(
             predictions
         ) {
 
-            const predictionData = [
+            const races = [
 
                 {
                     timeId: "predicted5k",
@@ -1637,39 +1875,56 @@
                     timeId: "predictedHalf",
                     paceId: "predictedPaceHalf",
                     time: predictions.half,
-                    distance: raceDistances.halfMarathon
+                    distance:
+                        raceDistances.halfMarathon
                 },
 
                 {
-                    timeId: "predictedMarathon",
-                    paceId: "predictedPaceMarathon",
-                    time: predictions.marathon,
-                    distance: raceDistances.marathon
+                    timeId:
+                        "predictedMarathon",
+
+                    paceId:
+                        "predictedPaceMarathon",
+
+                    time:
+                        predictions.marathon,
+
+                    distance:
+                        raceDistances.marathon
                 }
 
             ];
 
 
-            predictionData.forEach(function (race) {
+            races.forEach(
+                function (race) {
 
-                document
-                    .getElementById(race.timeId)
-                    .textContent =
-                    formatTime(race.time);
+                    document
+                        .getElementById(
+                            race.timeId
+                        )
+                        .textContent =
+                        formatTime(
+                            race.time
+                        );
 
 
-                document
-                    .getElementById(race.paceId)
-                    .textContent =
-                    formatPace(
-                        race.time /
-                        race.distance
-                    ) +
-                    " /km";
+                    document
+                        .getElementById(
+                            race.paceId
+                        )
+                        .textContent =
+                        formatPace(
+                            race.time /
+                            race.distance
+                        ) +
+                        " /km";
 
-            });
+                }
+            );
 
         }
+
 
 
         function displayTrainingPaces(
@@ -1689,23 +1944,35 @@
             const trainingRanges = {
 
                 easy: {
-                    fast: predicted10kPace + 60,
-                    slow: predicted10kPace + 90
+                    fast:
+                        predicted10kPace + 60,
+
+                    slow:
+                        predicted10kPace + 90
                 },
 
                 steady: {
-                    fast: predicted10kPace + 30,
-                    slow: predicted10kPace + 60
+                    fast:
+                        predicted10kPace + 30,
+
+                    slow:
+                        predicted10kPace + 60
                 },
 
                 tempo: {
-                    fast: predicted10kPace + 10,
-                    slow: predicted10kPace + 25
+                    fast:
+                        predicted10kPace + 10,
+
+                    slow:
+                        predicted10kPace + 25
                 },
 
                 interval: {
-                    fast: predicted5kPace - 5,
-                    slow: predicted5kPace + 5
+                    fast:
+                        predicted5kPace - 5,
+
+                    slow:
+                        predicted5kPace + 5
                 }
 
             };
@@ -1767,9 +2034,10 @@
         }
 
 
+
         function saveInputs() {
 
-            const strideMetricsSettings = {
+            const settings = {
 
                 distance:
                     distanceInput.value,
@@ -1791,9 +2059,7 @@
 
             localStorage.setItem(
                 "strideMetricsInputs",
-                JSON.stringify(
-                    strideMetricsSettings
-                )
+                JSON.stringify(settings)
             );
 
 
@@ -1801,6 +2067,7 @@
                 "Run details saved automatically.";
 
         }
+
 
 
         function loadSavedInputs() {
@@ -1812,34 +2079,43 @@
 
 
             if (!savedInputs) {
+
                 return;
+
             }
 
 
             try {
 
                 const settings =
-                    JSON.parse(savedInputs);
+                    JSON.parse(
+                        savedInputs
+                    );
 
 
                 distanceInput.value =
-                    settings.distance ?? "10";
+                    settings.distance ??
+                    "10";
 
 
                 distanceUnitInput.value =
-                    settings.distanceUnit ?? "km";
+                    settings.distanceUnit ??
+                    "km";
 
 
                 hoursInput.value =
-                    settings.hours ?? "0";
+                    settings.hours ??
+                    "0";
 
 
                 minutesInput.value =
-                    settings.minutes ?? "45";
+                    settings.minutes ??
+                    "45";
 
 
                 secondsInput.value =
-                    settings.seconds ?? "0";
+                    settings.seconds ??
+                    "0";
 
 
                 savedMessage.textContent =
@@ -1856,6 +2132,7 @@
         }
 
 
+
         function saveTheme(theme) {
 
             localStorage.setItem(
@@ -1866,27 +2143,24 @@
         }
 
 
+
         function updateThemeButton() {
 
             const darkMode =
                 document.body
                     .classList
-                    .contains("dark-mode");
+                    .contains(
+                        "dark-mode"
+                    );
 
 
-            if (darkMode) {
-
-                themeToggle.textContent =
-                    "☀️ Light";
-
-            } else {
-
-                themeToggle.textContent =
-                    "🌙 Dark";
-
-            }
+            themeToggle.textContent =
+                darkMode
+                    ? "☀️ Light"
+                    : "🌙 Dark";
 
         }
+
 
 
         function loadTheme() {
@@ -1897,11 +2171,15 @@
                 );
 
 
-            if (savedTheme === "dark") {
+            if (
+                savedTheme === "dark"
+            ) {
 
                 document.body
                     .classList
-                    .add("dark-mode");
+                    .add(
+                        "dark-mode"
+                    );
 
             }
 
@@ -1909,35 +2187,37 @@
             updateThemeButton();
 
         }
+
 
 
         function toggleTheme() {
 
             document.body
                 .classList
-                .toggle("dark-mode");
+                .toggle(
+                    "dark-mode"
+                );
 
 
             const darkMode =
                 document.body
                     .classList
-                    .contains("dark-mode");
+                    .contains(
+                        "dark-mode"
+                    );
 
 
-            if (darkMode) {
-
-                saveTheme("dark");
-
-            } else {
-
-                saveTheme("light");
-
-            }
+            saveTheme(
+                darkMode
+                    ? "dark"
+                    : "light"
+            );
 
 
             updateThemeButton();
 
         }
+
 
 
         function calculatePace() {
@@ -1946,7 +2226,9 @@
 
 
             const distance =
-                Number(distanceInput.value);
+                Number(
+                    distanceInput.value
+                );
 
 
             const distanceUnit =
@@ -1954,15 +2236,21 @@
 
 
             const hours =
-                Number(hoursInput.value);
+                Number(
+                    hoursInput.value
+                );
 
 
             const minutes =
-                Number(minutesInput.value);
+                Number(
+                    minutesInput.value
+                );
 
 
             const seconds =
-                Number(secondsInput.value);
+                Number(
+                    secondsInput.value
+                );
 
 
             const validationMessage =
@@ -1974,7 +2262,9 @@
                 );
 
 
-            if (validationMessage !== "") {
+            if (
+                validationMessage !== ""
+            ) {
 
                 showError(
                     validationMessage
@@ -1991,20 +2281,11 @@
                 seconds;
 
 
-            let distanceKm;
-
-
-            if (distanceUnit === "miles") {
-
-                distanceKm =
-                    distance * 1.609344;
-
-            } else {
-
-                distanceKm =
-                    distance;
-
-            }
+            const distanceKm =
+                distanceUnit === "miles"
+                    ? distance *
+                      KM_PER_MILE
+                    : distance;
 
 
             const paceSecondsPerKm =
@@ -2014,7 +2295,7 @@
 
             const paceSecondsPerMile =
                 paceSecondsPerKm *
-                1.609344;
+                KM_PER_MILE;
 
 
             const speedKmh =
@@ -2024,11 +2305,13 @@
 
             const speedMph =
                 speedKmh /
-                1.609344;
+                KM_PER_MILE;
 
 
             document
-                .getElementById("paceKmResult")
+                .getElementById(
+                    "paceKmResult"
+                )
                 .textContent =
                 formatPace(
                     paceSecondsPerKm
@@ -2037,7 +2320,9 @@
 
 
             document
-                .getElementById("paceMileResult")
+                .getElementById(
+                    "paceMileResult"
+                )
                 .textContent =
                 formatPace(
                     paceSecondsPerMile
@@ -2046,14 +2331,18 @@
 
 
             document
-                .getElementById("kmhResult")
+                .getElementById(
+                    "kmhResult"
+                )
                 .textContent =
                 speedKmh.toFixed(2) +
                 " km/h";
 
 
             document
-                .getElementById("mphResult")
+                .getElementById(
+                    "mphResult"
+                )
                 .textContent =
                 speedMph.toFixed(2) +
                 " mph";
@@ -2081,9 +2370,46 @@
             );
 
 
+            updatePresetSelection();
+
             saveInputs();
 
         }
+
+
+
+        function selectPreset(
+            button
+        ) {
+
+            if (
+                button.dataset.custom ===
+                "true"
+            ) {
+
+                updatePresetSelection();
+
+                distanceInput.focus();
+
+                distanceInput.select();
+
+                return;
+
+            }
+
+
+            distanceInput.value =
+                button.dataset.distance;
+
+
+            distanceUnitInput.value =
+                "km";
+
+
+            calculatePace();
+
+        }
+
 
 
         function resetStrideMetrics() {
@@ -2091,18 +2417,14 @@
             distanceInput.value =
                 "10";
 
-
             distanceUnitInput.value =
                 "km";
-
 
             hoursInput.value =
                 "0";
 
-
             minutesInput.value =
                 "45";
-
 
             secondsInput.value =
                 "0";
@@ -2113,48 +2435,35 @@
             );
 
 
+            calculatePace();
+
+
             savedMessage.textContent =
                 "Reset to default 10K in 45:00.";
 
-
-            calculatePace();
-
         }
 
 
-        function selectPreset(
-            distance
-        ) {
 
-            distanceInput.value =
-                distance;
-
-
-            distanceUnitInput.value =
-                "km";
+        calculateButton
+            .addEventListener(
+                "click",
+                calculatePace
+            );
 
 
-            calculatePace();
-
-        }
-
-
-        calculateButton.addEventListener(
-            "click",
-            calculatePace
-        );
+        resetButton
+            .addEventListener(
+                "click",
+                resetStrideMetrics
+            );
 
 
-        resetButton.addEventListener(
-            "click",
-            resetStrideMetrics
-        );
-
-
-        themeToggle.addEventListener(
-            "click",
-            toggleTheme
-        );
+        themeToggle
+            .addEventListener(
+                "click",
+                toggleTheme
+            );
 
 
         presetButtons.forEach(
@@ -2165,7 +2474,7 @@
                     function () {
 
                         selectPreset(
-                            button.dataset.distance
+                            button
                         );
 
                     }
@@ -2175,7 +2484,25 @@
         );
 
 
-        const inputs = [
+        distanceInput.addEventListener(
+            "input",
+            updatePresetSelection
+        );
+
+
+        distanceUnitInput.addEventListener(
+            "change",
+            function () {
+
+                updatePresetSelection();
+
+                calculatePace();
+
+            }
+        );
+
+
+        const enterInputs = [
             distanceInput,
             hoursInput,
             minutesInput,
@@ -2183,7 +2510,7 @@
         ];
 
 
-        inputs.forEach(
+        enterInputs.forEach(
             function (input) {
 
                 input.addEventListener(
@@ -2191,9 +2518,12 @@
                     function (event) {
 
                         if (
-                            event.key === "Enter"
+                            event.key ===
+                            "Enter"
                         ) {
+
                             calculatePace();
+
                         }
 
                     }
@@ -2202,11 +2532,6 @@
             }
         );
 
-
-        distanceUnitInput.addEventListener(
-            "change",
-            calculatePace
-        );
 
 
         loadTheme();
