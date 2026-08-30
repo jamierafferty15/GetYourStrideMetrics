@@ -1,9 +1,6 @@
-const KM_PER_MILE =
-    1.609344;
+const KM_PER_MILE = 1.609344;
 
-
-const RIEGEL_EXPONENT =
-    1.06;
+const RIEGEL_EXPONENT = 1.06;
 
 
 const raceDistances = {
@@ -14,8 +11,110 @@ const raceDistances = {
 };
 
 
-let showEverySplit =
-    false;
+const goalShortcuts = {
+
+    "5k": [
+        {
+            label: "Sub-20",
+            hours: 0,
+            minutes: 20,
+            seconds: 0
+        },
+        {
+            label: "Sub-25",
+            hours: 0,
+            minutes: 25,
+            seconds: 0
+        },
+        {
+            label: "Sub-30",
+            hours: 0,
+            minutes: 30,
+            seconds: 0
+        }
+    ],
+
+    "10k": [
+        {
+            label: "Sub-40",
+            hours: 0,
+            minutes: 40,
+            seconds: 0
+        },
+        {
+            label: "Sub-45",
+            hours: 0,
+            minutes: 45,
+            seconds: 0
+        },
+        {
+            label: "Sub-50",
+            hours: 0,
+            minutes: 50,
+            seconds: 0
+        }
+    ],
+
+    "half": [
+        {
+            label: "Sub-1:30",
+            hours: 1,
+            minutes: 30,
+            seconds: 0
+        },
+        {
+            label: "Sub-1:40",
+            hours: 1,
+            minutes: 40,
+            seconds: 0
+        },
+        {
+            label: "Sub-1:45",
+            hours: 1,
+            minutes: 45,
+            seconds: 0
+        },
+        {
+            label: "Sub-2:00",
+            hours: 2,
+            minutes: 0,
+            seconds: 0
+        }
+    ],
+
+    "marathon": [
+        {
+        label: "Sub-3:00",
+        hours: 3,
+        minutes: 0,
+        seconds: 0
+        },
+        {
+            label: "Sub-3:30",
+            hours: 3,
+            minutes: 30,
+            seconds: 0
+        },
+        {
+            label: "Sub-4:00",
+            hours: 4,
+            minutes: 0,
+            seconds: 0
+        },
+        {
+            label: "Sub-4:30",
+            hours: 4,
+            minutes: 30,
+            seconds: 0
+        }
+    ]
+
+};
+
+
+let showEverySplit = false;
+
+let currentTargetRaceKey = "half";
 
 
 
@@ -149,6 +248,18 @@ const resetTargetButton =
 const targetErrorMessage =
     document.getElementById(
         "targetErrorMessage"
+    );
+
+
+const goalShortcutsContainer =
+    document.getElementById(
+        "goalShortcuts"
+    );
+
+
+const goalShortcutButtons =
+    document.getElementById(
+        "goalShortcutButtons"
     );
 
 
@@ -535,6 +646,131 @@ function removeActive(
 
 
 
+function clearGoalShortcutSelection() {
+
+    const buttons =
+        goalShortcutButtons
+            .querySelectorAll(
+                ".goal-shortcut-button"
+            );
+
+
+    buttons.forEach(
+        function (
+            button
+        ) {
+
+            button.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+}
+
+
+
+function renderGoalShortcuts(
+    raceKey
+) {
+
+    goalShortcutButtons.innerHTML =
+        "";
+
+
+    if (
+        !goalShortcuts[
+            raceKey
+        ]
+    ) {
+
+        goalShortcutsContainer
+            .classList
+            .add(
+                "hidden"
+            );
+
+
+        return;
+
+    }
+
+
+    goalShortcutsContainer
+        .classList
+        .remove(
+            "hidden"
+        );
+
+
+    goalShortcuts[
+        raceKey
+    ].forEach(
+        function (
+            shortcut
+        ) {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+
+            button.className =
+                "goal-shortcut-button";
+
+
+            button.textContent =
+                shortcut.label;
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    targetHoursInput.value =
+                        shortcut.hours;
+
+
+                    targetMinutesInput.value =
+                        shortcut.minutes;
+
+
+                    targetSecondsInput.value =
+                        shortcut.seconds;
+
+
+                    clearGoalShortcutSelection();
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    calculateTargetPace();
+
+                }
+            );
+
+
+            goalShortcutButtons
+                .appendChild(
+                    button
+                );
+
+        }
+    );
+
+}
+
+
+
 function updatePresetSelection() {
 
     const distance =
@@ -630,6 +866,9 @@ function updateTargetPresetSelection() {
     let matchedPreset =
         false;
 
+    let matchedRaceKey =
+        null;
+
 
     removeActive(
         targetPresetButtons
@@ -671,6 +910,10 @@ function updateTargetPresetSelection() {
                         matchedPreset =
                             true;
 
+
+                        matchedRaceKey =
+                            button.dataset.raceKey;
+
                     }
 
                 }
@@ -688,6 +931,32 @@ function updateTargetPresetSelection() {
         targetCustomPreset.classList.add(
             "active"
         );
+
+
+        currentTargetRaceKey =
+            null;
+
+
+        renderGoalShortcuts(
+            null
+        );
+
+    } else {
+
+        if (
+            currentTargetRaceKey !==
+            matchedRaceKey
+        ) {
+
+            currentTargetRaceKey =
+                matchedRaceKey;
+
+
+            renderGoalShortcuts(
+                currentTargetRaceKey
+            );
+
+        }
 
     }
 
@@ -1930,6 +2199,15 @@ function selectTargetPreset(
         );
 
 
+        currentTargetRaceKey =
+            null;
+
+
+        renderGoalShortcuts(
+            null
+        );
+
+
         targetDistanceInput.focus();
 
         targetDistanceInput.select();
@@ -1946,6 +2224,15 @@ function selectTargetPreset(
 
     targetDistanceUnitInput.value =
         "km";
+
+
+    currentTargetRaceKey =
+        button.dataset.raceKey;
+
+
+    renderGoalShortcuts(
+        currentTargetRaceKey
+    );
 
 
     calculateTargetPace();
@@ -2011,6 +2298,15 @@ function resetTargetCalculator() {
 
     targetSecondsInput.value =
         "0";
+
+
+    currentTargetRaceKey =
+        "half";
+
+
+    renderGoalShortcuts(
+        currentTargetRaceKey
+    );
 
 
     showEverySplit =
@@ -2657,7 +2953,13 @@ distanceInput.addEventListener(
 
 targetDistanceInput.addEventListener(
     "input",
-    updateTargetPresetSelection
+    function () {
+
+        clearGoalShortcutSelection();
+
+        updateTargetPresetSelection();
+
+    }
 );
 
 
@@ -2677,6 +2979,8 @@ distanceUnitInput.addEventListener(
 targetDistanceUnitInput.addEventListener(
     "change",
     function () {
+
+        clearGoalShortcutSelection();
 
         updateTargetPresetSelection();
 
@@ -2737,6 +3041,23 @@ targetEnterInputs.forEach(
     ) {
 
         input.addEventListener(
+            "input",
+            function () {
+
+                if (
+                    input !==
+                    targetDistanceInput
+                ) {
+
+                    clearGoalShortcutSelection();
+
+                }
+
+            }
+        );
+
+
+        input.addEventListener(
             "keydown",
             function (
                 event
@@ -2764,5 +3085,9 @@ loadTheme();
 loadSavedInputs();
 
 calculatePace();
+
+renderGoalShortcuts(
+    currentTargetRaceKey
+);
 
 calculateTargetPace();
