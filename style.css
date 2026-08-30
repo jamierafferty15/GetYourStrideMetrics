@@ -536,6 +536,114 @@ select:focus {
 }
 
 
+/* Popular race goal shortcuts */
+
+.goal-shortcuts {
+    margin-top: 22px;
+    padding: 16px 18px;
+
+    border:
+        1px solid var(--accent-border);
+
+    border-radius: 14px;
+
+    background-color:
+        rgba(255, 255, 255, 0.55);
+}
+
+
+body.dark-mode .goal-shortcuts {
+    background-color:
+        rgba(255, 255, 255, 0.03);
+}
+
+
+.goal-shortcuts-label {
+    margin-bottom: 12px;
+
+    color:
+        var(--muted-text);
+
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 0.02em;
+}
+
+
+.goal-shortcut-buttons {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+
+.goal-shortcut-button {
+    padding: 10px 16px;
+
+    border:
+        1px solid var(--accent-border);
+
+    border-radius: 999px;
+
+    background-color:
+        var(--card-bg);
+
+    color:
+        var(--text);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.06);
+
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.goal-shortcut-button:hover {
+    border-color:
+        var(--accent);
+
+    background-color:
+        var(--accent-soft);
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.goal-shortcut-button.active {
+    border-color:
+        var(--accent);
+
+    background-color:
+        var(--accent);
+
+    color:
+        var(--accent-text);
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.10);
+}
+
+
+.goal-shortcuts.hidden {
+    display: none;
+}
+
+
 .distance-row {
     display: flex;
 
@@ -1318,6 +1426,11 @@ select:focus {
         padding: 13px 12px;
 
         font-size: 14px;
+    }
+
+
+    .goal-shortcut-button {
+        flex: 1 1 auto;
     }
 
 
