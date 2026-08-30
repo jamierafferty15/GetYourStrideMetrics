@@ -205,6 +205,14 @@
         }
 
 
+        h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+
+            font-size: 18px;
+        }
+
+
         p {
             line-height: 1.5;
         }
@@ -294,7 +302,8 @@
         }
 
 
-        .preset-button {
+        .preset-button,
+        .target-preset-button {
             padding: 9px 15px;
 
             border: 1px solid var(--border);
@@ -314,12 +323,14 @@
         }
 
 
-        .preset-button:hover {
+        .preset-button:hover,
+        .target-preset-button:hover {
             background-color: var(--preset-hover);
         }
 
 
-        .preset-button.active {
+        .preset-button.active,
+        .target-preset-button.active {
             background-color: var(--accent);
             border-color: var(--accent);
 
@@ -620,6 +631,58 @@
         }
 
 
+        .target-section {
+            margin-top: 46px;
+            padding-top: 6px;
+
+            border-top:
+                2px solid var(--row-border);
+        }
+
+
+        .target-heading {
+            margin-top: 30px;
+        }
+
+
+        .target-results {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+
+            margin-top: 20px;
+        }
+
+
+        .target-card {
+            padding: 18px;
+
+            border-radius: 12px;
+
+            background-color: var(--soft-bg);
+
+            text-align: center;
+        }
+
+
+        .target-label {
+            margin-bottom: 8px;
+
+            color: var(--muted-text);
+
+            font-size: 14px;
+        }
+
+
+        .target-value {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+
         .footer {
             margin-top: 38px;
             padding-top: 20px;
@@ -659,7 +722,8 @@
 
         @media (max-width: 700px) {
 
-            .result-cards {
+            .result-cards,
+            .target-results {
                 grid-template-columns:
                     repeat(2, 1fr);
             }
@@ -756,7 +820,8 @@
             }
 
 
-            .result-cards {
+            .result-cards,
+            .target-results {
                 grid-template-columns:
                     repeat(2, 1fr);
             }
@@ -783,12 +848,14 @@
             }
 
 
-            .result-cards {
+            .result-cards,
+            .target-results {
                 grid-template-columns: 1fr;
             }
 
 
-            .preset-button {
+            .preset-button,
+            .target-preset-button {
                 padding: 8px 12px;
 
                 font-size: 13px;
@@ -1363,6 +1430,285 @@
 
 
 
+        <section class="target-section">
+
+            <h2 class="target-heading">
+                Target pace calculator
+            </h2>
+
+
+            <div class="info-box">
+
+                <strong>
+                    What pace do I need?
+                </strong>
+
+                Choose a race distance and enter your target finish time.
+                GetYourStrideMetrics will calculate the average pace and
+                speed required to hit your goal.
+
+            </div>
+
+
+
+            <div class="presets">
+
+                <button
+                    class="target-preset-button"
+                    data-target-distance="5"
+                    type="button"
+                >
+                    5K
+                </button>
+
+
+                <button
+                    class="target-preset-button"
+                    data-target-distance="10"
+                    type="button"
+                >
+                    10K
+                </button>
+
+
+                <button
+                    class="target-preset-button"
+                    data-target-distance="21.0975"
+                    type="button"
+                >
+                    Half marathon
+                </button>
+
+
+                <button
+                    class="target-preset-button"
+                    data-target-distance="42.195"
+                    type="button"
+                >
+                    Marathon
+                </button>
+
+
+                <button
+                    class="target-preset-button"
+                    id="targetCustomPreset"
+                    data-target-custom="true"
+                    type="button"
+                >
+                    Custom
+                </button>
+
+            </div>
+
+
+
+            <div class="distance-row">
+
+                <div class="distance-field">
+
+                    <label for="targetDistance">
+                        Target distance:
+                    </label>
+
+                    <input
+                        type="number"
+                        id="targetDistance"
+                        step="0.01"
+                        min="0.01"
+                        value="21.0975"
+                    >
+
+                </div>
+
+
+                <div class="unit-field">
+
+                    <label for="targetDistanceUnit">
+                        Unit:
+                    </label>
+
+                    <select id="targetDistanceUnit">
+
+                        <option value="km">
+                            Kilometres
+                        </option>
+
+                        <option value="miles">
+                            Miles
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="time-row">
+
+                <div class="time-field">
+
+                    <label for="targetHours">
+                        Hours:
+                    </label>
+
+                    <input
+                        type="number"
+                        id="targetHours"
+                        value="1"
+                        min="0"
+                    >
+
+                </div>
+
+
+                <div class="time-field">
+
+                    <label for="targetMinutes">
+                        Minutes:
+                    </label>
+
+                    <input
+                        type="number"
+                        id="targetMinutes"
+                        value="40"
+                        min="0"
+                        max="59"
+                    >
+
+                </div>
+
+
+                <div class="time-field">
+
+                    <label for="targetSeconds">
+                        Seconds:
+                    </label>
+
+                    <input
+                        type="number"
+                        id="targetSeconds"
+                        value="0"
+                        min="0"
+                        max="59"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <div class="button-row">
+
+                <button
+                    id="calculateTarget"
+                    class="calculate-button"
+                    type="button"
+                >
+                    Calculate target pace
+                </button>
+
+
+                <button
+                    id="resetTarget"
+                    class="reset-button"
+                    type="button"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+
+            <div
+                id="targetErrorMessage"
+                class="error-message"
+            ></div>
+
+
+
+            <div class="target-results">
+
+                <div class="target-card">
+
+                    <div class="target-label">
+                        Required pace / km
+                    </div>
+
+                    <div
+                        class="target-value"
+                        id="targetPaceKm"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+
+                <div class="target-card">
+
+                    <div class="target-label">
+                        Required pace / mile
+                    </div>
+
+                    <div
+                        class="target-value"
+                        id="targetPaceMile"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+
+                <div class="target-card">
+
+                    <div class="target-label">
+                        Average speed
+                    </div>
+
+                    <div
+                        class="target-value"
+                        id="targetKmh"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+
+                <div class="target-card">
+
+                    <div class="target-label">
+                        Average speed
+                    </div>
+
+                    <div
+                        class="target-value"
+                        id="targetMph"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <p class="note">
+
+                This is the average pace required across the full
+                distance. Real races may require adjustments for hills,
+                congestion, weather and course conditions.
+
+            </p>
+
+        </section>
+
+
+
         <div class="footer">
 
             <div class="footer-brand">
@@ -1374,7 +1720,7 @@
             </div>
 
             <div class="version">
-                v0.3
+                v0.4
             </div>
 
         </div>
@@ -1433,6 +1779,37 @@
 
         const savedMessage =
             document.getElementById("savedMessage");
+
+
+        const targetPresetButtons =
+            document.querySelectorAll(".target-preset-button");
+
+        const targetCustomPreset =
+            document.getElementById("targetCustomPreset");
+
+        const targetDistanceInput =
+            document.getElementById("targetDistance");
+
+        const targetDistanceUnitInput =
+            document.getElementById("targetDistanceUnit");
+
+        const targetHoursInput =
+            document.getElementById("targetHours");
+
+        const targetMinutesInput =
+            document.getElementById("targetMinutes");
+
+        const targetSecondsInput =
+            document.getElementById("targetSeconds");
+
+        const calculateTargetButton =
+            document.getElementById("calculateTarget");
+
+        const resetTargetButton =
+            document.getElementById("resetTarget");
+
+        const targetErrorMessage =
+            document.getElementById("targetErrorMessage");
 
 
 
@@ -1576,6 +1953,30 @@
 
 
 
+        function showTargetError(message) {
+
+            targetErrorMessage.textContent =
+                message;
+
+            targetErrorMessage.style.display =
+                "block";
+
+        }
+
+
+
+        function clearTargetError() {
+
+            targetErrorMessage.textContent =
+                "";
+
+            targetErrorMessage.style.display =
+                "none";
+
+        }
+
+
+
         function validateInputs(
             distance,
             hours,
@@ -1588,9 +1989,7 @@
                 distance <= 0
             ) {
 
-                return (
-                    "Please enter a distance greater than 0."
-                );
+                return "Please enter a distance greater than 0.";
 
             }
 
@@ -1600,9 +1999,7 @@
                 hours < 0
             ) {
 
-                return (
-                    "Hours cannot be negative."
-                );
+                return "Hours cannot be negative.";
 
             }
 
@@ -1613,9 +2010,7 @@
                 minutes > 59
             ) {
 
-                return (
-                    "Minutes must be between 0 and 59."
-                );
+                return "Minutes must be between 0 and 59.";
 
             }
 
@@ -1626,9 +2021,7 @@
                 seconds > 59
             ) {
 
-                return (
-                    "Seconds must be between 0 and 59."
-                );
+                return "Seconds must be between 0 and 59.";
 
             }
 
@@ -1641,9 +2034,7 @@
 
             if (totalSeconds <= 0) {
 
-                return (
-                    "Please enter a finishing time greater than 0."
-                );
+                return "Please enter a finishing time greater than 0.";
 
             }
 
@@ -1663,7 +2054,8 @@
                 distanceUnitInput.value;
 
 
-            let matchedPreset = false;
+            let matchedPreset =
+                false;
 
 
             presetButtons.forEach(
@@ -1717,6 +2109,78 @@
             if (!matchedPreset) {
 
                 customPreset.classList
+                    .add("active");
+
+            }
+
+        }
+
+
+
+        function updateTargetPresetSelection() {
+
+            const distance =
+                Number(targetDistanceInput.value);
+
+            const unit =
+                targetDistanceUnitInput.value;
+
+
+            let matchedPreset =
+                false;
+
+
+            targetPresetButtons.forEach(
+                function (button) {
+
+                    button.classList
+                        .remove("active");
+
+                }
+            );
+
+
+            if (unit === "km") {
+
+                targetPresetButtons.forEach(
+                    function (button) {
+
+                        if (
+                            button.dataset.targetDistance
+                        ) {
+
+                            const presetDistance =
+                                Number(
+                                    button.dataset.targetDistance
+                                );
+
+
+                            if (
+                                Math.abs(
+                                    distance -
+                                    presetDistance
+                                ) < 0.0001
+                            ) {
+
+                                button.classList
+                                    .add("active");
+
+                                matchedPreset =
+                                    true;
+
+                            }
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if (!matchedPreset) {
+
+                targetCustomPreset.classList
                     .add("active");
 
             }
@@ -2378,6 +2842,140 @@
 
 
 
+        function calculateTargetPace() {
+
+            clearTargetError();
+
+
+            const distance =
+                Number(
+                    targetDistanceInput.value
+                );
+
+
+            const unit =
+                targetDistanceUnitInput.value;
+
+
+            const hours =
+                Number(
+                    targetHoursInput.value
+                );
+
+
+            const minutes =
+                Number(
+                    targetMinutesInput.value
+                );
+
+
+            const seconds =
+                Number(
+                    targetSecondsInput.value
+                );
+
+
+            const validationMessage =
+                validateInputs(
+                    distance,
+                    hours,
+                    minutes,
+                    seconds
+                );
+
+
+            if (
+                validationMessage !== ""
+            ) {
+
+                showTargetError(
+                    validationMessage
+                );
+
+                return;
+
+            }
+
+
+            const totalSeconds =
+                (hours * 3600) +
+                (minutes * 60) +
+                seconds;
+
+
+            const distanceKm =
+                unit === "miles"
+                    ? distance *
+                      KM_PER_MILE
+                    : distance;
+
+
+            const paceSecondsPerKm =
+                totalSeconds /
+                distanceKm;
+
+
+            const paceSecondsPerMile =
+                paceSecondsPerKm *
+                KM_PER_MILE;
+
+
+            const speedKmh =
+                distanceKm /
+                (totalSeconds / 3600);
+
+
+            const speedMph =
+                speedKmh /
+                KM_PER_MILE;
+
+
+            document
+                .getElementById(
+                    "targetPaceKm"
+                )
+                .textContent =
+                formatPace(
+                    paceSecondsPerKm
+                ) +
+                " /km";
+
+
+            document
+                .getElementById(
+                    "targetPaceMile"
+                )
+                .textContent =
+                formatPace(
+                    paceSecondsPerMile
+                ) +
+                " /mile";
+
+
+            document
+                .getElementById(
+                    "targetKmh"
+                )
+                .textContent =
+                speedKmh.toFixed(2) +
+                " km/h";
+
+
+            document
+                .getElementById(
+                    "targetMph"
+                )
+                .textContent =
+                speedMph.toFixed(2) +
+                " mph";
+
+
+            updateTargetPresetSelection();
+
+        }
+
+
+
         function selectPreset(
             button
         ) {
@@ -2407,6 +3005,40 @@
 
 
             calculatePace();
+
+        }
+
+
+
+        function selectTargetPreset(
+            button
+        ) {
+
+            if (
+                button.dataset.targetCustom ===
+                "true"
+            ) {
+
+                updateTargetPresetSelection();
+
+                targetDistanceInput.focus();
+
+                targetDistanceInput.select();
+
+                return;
+
+            }
+
+
+            targetDistanceInput.value =
+                button.dataset.targetDistance;
+
+
+            targetDistanceUnitInput.value =
+                "km";
+
+
+            calculateTargetPace();
 
         }
 
@@ -2445,6 +3077,30 @@
 
 
 
+        function resetTargetCalculator() {
+
+            targetDistanceInput.value =
+                "21.0975";
+
+            targetDistanceUnitInput.value =
+                "km";
+
+            targetHoursInput.value =
+                "1";
+
+            targetMinutesInput.value =
+                "40";
+
+            targetSecondsInput.value =
+                "0";
+
+
+            calculateTargetPace();
+
+        }
+
+
+
         calculateButton
             .addEventListener(
                 "click",
@@ -2466,6 +3122,20 @@
             );
 
 
+        calculateTargetButton
+            .addEventListener(
+                "click",
+                calculateTargetPace
+            );
+
+
+        resetTargetButton
+            .addEventListener(
+                "click",
+                resetTargetCalculator
+            );
+
+
         presetButtons.forEach(
             function (button) {
 
@@ -2484,9 +3154,33 @@
         );
 
 
+        targetPresetButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        selectTargetPreset(
+                            button
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
         distanceInput.addEventListener(
             "input",
             updatePresetSelection
+        );
+
+
+        targetDistanceInput.addEventListener(
+            "input",
+            updateTargetPresetSelection
         );
 
 
@@ -2497,6 +3191,18 @@
                 updatePresetSelection();
 
                 calculatePace();
+
+            }
+        );
+
+
+        targetDistanceUnitInput.addEventListener(
+            "change",
+            function () {
+
+                updateTargetPresetSelection();
+
+                calculateTargetPace();
 
             }
         );
@@ -2533,12 +3239,45 @@
         );
 
 
+        const targetEnterInputs = [
+            targetDistanceInput,
+            targetHoursInput,
+            targetMinutesInput,
+            targetSecondsInput
+        ];
+
+
+        targetEnterInputs.forEach(
+            function (input) {
+
+                input.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key ===
+                            "Enter"
+                        ) {
+
+                            calculateTargetPace();
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
 
         loadTheme();
 
         loadSavedInputs();
 
         calculatePace();
+
+        calculateTargetPace();
 
     </script>
 
