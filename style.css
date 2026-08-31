@@ -116,6 +116,8 @@ body {
 }
 
 
+/* ACCESSIBILITY */
+
 button:focus-visible,
 a:focus-visible {
     outline:
@@ -147,6 +149,8 @@ select:focus-visible {
         var(--analysis-accent);
 }
 
+
+/* HEADER */
 
 .app-header {
     background-color: var(--card-bg);
@@ -272,6 +276,8 @@ p {
 }
 
 
+/* QUICK NAVIGATION */
+
 .quick-nav {
     padding: 18px 22px;
 
@@ -355,6 +361,8 @@ p {
         var(--accent-text);
 }
 
+
+/* PANELS */
 
 .main-panel {
     padding: 30px;
@@ -452,6 +460,8 @@ p {
 }
 
 
+/* INPUTS */
+
 label {
     display: block;
 
@@ -481,6 +491,8 @@ select {
     font-size: 16px;
 }
 
+
+/* DISTANCE PRESETS */
 
 .presets {
     display: flex;
@@ -552,7 +564,7 @@ select {
 }
 
 
-/* Popular race goal shortcuts */
+/* POPULAR GOALS */
 
 .goal-shortcuts {
     margin-top: 22px;
@@ -660,6 +672,8 @@ body.dark-mode .goal-shortcuts {
 }
 
 
+/* FORM LAYOUT */
+
 .distance-row {
     display: flex;
 
@@ -755,6 +769,8 @@ body.dark-mode .goal-shortcuts {
 }
 
 
+/* MESSAGES */
+
 .error-message {
     display: none;
 
@@ -786,6 +802,8 @@ body.dark-mode .goal-shortcuts {
     text-align: right;
 }
 
+
+/* RESULT CARDS */
 
 .result-cards,
 .target-results {
@@ -842,6 +860,8 @@ body.dark-mode .goal-shortcuts {
     font-weight: bold;
 }
 
+
+/* TABLES */
 
 .data-table,
 .split-table {
@@ -932,6 +952,8 @@ body.dark-mode .goal-shortcuts {
 }
 
 
+/* INFO BOXES */
+
 .info-box {
     margin-top: 18px;
     padding: 16px 18px;
@@ -961,6 +983,8 @@ body.dark-mode .goal-shortcuts {
     margin-bottom: 5px;
 }
 
+
+/* TRAINING */
 
 .training-grid {
     display: grid;
@@ -1020,6 +1044,216 @@ body.dark-mode .goal-shortcuts {
     font-size: 14px;
 }
 
+
+/* RACE STRATEGY */
+
+.strategy-section {
+    margin-top: 38px;
+    padding-top: 30px;
+
+    border-top:
+        1px solid var(--accent-border);
+}
+
+
+.strategy-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 20px;
+}
+
+
+.strategy-title {
+    margin: 0;
+
+    font-size: 24px;
+}
+
+
+.strategy-intro {
+    margin-top: 8px;
+    margin-bottom: 0;
+
+    color:
+        var(--muted-text);
+
+    font-size: 14px;
+}
+
+
+.strategy-buttons {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 20px;
+}
+
+
+.strategy-button {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    min-height: 88px;
+
+    padding: 16px 18px;
+
+    border:
+        1px solid var(--accent-border);
+
+    border-radius: 14px;
+
+    background-color:
+        var(--card-bg);
+
+    color:
+        var(--text);
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.strategy-button:hover {
+    border-color:
+        var(--accent);
+
+    background-color:
+        var(--accent-soft);
+
+    transform:
+        translateY(-1px);
+}
+
+
+.strategy-button.active {
+    border-color:
+        var(--accent);
+
+    background-color:
+        var(--accent-soft);
+
+    box-shadow:
+        inset 0 0 0 1px var(--accent);
+}
+
+
+.strategy-button-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+.strategy-button-description {
+    margin-top: 6px;
+
+    color:
+        var(--muted-text);
+
+    font-size: 13px;
+
+    line-height: 1.35;
+}
+
+
+.strategy-explanation {
+    margin-top: 16px;
+    padding: 14px 16px;
+
+    border:
+        1px solid var(--accent-border);
+
+    border-radius: 11px;
+
+    background-color:
+        var(--card-bg);
+
+    color:
+        var(--muted-text);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+.strategy-pace-cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 14px;
+}
+
+
+.strategy-pace-card {
+    padding: 15px;
+
+    border:
+        1px solid var(--accent-border);
+
+    border-radius: 11px;
+
+    background-color:
+        var(--card-bg);
+
+    text-align: center;
+}
+
+
+.strategy-pace-label {
+    margin-bottom: 7px;
+
+    color:
+        var(--muted-text);
+
+    font-size: 12px;
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+}
+
+
+.strategy-pace-value {
+    font-size: 20px;
+    font-weight: bold;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+.strategy-pace-distance {
+    margin-top: 5px;
+
+    color:
+        var(--muted-text);
+
+    font-size: 12px;
+}
+
+
+/* SPLITS */
 
 .split-section {
     margin-top: 36px;
@@ -1146,6 +1380,8 @@ body.dark-mode .goal-shortcuts {
     font-size: 17px;
 }
 
+
+/* SHARE */
 
 .share-section {
     margin-top: 36px;
@@ -1281,6 +1517,8 @@ body.dark-mode .goal-shortcuts {
 }
 
 
+/* FOOTER */
+
 .footer {
     padding: 20px 0 8px;
 
@@ -1316,6 +1554,8 @@ body.dark-mode .goal-shortcuts {
     font-size: 12px;
 }
 
+
+/* RESPONSIVE */
 
 @media (max-width: 700px) {
 
@@ -1447,6 +1687,48 @@ body.dark-mode .goal-shortcuts {
 
     .goal-shortcut-button {
         flex: 1 1 auto;
+    }
+
+
+    .strategy-buttons {
+        grid-template-columns: 1fr;
+    }
+
+
+    .strategy-pace-cards {
+        grid-template-columns: 1fr;
+    }
+
+
+    .strategy-pace-card {
+        display: grid;
+
+        grid-template-columns:
+            1fr auto;
+
+        align-items: center;
+
+        text-align: left;
+    }
+
+
+    .strategy-pace-label {
+        margin-bottom: 0;
+    }
+
+
+    .strategy-pace-value {
+        grid-row:
+            1 / span 2;
+
+        grid-column: 2;
+
+        text-align: right;
+    }
+
+
+    .strategy-pace-distance {
+        margin-top: 3px;
     }
 
 

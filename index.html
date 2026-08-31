@@ -134,6 +134,8 @@
         </nav>
 
 
+        <!-- ANALYSE A RUN -->
+
         <section
             id="analyse-run"
             class="main-panel analysis-panel"
@@ -586,6 +588,8 @@
         </section>
 
 
+        <!-- RACE PLANNING -->
+
         <section
             id="race-planning"
             class="main-panel goal-panel"
@@ -604,7 +608,7 @@
                 <p class="panel-description">
                     Choose your target distance and finish time to
                     calculate the pace you need and generate your
-                    race-day split plan.
+                    race-day pacing plan.
                 </p>
 
             </div>
@@ -859,10 +863,176 @@
 
             <p class="note">
                 This is the average pace required across the full
-                distance. Real races may require adjustments for hills,
-                congestion, weather and course conditions.
+                distance. Your selected race strategy may vary the
+                pace during different parts of the race.
             </p>
 
+
+            <!-- RACE STRATEGY -->
+
+            <div class="strategy-section">
+
+                <div class="strategy-header">
+
+                    <div>
+
+                        <div class="panel-kicker goal-kicker">
+                            Pacing strategy
+                        </div>
+
+                        <h2 class="strategy-title">
+                            Race strategy
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <p class="strategy-intro">
+                    Choose how you want to distribute your effort
+                    across the race while keeping the same target
+                    finish time.
+                </p>
+
+
+                <div
+                    class="strategy-buttons"
+                    aria-label="Race strategy"
+                >
+
+                    <button
+                        id="evenStrategy"
+                        class="strategy-button active"
+                        type="button"
+                        data-strategy="even"
+                        aria-pressed="true"
+                    >
+                        <span class="strategy-button-title">
+                            Even pace
+                        </span>
+
+                        <span class="strategy-button-description">
+                            Hold the same pace throughout
+                        </span>
+                    </button>
+
+
+                    <button
+                        id="negativeStrategy"
+                        class="strategy-button"
+                        type="button"
+                        data-strategy="negative"
+                        aria-pressed="false"
+                    >
+                        <span class="strategy-button-title">
+                            Slight negative split
+                        </span>
+
+                        <span class="strategy-button-description">
+                            Controlled start, stronger finish
+                        </span>
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="strategyExplanation"
+                    class="strategy-explanation"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+
+                <div
+                    id="strategyPaceCards"
+                    class="strategy-pace-cards"
+                >
+
+                    <div class="strategy-pace-card">
+
+                        <div
+                            class="strategy-pace-label"
+                            id="strategyPhaseOneLabel"
+                        >
+                            Opening
+                        </div>
+
+                        <div
+                            class="strategy-pace-value"
+                            id="strategyPhaseOnePace"
+                        >
+                            --
+                        </div>
+
+                        <div
+                            class="strategy-pace-distance"
+                            id="strategyPhaseOneDistance"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+
+                    <div class="strategy-pace-card">
+
+                        <div
+                            class="strategy-pace-label"
+                            id="strategyPhaseTwoLabel"
+                        >
+                            Middle
+                        </div>
+
+                        <div
+                            class="strategy-pace-value"
+                            id="strategyPhaseTwoPace"
+                        >
+                            --
+                        </div>
+
+                        <div
+                            class="strategy-pace-distance"
+                            id="strategyPhaseTwoDistance"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+
+                    <div class="strategy-pace-card">
+
+                        <div
+                            class="strategy-pace-label"
+                            id="strategyPhaseThreeLabel"
+                        >
+                            Finish
+                        </div>
+
+                        <div
+                            class="strategy-pace-value"
+                            id="strategyPhaseThreePace"
+                        >
+                            --
+                        </div>
+
+                        <div
+                            class="strategy-pace-distance"
+                            id="strategyPhaseThreeDistance"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SPLITS -->
 
             <div class="split-section">
 
@@ -890,8 +1060,9 @@
                         Your pacing checkpoints
                     </strong>
 
-                    These are cumulative times based on an even pace
-                    from the start line to the finish.
+                    The cumulative times below follow your selected
+                    race strategy and still finish at your exact
+                    target time.
 
                 </div>
 
@@ -934,8 +1105,8 @@
                 </h2>
 
                 <p class="share-description">
-                    Copy or share your target pace and the race
-                    splits currently shown above.
+                    Copy or share your target pace, selected race
+                    strategy and the race splits currently shown above.
                 </p>
 
 
@@ -983,7 +1154,7 @@
             </div>
 
             <div class="version">
-                v0.8.3
+                v0.9.0
             </div>
 
         </div>

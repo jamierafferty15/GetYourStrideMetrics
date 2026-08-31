@@ -1,6 +1,9 @@
 const KM_PER_MILE = 1.609344;
-
 const RIEGEL_EXPONENT = 1.06;
+
+const NEGATIVE_SPLIT_OPENING_FACTOR = 1.03;
+const NEGATIVE_SPLIT_MIDDLE_FACTOR = 1.00;
+const NEGATIVE_SPLIT_FINISH_FACTOR = 0.97;
 
 
 const raceDistances = {
@@ -14,145 +17,56 @@ const raceDistances = {
 const goalShortcuts = {
 
     "5k": [
-        {
-            label: "Sub-20",
-            hours: 0,
-            minutes: 20,
-            seconds: 0
-        },
-        {
-            label: "Sub-25",
-            hours: 0,
-            minutes: 25,
-            seconds: 0
-        },
-        {
-            label: "Sub-30",
-            hours: 0,
-            minutes: 30,
-            seconds: 0
-        }
+        { label: "Sub-20", hours: 0, minutes: 20, seconds: 0 },
+        { label: "Sub-25", hours: 0, minutes: 25, seconds: 0 },
+        { label: "Sub-30", hours: 0, minutes: 30, seconds: 0 }
     ],
 
     "10k": [
-        {
-            label: "Sub-40",
-            hours: 0,
-            minutes: 40,
-            seconds: 0
-        },
-        {
-            label: "Sub-45",
-            hours: 0,
-            minutes: 45,
-            seconds: 0
-        },
-        {
-            label: "Sub-50",
-            hours: 0,
-            minutes: 50,
-            seconds: 0
-        }
+        { label: "Sub-40", hours: 0, minutes: 40, seconds: 0 },
+        { label: "Sub-45", hours: 0, minutes: 45, seconds: 0 },
+        { label: "Sub-50", hours: 0, minutes: 50, seconds: 0 }
     ],
 
     "half": [
-        {
-            label: "Sub-1:30",
-            hours: 1,
-            minutes: 30,
-            seconds: 0
-        },
-        {
-            label: "Sub-1:40",
-            hours: 1,
-            minutes: 40,
-            seconds: 0
-        },
-        {
-            label: "Sub-1:45",
-            hours: 1,
-            minutes: 45,
-            seconds: 0
-        },
-        {
-            label: "Sub-2:00",
-            hours: 2,
-            minutes: 0,
-            seconds: 0
-        }
+        { label: "Sub-1:30", hours: 1, minutes: 30, seconds: 0 },
+        { label: "Sub-1:40", hours: 1, minutes: 40, seconds: 0 },
+        { label: "Sub-1:45", hours: 1, minutes: 45, seconds: 0 },
+        { label: "Sub-2:00", hours: 2, minutes: 0, seconds: 0 }
     ],
 
     "marathon": [
-        {
-            label: "Sub-3:00",
-            hours: 3,
-            minutes: 0,
-            seconds: 0
-        },
-        {
-            label: "Sub-3:30",
-            hours: 3,
-            minutes: 30,
-            seconds: 0
-        },
-        {
-            label: "Sub-4:00",
-            hours: 4,
-            minutes: 0,
-            seconds: 0
-        },
-        {
-            label: "Sub-4:30",
-            hours: 4,
-            minutes: 30,
-            seconds: 0
-        }
+        { label: "Sub-3:00", hours: 3, minutes: 0, seconds: 0 },
+        { label: "Sub-3:30", hours: 3, minutes: 30, seconds: 0 },
+        { label: "Sub-4:00", hours: 4, minutes: 0, seconds: 0 },
+        { label: "Sub-4:30", hours: 4, minutes: 30, seconds: 0 }
     ]
 
 };
 
 
 let showEverySplit = false;
-
 let currentTargetRaceKey = "half";
+let currentRaceStrategy = "even";
 
 
+/* DOM */
 
-const calculateButton =
-    document.getElementById("calculate");
+const calculateButton = document.getElementById("calculate");
+const resetButton = document.getElementById("reset");
+const themeToggle = document.getElementById("themeToggle");
 
-const resetButton =
-    document.getElementById("reset");
+const presetButtons = document.querySelectorAll(".preset-button");
+const customPreset = document.getElementById("customPreset");
 
-const themeToggle =
-    document.getElementById("themeToggle");
+const distanceInput = document.getElementById("distance");
+const distanceUnitInput = document.getElementById("distanceUnit");
+const hoursInput = document.getElementById("hours");
+const minutesInput = document.getElementById("minutes");
+const secondsInput = document.getElementById("seconds");
 
-const presetButtons =
-    document.querySelectorAll(".preset-button");
-
-const customPreset =
-    document.getElementById("customPreset");
-
-const distanceInput =
-    document.getElementById("distance");
-
-const distanceUnitInput =
-    document.getElementById("distanceUnit");
-
-const hoursInput =
-    document.getElementById("hours");
-
-const minutesInput =
-    document.getElementById("minutes");
-
-const secondsInput =
-    document.getElementById("seconds");
-
-const errorMessage =
-    document.getElementById("errorMessage");
-
-const savedMessage =
-    document.getElementById("savedMessage");
+const errorMessage = document.getElementById("errorMessage");
+const savedMessage = document.getElementById("savedMessage");
 
 
 const targetPresetButtons =
@@ -185,11 +99,47 @@ const resetTargetButton =
 const targetErrorMessage =
     document.getElementById("targetErrorMessage");
 
+
 const goalShortcutsContainer =
     document.getElementById("goalShortcuts");
 
 const goalShortcutButtons =
     document.getElementById("goalShortcutButtons");
+
+
+const strategyButtons =
+    document.querySelectorAll(".strategy-button");
+
+const strategyExplanation =
+    document.getElementById("strategyExplanation");
+
+const strategyPhaseOneLabel =
+    document.getElementById("strategyPhaseOneLabel");
+
+const strategyPhaseTwoLabel =
+    document.getElementById("strategyPhaseTwoLabel");
+
+const strategyPhaseThreeLabel =
+    document.getElementById("strategyPhaseThreeLabel");
+
+const strategyPhaseOnePace =
+    document.getElementById("strategyPhaseOnePace");
+
+const strategyPhaseTwoPace =
+    document.getElementById("strategyPhaseTwoPace");
+
+const strategyPhaseThreePace =
+    document.getElementById("strategyPhaseThreePace");
+
+const strategyPhaseOneDistance =
+    document.getElementById("strategyPhaseOneDistance");
+
+const strategyPhaseTwoDistance =
+    document.getElementById("strategyPhaseTwoDistance");
+
+const strategyPhaseThreeDistance =
+    document.getElementById("strategyPhaseThreeDistance");
+
 
 const splitToggle =
     document.getElementById("splitToggle");
@@ -199,6 +149,7 @@ const splitRows =
 
 const splitSummary =
     document.getElementById("splitSummary");
+
 
 const copyRunButton =
     document.getElementById("copyRun");
@@ -219,22 +170,19 @@ const raceActionMessage =
     document.getElementById("raceActionMessage");
 
 
+/* FORMATTING */
 
 function formatTime(totalSeconds) {
 
-    totalSeconds =
-        Math.round(totalSeconds);
-
+    totalSeconds = Math.round(totalSeconds);
 
     const hours =
         Math.floor(totalSeconds / 3600);
-
 
     const minutes =
         Math.floor(
             (totalSeconds % 3600) / 60
         );
-
 
     const seconds =
         totalSeconds % 60;
@@ -262,12 +210,10 @@ function formatTime(totalSeconds) {
 }
 
 
-
 function formatPace(totalSeconds) {
 
     let minutes =
         Math.floor(totalSeconds / 60);
-
 
     let seconds =
         Math.round(totalSeconds % 60);
@@ -276,7 +222,6 @@ function formatPace(totalSeconds) {
     if (seconds === 60) {
 
         minutes += 1;
-
         seconds = 0;
 
     }
@@ -289,7 +234,6 @@ function formatPace(totalSeconds) {
     );
 
 }
-
 
 
 function formatPaceRange(
@@ -305,7 +249,6 @@ function formatPaceRange(
     );
 
 }
-
 
 
 function formatMileRange(
@@ -329,54 +272,38 @@ function formatMileRange(
 }
 
 
+function formatSplitDistance(
+    distance,
+    unit
+) {
 
-function showError(message) {
-
-    errorMessage.textContent =
-        message;
-
-    errorMessage.style.display =
-        "block";
-
-}
-
+    const unitLabel =
+        unit === "miles"
+            ? "mi"
+            : "km";
 
 
-function clearError() {
+    if (Number.isInteger(distance)) {
 
-    errorMessage.textContent =
-        "";
+        return (
+            distance +
+            " " +
+            unitLabel
+        );
 
-    errorMessage.style.display =
-        "none";
-
-}
+    }
 
 
-
-function showTargetError(message) {
-
-    targetErrorMessage.textContent =
-        message;
-
-    targetErrorMessage.style.display =
-        "block";
+    return (
+        distance.toFixed(2) +
+        " " +
+        unitLabel
+    );
 
 }
 
 
-
-function clearTargetError() {
-
-    targetErrorMessage.textContent =
-        "";
-
-    targetErrorMessage.style.display =
-        "none";
-
-}
-
-
+/* VALIDATION */
 
 function validateInputs(
     distance,
@@ -390,9 +317,7 @@ function validateInputs(
         distance <= 0
     ) {
 
-        return (
-            "Please enter a distance greater than 0."
-        );
+        return "Please enter a distance greater than 0.";
 
     }
 
@@ -402,9 +327,7 @@ function validateInputs(
         hours < 0
     ) {
 
-        return (
-            "Hours cannot be negative."
-        );
+        return "Hours cannot be negative.";
 
     }
 
@@ -415,9 +338,7 @@ function validateInputs(
         minutes > 59
     ) {
 
-        return (
-            "Minutes must be between 0 and 59."
-        );
+        return "Minutes must be between 0 and 59.";
 
     }
 
@@ -428,9 +349,7 @@ function validateInputs(
         seconds > 59
     ) {
 
-        return (
-            "Seconds must be between 0 and 59."
-        );
+        return "Seconds must be between 0 and 59.";
 
     }
 
@@ -443,9 +362,7 @@ function validateInputs(
 
     if (totalSeconds <= 0) {
 
-        return (
-            "Please enter a finishing time greater than 0."
-        );
+        return "Please enter a finishing time greater than 0.";
 
     }
 
@@ -455,6 +372,63 @@ function validateInputs(
 }
 
 
+/* MESSAGES */
+
+function showError(message) {
+
+    errorMessage.textContent = message;
+    errorMessage.style.display = "block";
+
+}
+
+
+function clearError() {
+
+    errorMessage.textContent = "";
+    errorMessage.style.display = "none";
+
+}
+
+
+function showTargetError(message) {
+
+    targetErrorMessage.textContent = message;
+    targetErrorMessage.style.display = "block";
+
+}
+
+
+function clearTargetError() {
+
+    targetErrorMessage.textContent = "";
+    targetErrorMessage.style.display = "none";
+
+}
+
+
+function showActionMessage(
+    element,
+    message
+) {
+
+    element.textContent = message;
+    element.style.display = "block";
+
+
+    window.setTimeout(
+        function () {
+
+            element.style.display = "none";
+            element.textContent = "";
+
+        },
+        3000
+    );
+
+}
+
+
+/* ACCESSIBLE BUTTON STATES */
 
 function setButtonActive(
     button,
@@ -477,7 +451,6 @@ function setButtonActive(
 }
 
 
-
 function removeActive(buttons) {
 
     buttons.forEach(
@@ -494,6 +467,7 @@ function removeActive(buttons) {
 }
 
 
+/* CLEAR RESULTS */
 
 function clearRunResults() {
 
@@ -502,7 +476,6 @@ function clearRunResults() {
         "paceMileResult",
         "kmhResult",
         "mphResult",
-
         "same5k",
         "samePace5k",
         "same10k",
@@ -511,7 +484,6 @@ function clearRunResults() {
         "samePaceHalf",
         "sameMarathon",
         "samePaceMarathon",
-
         "predicted5k",
         "predictedPace5k",
         "predicted10k",
@@ -520,7 +492,6 @@ function clearRunResults() {
         "predictedPaceHalf",
         "predictedMarathon",
         "predictedPaceMarathon",
-
         "easyPace",
         "easyPaceMile",
         "steadyPace",
@@ -538,19 +509,14 @@ function clearRunResults() {
             const element =
                 document.getElementById(id);
 
-
             if (element) {
-
-                element.textContent =
-                    "--";
-
+                element.textContent = "--";
             }
 
         }
     );
 
 }
-
 
 
 function clearTargetResults() {
@@ -566,30 +532,95 @@ function clearTargetResults() {
     ids.forEach(
         function (id) {
 
-            const element =
-                document.getElementById(id);
-
-
-            if (element) {
-
-                element.textContent =
-                    "--";
-
-            }
+            document
+                .getElementById(id)
+                .textContent = "--";
 
         }
     );
 
 
-    splitRows.innerHTML =
-        "";
+    strategyPhaseOnePace.textContent = "--";
+    strategyPhaseTwoPace.textContent = "--";
+    strategyPhaseThreePace.textContent = "--";
 
-    splitSummary.textContent =
-        "";
+    strategyPhaseOneDistance.textContent = "--";
+    strategyPhaseTwoDistance.textContent = "--";
+    strategyPhaseThreeDistance.textContent = "--";
+
+    splitRows.innerHTML = "";
+    splitSummary.textContent = "";
 
 }
 
 
+/* RUN PRESETS */
+
+function updatePresetSelection() {
+
+    const distance =
+        Number(distanceInput.value);
+
+    const unit =
+        distanceUnitInput.value;
+
+    let matchedPreset = false;
+
+
+    removeActive(presetButtons);
+
+
+    if (unit === "km") {
+
+        presetButtons.forEach(
+            function (button) {
+
+                if (!button.dataset.distance) {
+                    return;
+                }
+
+
+                const presetDistance =
+                    Number(
+                        button.dataset.distance
+                    );
+
+
+                if (
+                    Math.abs(
+                        distance -
+                        presetDistance
+                    ) < 0.0001
+                ) {
+
+                    setButtonActive(
+                        button,
+                        true
+                    );
+
+                    matchedPreset = true;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (!matchedPreset) {
+
+        setButtonActive(
+            customPreset,
+            true
+        );
+
+    }
+
+}
+
+
+/* GOAL SHORTCUTS */
 
 function clearGoalShortcutSelection() {
 
@@ -614,11 +645,9 @@ function clearGoalShortcutSelection() {
 }
 
 
-
 function renderGoalShortcuts(raceKey) {
 
-    goalShortcutButtons.innerHTML =
-        "";
+    goalShortcutButtons.innerHTML = "";
 
 
     if (!goalShortcuts[raceKey]) {
@@ -626,7 +655,6 @@ function renderGoalShortcuts(raceKey) {
         goalShortcutsContainer
             .classList
             .add("hidden");
-
 
         return;
 
@@ -647,17 +675,12 @@ function renderGoalShortcuts(raceKey) {
                 );
 
 
-            button.type =
-                "button";
-
-
+            button.type = "button";
             button.className =
                 "goal-shortcut-button";
 
-
             button.textContent =
                 shortcut.label;
-
 
             button.setAttribute(
                 "aria-pressed",
@@ -703,80 +726,7 @@ function renderGoalShortcuts(raceKey) {
 }
 
 
-
-function updatePresetSelection() {
-
-    const distance =
-        Number(distanceInput.value);
-
-
-    const unit =
-        distanceUnitInput.value;
-
-
-    let matchedPreset =
-        false;
-
-
-    removeActive(
-        presetButtons
-    );
-
-
-    if (unit === "km") {
-
-        presetButtons.forEach(
-            function (button) {
-
-                if (
-                    button.dataset.distance
-                ) {
-
-                    const presetDistance =
-                        Number(
-                            button.dataset.distance
-                        );
-
-
-                    if (
-                        Math.abs(
-                            distance -
-                            presetDistance
-                        ) <
-                        0.0001
-                    ) {
-
-                        setButtonActive(
-                            button,
-                            true
-                        );
-
-
-                        matchedPreset =
-                            true;
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (!matchedPreset) {
-
-        setButtonActive(
-            customPreset,
-            true
-        );
-
-    }
-
-}
-
-
+/* TARGET PRESETS */
 
 function updateTargetPresetSelection() {
 
@@ -785,21 +735,14 @@ function updateTargetPresetSelection() {
             targetDistanceInput.value
         );
 
-
     const unit =
         targetDistanceUnitInput.value;
 
-
-    let matchedPreset =
-        false;
-
-    let matchedRaceKey =
-        null;
+    let matchedPreset = false;
+    let matchedRaceKey = null;
 
 
-    removeActive(
-        targetPresetButtons
-    );
+    removeActive(targetPresetButtons);
 
 
     if (unit === "km") {
@@ -808,37 +751,34 @@ function updateTargetPresetSelection() {
             function (button) {
 
                 if (
-                    button.dataset.targetDistance
+                    !button.dataset.targetDistance
+                ) {
+                    return;
+                }
+
+
+                const presetDistance =
+                    Number(
+                        button.dataset.targetDistance
+                    );
+
+
+                if (
+                    Math.abs(
+                        distance -
+                        presetDistance
+                    ) < 0.0001
                 ) {
 
-                    const presetDistance =
-                        Number(
-                            button.dataset.targetDistance
-                        );
+                    setButtonActive(
+                        button,
+                        true
+                    );
 
 
-                    if (
-                        Math.abs(
-                            distance -
-                            presetDistance
-                        ) <
-                        0.0001
-                    ) {
-
-                        setButtonActive(
-                            button,
-                            true
-                        );
-
-
-                        matchedPreset =
-                            true;
-
-
-                        matchedRaceKey =
-                            button.dataset.raceKey;
-
-                    }
+                    matchedPreset = true;
+                    matchedRaceKey =
+                        button.dataset.raceKey;
 
                 }
 
@@ -856,14 +796,10 @@ function updateTargetPresetSelection() {
         );
 
 
-        currentTargetRaceKey =
-            null;
+        currentTargetRaceKey = null;
 
 
-        renderGoalShortcuts(
-            null
-        );
-
+        renderGoalShortcuts(null);
 
         return;
 
@@ -895,6 +831,7 @@ function updateTargetPresetSelection() {
 }
 
 
+/* RIEGEL PREDICTIONS */
 
 function predictRaceTime(
     knownTime,
@@ -912,7 +849,6 @@ function predictRaceTime(
     );
 
 }
-
 
 
 function displaySamePace(
@@ -936,13 +872,15 @@ function displaySamePace(
         {
             timeId: "sameHalf",
             paceId: "samePaceHalf",
-            distance: raceDistances.halfMarathon
+            distance:
+                raceDistances.halfMarathon
         },
 
         {
             timeId: "sameMarathon",
             paceId: "samePaceMarathon",
-            distance: raceDistances.marathon
+            distance:
+                raceDistances.marathon
         }
 
     ];
@@ -976,7 +914,6 @@ function displaySamePace(
     );
 
 }
-
 
 
 function getPredictions(
@@ -1019,7 +956,6 @@ function getPredictions(
 }
 
 
-
 function displayPredictions(
     predictions
 ) {
@@ -1044,14 +980,16 @@ function displayPredictions(
             timeId: "predictedHalf",
             paceId: "predictedPaceHalf",
             time: predictions.half,
-            distance: raceDistances.halfMarathon
+            distance:
+                raceDistances.halfMarathon
         },
 
         {
             timeId: "predictedMarathon",
             paceId: "predictedPaceMarathon",
             time: predictions.marathon,
-            distance: raceDistances.marathon
+            distance:
+                raceDistances.marathon
         }
 
     ];
@@ -1087,6 +1025,7 @@ function displayPredictions(
 }
 
 
+/* TRAINING PACES */
 
 function displayTrainingPaces(
     predictions
@@ -1095,7 +1034,6 @@ function displayTrainingPaces(
     const predicted10kPace =
         predictions.tenK /
         raceDistances.tenK;
-
 
     const predicted5kPace =
         predictions.fiveK /
@@ -1107,7 +1045,6 @@ function displayTrainingPaces(
         easy: {
             fast:
                 predicted10kPace + 60,
-
             slow:
                 predicted10kPace + 90
         },
@@ -1115,7 +1052,6 @@ function displayTrainingPaces(
         steady: {
             fast:
                 predicted10kPace + 30,
-
             slow:
                 predicted10kPace + 60
         },
@@ -1123,7 +1059,6 @@ function displayTrainingPaces(
         tempo: {
             fast:
                 predicted10kPace + 10,
-
             slow:
                 predicted10kPace + 25
         },
@@ -1131,7 +1066,6 @@ function displayTrainingPaces(
         interval: {
             fast:
                 predicted5kPace - 5,
-
             slow:
                 predicted5kPace + 5
         }
@@ -1171,20 +1105,17 @@ function displayTrainingPaces(
         "easyPaceMile"
     );
 
-
     displayRange(
         trainingRanges.steady,
         "steadyPace",
         "steadyPaceMile"
     );
 
-
     displayRange(
         trainingRanges.tempo,
         "tempoPace",
         "tempoPaceMile"
     );
-
 
     displayRange(
         trainingRanges.interval,
@@ -1195,6 +1126,7 @@ function displayTrainingPaces(
 }
 
 
+/* STORAGE */
 
 function saveInputs() {
 
@@ -1230,7 +1162,6 @@ function saveInputs() {
 }
 
 
-
 function loadSavedInputs() {
 
     const savedInputs =
@@ -1240,9 +1171,7 @@ function loadSavedInputs() {
 
 
     if (!savedInputs) {
-
         return;
-
     }
 
 
@@ -1253,24 +1182,19 @@ function loadSavedInputs() {
 
 
         distanceInput.value =
-            settings.distance ??
-            "10";
+            settings.distance ?? "10";
 
         distanceUnitInput.value =
-            settings.distanceUnit ??
-            "km";
+            settings.distanceUnit ?? "km";
 
         hoursInput.value =
-            settings.hours ??
-            "0";
+            settings.hours ?? "0";
 
         minutesInput.value =
-            settings.minutes ??
-            "45";
+            settings.minutes ?? "45";
 
         secondsInput.value =
-            settings.seconds ??
-            "0";
+            settings.seconds ?? "0";
 
 
         savedMessage.textContent =
@@ -1285,7 +1209,6 @@ function loadSavedInputs() {
     }
 
 }
-
 
 
 function saveTargetInputs() {
@@ -1308,7 +1231,10 @@ function saveTargetInputs() {
             targetSecondsInput.value,
 
         raceKey:
-            currentTargetRaceKey
+            currentTargetRaceKey,
+
+        strategy:
+            currentRaceStrategy
 
     };
 
@@ -1321,7 +1247,6 @@ function saveTargetInputs() {
 }
 
 
-
 function loadSavedTargetInputs() {
 
     const savedInputs =
@@ -1331,9 +1256,7 @@ function loadSavedTargetInputs() {
 
 
     if (!savedInputs) {
-
         return false;
-
     }
 
 
@@ -1367,6 +1290,10 @@ function loadSavedTargetInputs() {
             settings.raceKey ??
             null;
 
+        currentRaceStrategy =
+            settings.strategy ??
+            "even";
+
 
         return true;
 
@@ -1384,6 +1311,7 @@ function loadSavedTargetInputs() {
 }
 
 
+/* THEME */
 
 function saveTheme(theme) {
 
@@ -1393,7 +1321,6 @@ function saveTheme(theme) {
     );
 
 }
-
 
 
 function updateThemeButton() {
@@ -1420,7 +1347,6 @@ function updateThemeButton() {
 }
 
 
-
 function loadTheme() {
 
     const savedTheme =
@@ -1441,7 +1367,6 @@ function loadTheme() {
     updateThemeButton();
 
 }
-
 
 
 function toggleTheme() {
@@ -1469,6 +1394,7 @@ function toggleTheme() {
 }
 
 
+/* RUN CALCULATOR */
 
 function getRunValues() {
 
@@ -1532,7 +1458,6 @@ function getRunValues() {
 }
 
 
-
 function calculatePace() {
 
     clearError();
@@ -1545,11 +1470,7 @@ function calculatePace() {
     if (run.error) {
 
         clearRunResults();
-
-        showError(
-            run.error
-        );
-
+        showError(run.error);
 
         return false;
 
@@ -1580,9 +1501,7 @@ function calculatePace() {
 
 
     document
-        .getElementById(
-            "paceKmResult"
-        )
+        .getElementById("paceKmResult")
         .textContent =
         formatPace(
             paceSecondsPerKm
@@ -1591,9 +1510,7 @@ function calculatePace() {
 
 
     document
-        .getElementById(
-            "paceMileResult"
-        )
+        .getElementById("paceMileResult")
         .textContent =
         formatPace(
             paceSecondsPerMile
@@ -1602,18 +1519,14 @@ function calculatePace() {
 
 
     document
-        .getElementById(
-            "kmhResult"
-        )
+        .getElementById("kmhResult")
         .textContent =
         speedKmh.toFixed(2) +
         " km/h";
 
 
     document
-        .getElementById(
-            "mphResult"
-        )
+        .getElementById("mphResult")
         .textContent =
         speedMph.toFixed(2) +
         " mph";
@@ -1642,8 +1555,6 @@ function calculatePace() {
 
 
     updatePresetSelection();
-
-
     saveInputs();
 
 
@@ -1652,6 +1563,7 @@ function calculatePace() {
 }
 
 
+/* TARGET CALCULATOR */
 
 function getTargetValues() {
 
@@ -1723,7 +1635,6 @@ function getTargetValues() {
 }
 
 
-
 function calculateTargetPace() {
 
     clearTargetError();
@@ -1736,11 +1647,7 @@ function calculateTargetPace() {
     if (target.error) {
 
         clearTargetResults();
-
-        showTargetError(
-            target.error
-        );
-
+        showTargetError(target.error);
 
         return false;
 
@@ -1771,9 +1678,7 @@ function calculateTargetPace() {
 
 
     document
-        .getElementById(
-            "targetPaceKm"
-        )
+        .getElementById("targetPaceKm")
         .textContent =
         formatPace(
             paceSecondsPerKm
@@ -1782,9 +1687,7 @@ function calculateTargetPace() {
 
 
     document
-        .getElementById(
-            "targetPaceMile"
-        )
+        .getElementById("targetPaceMile")
         .textContent =
         formatPace(
             paceSecondsPerMile
@@ -1793,31 +1696,22 @@ function calculateTargetPace() {
 
 
     document
-        .getElementById(
-            "targetKmh"
-        )
+        .getElementById("targetKmh")
         .textContent =
         speedKmh.toFixed(2) +
         " km/h";
 
 
     document
-        .getElementById(
-            "targetMph"
-        )
+        .getElementById("targetMph")
         .textContent =
         speedMph.toFixed(2) +
         " mph";
 
 
     updateTargetPresetSelection();
-
-
-    renderSplits(
-        target
-    );
-
-
+    updateStrategyDisplay(target);
+    renderSplits(target);
     saveTargetInputs();
 
 
@@ -1826,6 +1720,358 @@ function calculateTargetPace() {
 }
 
 
+/* RACE STRATEGY */
+
+function updateStrategyButtonState() {
+
+    strategyButtons.forEach(
+        function (button) {
+
+            setButtonActive(
+                button,
+                button.dataset.strategy ===
+                    currentRaceStrategy
+            );
+
+        }
+    );
+
+}
+
+
+function getStrategyPaces(target) {
+
+    const averagePacePerUnit =
+        target.totalSeconds /
+        target.distance;
+
+
+    if (
+        currentRaceStrategy ===
+        "negative"
+    ) {
+
+        return {
+            opening:
+                averagePacePerUnit *
+                NEGATIVE_SPLIT_OPENING_FACTOR,
+
+            middle:
+                averagePacePerUnit *
+                NEGATIVE_SPLIT_MIDDLE_FACTOR,
+
+            finish:
+                averagePacePerUnit *
+                NEGATIVE_SPLIT_FINISH_FACTOR
+        };
+
+    }
+
+
+    return {
+        opening:
+            averagePacePerUnit,
+
+        middle:
+            averagePacePerUnit,
+
+        finish:
+            averagePacePerUnit
+    };
+
+}
+
+
+function formatStrategyPace(
+    pacePerInputUnit,
+    unit
+) {
+
+    if (unit === "miles") {
+
+        const paceKm =
+            pacePerInputUnit /
+            KM_PER_MILE;
+
+
+        return (
+            formatPace(paceKm) +
+            " /km"
+        );
+
+    }
+
+
+    return (
+        formatPace(
+            pacePerInputUnit
+        ) +
+        " /km"
+    );
+
+}
+
+
+function updateStrategyDisplay(target) {
+
+    updateStrategyButtonState();
+
+
+    const paces =
+        getStrategyPaces(target);
+
+
+    if (
+        currentRaceStrategy ===
+        "negative"
+    ) {
+
+        strategyExplanation.textContent =
+            "Start the first 20% around 3% slower than your average target pace, settle into target pace for the middle 60%, then run the final 20% around 3% faster. The phases balance to preserve your exact target finish time.";
+
+
+        strategyPhaseOneLabel.textContent =
+            "Opening 20%";
+
+        strategyPhaseTwoLabel.textContent =
+            "Middle 60%";
+
+        strategyPhaseThreeLabel.textContent =
+            "Final 20%";
+
+    } else {
+
+        strategyExplanation.textContent =
+            "Maintain the same average pace from the start line to the finish. This is the simplest pacing plan and produces evenly spaced cumulative splits.";
+
+
+        strategyPhaseOneLabel.textContent =
+            "Opening";
+
+        strategyPhaseTwoLabel.textContent =
+            "Middle";
+
+        strategyPhaseThreeLabel.textContent =
+            "Finish";
+
+    }
+
+
+    strategyPhaseOnePace.textContent =
+        formatStrategyPace(
+            paces.opening,
+            target.unit
+        );
+
+
+    strategyPhaseTwoPace.textContent =
+        formatStrategyPace(
+            paces.middle,
+            target.unit
+        );
+
+
+    strategyPhaseThreePace.textContent =
+        formatStrategyPace(
+            paces.finish,
+            target.unit
+        );
+
+
+    if (
+        currentRaceStrategy ===
+        "negative"
+    ) {
+
+        strategyPhaseOneDistance.textContent =
+            "First " +
+            formatSplitDistance(
+                target.distance * 0.20,
+                target.unit
+            );
+
+
+        strategyPhaseTwoDistance.textContent =
+            "Next " +
+            formatSplitDistance(
+                target.distance * 0.60,
+                target.unit
+            );
+
+
+        strategyPhaseThreeDistance.textContent =
+            "Final " +
+            formatSplitDistance(
+                target.distance * 0.20,
+                target.unit
+            );
+
+    } else {
+
+        const thirds =
+            target.distance / 3;
+
+
+        strategyPhaseOneDistance.textContent =
+            "Approx. first " +
+            formatSplitDistance(
+                thirds,
+                target.unit
+            );
+
+
+        strategyPhaseTwoDistance.textContent =
+            "Approx. middle " +
+            formatSplitDistance(
+                thirds,
+                target.unit
+            );
+
+
+        strategyPhaseThreeDistance.textContent =
+            "Approx. final " +
+            formatSplitDistance(
+                thirds,
+                target.unit
+            );
+
+    }
+
+}
+
+
+function getStrategyCumulativeTime(
+    checkpoint,
+    target
+) {
+
+    if (
+        currentRaceStrategy ===
+        "even"
+    ) {
+
+        return (
+            target.totalSeconds *
+            (
+                checkpoint /
+                target.distance
+            )
+        );
+
+    }
+
+
+    const averagePacePerUnit =
+        target.totalSeconds /
+        target.distance;
+
+
+    const openingPace =
+        averagePacePerUnit *
+        NEGATIVE_SPLIT_OPENING_FACTOR;
+
+
+    const middlePace =
+        averagePacePerUnit *
+        NEGATIVE_SPLIT_MIDDLE_FACTOR;
+
+
+    const finishPace =
+        averagePacePerUnit *
+        NEGATIVE_SPLIT_FINISH_FACTOR;
+
+
+    const openingEnd =
+        target.distance * 0.20;
+
+
+    const middleEnd =
+        target.distance * 0.80;
+
+
+    if (
+        checkpoint <=
+        openingEnd
+    ) {
+
+        return (
+            checkpoint *
+            openingPace
+        );
+
+    }
+
+
+    const openingTime =
+        openingEnd *
+        openingPace;
+
+
+    if (
+        checkpoint <=
+        middleEnd
+    ) {
+
+        return (
+            openingTime +
+            (
+                checkpoint -
+                openingEnd
+            ) *
+            middlePace
+        );
+
+    }
+
+
+    const middleDistance =
+        middleEnd -
+        openingEnd;
+
+
+    const middleTime =
+        middleDistance *
+        middlePace;
+
+
+    return (
+        openingTime +
+        middleTime +
+        (
+            checkpoint -
+            middleEnd
+        ) *
+        finishPace
+    );
+
+}
+
+
+function selectRaceStrategy(strategy) {
+
+    currentRaceStrategy =
+        strategy;
+
+
+    updateStrategyButtonState();
+
+
+    const target =
+        getTargetValues();
+
+
+    if (!target.error) {
+
+        updateStrategyDisplay(target);
+        renderSplits(target);
+        saveTargetInputs();
+
+    }
+
+}
+
+
+/* SPLITS */
 
 function getKeySplitDistances(
     distance,
@@ -1876,14 +2122,11 @@ function getKeySplitDistances(
 }
 
 
-
 function getEverySplitDistances(
     distance
 ) {
 
-    const splits =
-        [];
-
+    const splits = [];
 
     const fullUnits =
         Math.floor(distance);
@@ -1907,39 +2150,6 @@ function getEverySplitDistances(
     return splits;
 
 }
-
-
-
-function formatSplitDistance(
-    distance,
-    unit
-) {
-
-    const unitLabel =
-        unit === "miles"
-            ? "mi"
-            : "km";
-
-
-    if (Number.isInteger(distance)) {
-
-        return (
-            distance +
-            " " +
-            unitLabel
-        );
-
-    }
-
-
-    return (
-        distance.toFixed(2) +
-        " " +
-        unitLabel
-    );
-
-}
-
 
 
 function createSplitRow(
@@ -1967,24 +2177,19 @@ function createSplitRow(
         "split-distance";
 
 
-    if (isFinish) {
+    distanceCell.textContent =
+        isFinish
 
-        distanceCell.textContent =
-            "FINISH · " +
-            formatSplitDistance(
-                checkpoint,
-                unit
-            );
+            ? "FINISH · " +
+              formatSplitDistance(
+                  checkpoint,
+                  unit
+              )
 
-    } else {
-
-        distanceCell.textContent =
-            formatSplitDistance(
-                checkpoint,
-                unit
-            );
-
-    }
+            : formatSplitDistance(
+                  checkpoint,
+                  unit
+              );
 
 
     const timeCell =
@@ -1999,14 +2204,8 @@ function createSplitRow(
         formatTime(time);
 
 
-    row.appendChild(
-        distanceCell
-    );
-
-
-    row.appendChild(
-        timeCell
-    );
+    row.appendChild(distanceCell);
+    row.appendChild(timeCell);
 
 
     return row;
@@ -2014,11 +2213,9 @@ function createSplitRow(
 }
 
 
-
 function renderSplits(target) {
 
-    splitRows.innerHTML =
-        "";
+    splitRows.innerHTML = "";
 
 
     const splitDistances =
@@ -2038,10 +2235,9 @@ function renderSplits(target) {
         function (checkpoint) {
 
             const checkpointTime =
-                target.totalSeconds *
-                (
-                    checkpoint /
-                    target.distance
+                getStrategyCumulativeTime(
+                    checkpoint,
+                    target
                 );
 
 
@@ -2054,9 +2250,7 @@ function renderSplits(target) {
                 );
 
 
-            splitRows.appendChild(
-                row
-            );
+            splitRows.appendChild(row);
 
         }
     );
@@ -2082,23 +2276,34 @@ function renderSplits(target) {
             : "kilometre";
 
 
+    const strategyName =
+        currentRaceStrategy === "negative"
+            ? "slight negative split"
+            : "even pace";
+
+
     if (showEverySplit) {
 
         splitSummary.textContent =
             "Showing every " +
             unitWord +
-            " split.";
+            " split using a " +
+            strategyName +
+            " strategy.";
 
     } else {
 
         splitSummary.textContent =
-            "Showing key race checkpoints.";
+            "Showing key race checkpoints using a " +
+            strategyName +
+            " strategy.";
 
     }
 
 }
 
 
+/* PRESET SELECTION */
 
 function selectPreset(button) {
 
@@ -2107,10 +2312,7 @@ function selectPreset(button) {
         "true"
     ) {
 
-        removeActive(
-            presetButtons
-        );
-
+        removeActive(presetButtons);
 
         setButtonActive(
             button,
@@ -2119,9 +2321,7 @@ function selectPreset(button) {
 
 
         distanceInput.focus();
-
         distanceInput.select();
-
 
         return;
 
@@ -2139,7 +2339,6 @@ function selectPreset(button) {
     calculatePace();
 
 }
-
 
 
 function selectTargetPreset(button) {
@@ -2160,19 +2359,14 @@ function selectTargetPreset(button) {
         );
 
 
-        currentTargetRaceKey =
-            null;
+        currentTargetRaceKey = null;
 
 
-        renderGoalShortcuts(
-            null
-        );
+        renderGoalShortcuts(null);
 
 
         targetDistanceInput.focus();
-
         targetDistanceInput.select();
-
 
         return;
 
@@ -2201,23 +2395,16 @@ function selectTargetPreset(button) {
 }
 
 
+/* RESET */
 
 function resetStrideMetrics() {
 
-    distanceInput.value =
-        "10";
+    distanceInput.value = "10";
+    distanceUnitInput.value = "km";
 
-    distanceUnitInput.value =
-        "km";
-
-    hoursInput.value =
-        "0";
-
-    minutesInput.value =
-        "45";
-
-    secondsInput.value =
-        "0";
+    hoursInput.value = "0";
+    minutesInput.value = "45";
+    secondsInput.value = "0";
 
 
     localStorage.removeItem(
@@ -2226,8 +2413,6 @@ function resetStrideMetrics() {
 
 
     clearError();
-
-
     calculatePace();
 
 
@@ -2235,7 +2420,6 @@ function resetStrideMetrics() {
         "Reset to default 10K in 45:00.";
 
 }
-
 
 
 function resetTargetCalculator() {
@@ -2260,6 +2444,10 @@ function resetTargetCalculator() {
         "half";
 
 
+    currentRaceStrategy =
+        "even";
+
+
     renderGoalShortcuts(
         currentTargetRaceKey
     );
@@ -2268,8 +2456,7 @@ function resetTargetCalculator() {
     clearGoalShortcutSelection();
 
 
-    showEverySplit =
-        false;
+    showEverySplit = false;
 
 
     splitToggle.textContent =
@@ -2282,19 +2469,21 @@ function resetTargetCalculator() {
     );
 
 
+    updateStrategyButtonState();
+
+
     localStorage.removeItem(
         "strideMetricsTargetInputs"
     );
 
 
     clearTargetError();
-
-
     calculateTargetPace();
 
 }
 
 
+/* SPLIT TOGGLE */
 
 function toggleSplits() {
 
@@ -2323,11 +2512,7 @@ function toggleSplits() {
     if (target.error) {
 
         clearTargetResults();
-
-        showTargetError(
-            target.error
-        );
-
+        showTargetError(target.error);
 
         return;
 
@@ -2335,15 +2520,12 @@ function toggleSplits() {
 
 
     clearTargetError();
-
-
-    renderSplits(
-        target
-    );
+    renderSplits(target);
 
 }
 
 
+/* COPY / SHARE */
 
 function getRunSummary() {
 
@@ -2352,9 +2534,7 @@ function getRunSummary() {
 
 
     if (!valid) {
-
         return "";
-
     }
 
 
@@ -2363,9 +2543,7 @@ function getRunSummary() {
 
 
     if (run.error) {
-
         return "";
-
     }
 
 
@@ -2461,7 +2639,6 @@ function getRunSummary() {
 }
 
 
-
 function getRacePlanSummary() {
 
     const valid =
@@ -2469,9 +2646,7 @@ function getRacePlanSummary() {
 
 
     if (!valid) {
-
         return "";
-
     }
 
 
@@ -2480,9 +2655,7 @@ function getRacePlanSummary() {
 
 
     if (target.error) {
-
         return "";
-
     }
 
 
@@ -2490,6 +2663,15 @@ function getRacePlanSummary() {
         target.unit === "miles"
             ? "miles"
             : "km";
+
+
+    const strategyName =
+        currentRaceStrategy ===
+        "negative"
+
+            ? "Slight negative split"
+
+            : "Even pace";
 
 
     const lines = [
@@ -2509,7 +2691,7 @@ function getRacePlanSummary() {
 
         "",
 
-        "Required pace: " +
+        "Required average pace: " +
         document
             .getElementById(
                 "targetPaceKm"
@@ -2534,6 +2716,20 @@ function getRacePlanSummary() {
                 "targetMph"
             )
             .textContent,
+
+        "",
+
+        "Race strategy: " +
+        strategyName,
+
+        "Opening: " +
+        strategyPhaseOnePace.textContent,
+
+        "Middle: " +
+        strategyPhaseTwoPace.textContent,
+
+        "Finish: " +
+        strategyPhaseThreePace.textContent,
 
         "",
 
@@ -2593,37 +2789,6 @@ function getRacePlanSummary() {
 }
 
 
-
-function showActionMessage(
-    element,
-    message
-) {
-
-    element.textContent =
-        message;
-
-
-    element.style.display =
-        "block";
-
-
-    window.setTimeout(
-        function () {
-
-            element.style.display =
-                "none";
-
-            element.textContent =
-                "";
-
-        },
-        3000
-    );
-
-}
-
-
-
 async function copyText(text) {
 
     if (!text) {
@@ -2643,7 +2808,6 @@ async function copyText(text) {
         await navigator.clipboard
             .writeText(text);
 
-
         return;
 
     }
@@ -2655,13 +2819,10 @@ async function copyText(text) {
         );
 
 
-    textarea.value =
-        text;
-
+    textarea.value = text;
 
     textarea.style.position =
         "fixed";
-
 
     textarea.style.opacity =
         "0";
@@ -2673,7 +2834,6 @@ async function copyText(text) {
 
 
     textarea.focus();
-
     textarea.select();
 
 
@@ -2685,7 +2845,6 @@ async function copyText(text) {
     textarea.remove();
 
 }
-
 
 
 async function shareText(
@@ -2701,7 +2860,6 @@ async function shareText(
             "Please correct the highlighted inputs before sharing."
         );
 
-
         return;
 
     }
@@ -2712,11 +2870,8 @@ async function shareText(
         try {
 
             await navigator.share({
-                title:
-                    title,
-
-                text:
-                    text
+                title,
+                text
             });
 
 
@@ -2766,6 +2921,7 @@ async function shareText(
 }
 
 
+/* EVENTS */
 
 calculateButton.addEventListener(
     "click",
@@ -2803,6 +2959,23 @@ splitToggle.addEventListener(
 );
 
 
+strategyButtons.forEach(
+    function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                selectRaceStrategy(
+                    button.dataset.strategy
+                );
+
+            }
+        );
+
+    }
+);
+
 
 copyRunButton.addEventListener(
     "click",
@@ -2819,7 +2992,6 @@ copyRunButton.addEventListener(
                 "Please correct the run details before copying."
             );
 
-
             return;
 
         }
@@ -2827,9 +2999,7 @@ copyRunButton.addEventListener(
 
         try {
 
-            await copyText(
-                summary
-            );
+            await copyText(summary);
 
 
             showActionMessage(
@@ -2850,7 +3020,6 @@ copyRunButton.addEventListener(
 );
 
 
-
 shareRunButton.addEventListener(
     "click",
     function () {
@@ -2869,7 +3038,6 @@ shareRunButton.addEventListener(
 );
 
 
-
 copyRacePlanButton.addEventListener(
     "click",
     async function () {
@@ -2885,7 +3053,6 @@ copyRacePlanButton.addEventListener(
                 "Please correct the race-plan details before copying."
             );
 
-
             return;
 
         }
@@ -2893,9 +3060,7 @@ copyRacePlanButton.addEventListener(
 
         try {
 
-            await copyText(
-                summary
-            );
+            await copyText(summary);
 
 
             showActionMessage(
@@ -2916,7 +3081,6 @@ copyRacePlanButton.addEventListener(
 );
 
 
-
 shareRacePlanButton.addEventListener(
     "click",
     function () {
@@ -2935,7 +3099,6 @@ shareRacePlanButton.addEventListener(
 );
 
 
-
 presetButtons.forEach(
     function (button) {
 
@@ -2943,16 +3106,13 @@ presetButtons.forEach(
             "click",
             function () {
 
-                selectPreset(
-                    button
-                );
+                selectPreset(button);
 
             }
         );
 
     }
 );
-
 
 
 targetPresetButtons.forEach(
@@ -2973,7 +3133,6 @@ targetPresetButtons.forEach(
 );
 
 
-
 distanceInput.addEventListener(
     "input",
     updatePresetSelection
@@ -2985,12 +3144,10 @@ targetDistanceInput.addEventListener(
     function () {
 
         clearGoalShortcutSelection();
-
         updateTargetPresetSelection();
 
     }
 );
-
 
 
 distanceUnitInput.addEventListener(
@@ -2998,12 +3155,10 @@ distanceUnitInput.addEventListener(
     function () {
 
         updatePresetSelection();
-
         calculatePace();
 
     }
 );
-
 
 
 targetDistanceUnitInput.addEventListener(
@@ -3011,14 +3166,11 @@ targetDistanceUnitInput.addEventListener(
     function () {
 
         clearGoalShortcutSelection();
-
         updateTargetPresetSelection();
-
         calculateTargetPace();
 
     }
 );
-
 
 
 const enterInputs = [
@@ -3050,7 +3202,6 @@ enterInputs.forEach(
 
     }
 );
-
 
 
 const targetEnterInputs = [
@@ -3094,6 +3245,7 @@ targetEnterInputs.forEach(
 );
 
 
+/* INITIALISE */
 
 loadTheme();
 
@@ -3115,6 +3267,9 @@ if (restoredTargetInputs) {
     currentTargetRaceKey =
         "half";
 
+    currentRaceStrategy =
+        "even";
+
 
     renderGoalShortcuts(
         currentTargetRaceKey
@@ -3122,5 +3277,7 @@ if (restoredTargetInputs) {
 
 }
 
+
+updateStrategyButtonState();
 
 calculateTargetPace();
