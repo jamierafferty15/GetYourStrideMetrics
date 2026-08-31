@@ -626,6 +626,115 @@ function validateInputs(
 
 
 
+function clearRunResults() {
+
+    const ids = [
+        "paceKmResult",
+        "paceMileResult",
+        "kmhResult",
+        "mphResult",
+
+        "same5k",
+        "samePace5k",
+        "same10k",
+        "samePace10k",
+        "sameHalf",
+        "samePaceHalf",
+        "sameMarathon",
+        "samePaceMarathon",
+
+        "predicted5k",
+        "predictedPace5k",
+        "predicted10k",
+        "predictedPace10k",
+        "predictedHalf",
+        "predictedPaceHalf",
+        "predictedMarathon",
+        "predictedPaceMarathon",
+
+        "easyPace",
+        "easyPaceMile",
+        "steadyPace",
+        "steadyPaceMile",
+        "tempoPace",
+        "tempoPaceMile",
+        "intervalPace",
+        "intervalPaceMile"
+    ];
+
+
+    ids.forEach(
+        function (
+            id
+        ) {
+
+            const element =
+                document.getElementById(
+                    id
+                );
+
+
+            if (
+                element
+            ) {
+
+                element.textContent =
+                    "--";
+
+            }
+
+        }
+    );
+
+}
+
+
+
+function clearTargetResults() {
+
+    const ids = [
+        "targetPaceKm",
+        "targetPaceMile",
+        "targetKmh",
+        "targetMph"
+    ];
+
+
+    ids.forEach(
+        function (
+            id
+        ) {
+
+            const element =
+                document.getElementById(
+                    id
+                );
+
+
+            if (
+                element
+            ) {
+
+                element.textContent =
+                    "--";
+
+            }
+
+        }
+    );
+
+
+    splitRows.innerHTML =
+        "";
+
+
+    splitSummary.textContent =
+        "";
+
+}
+
+
+
 function removeActive(
     buttons
 ) {
@@ -1576,10 +1685,7 @@ function toggleTheme() {
 
 
 
-function calculatePace() {
-
-    clearError();
-
+function getRunValues() {
 
     const distance =
         Number(
@@ -1587,7 +1693,7 @@ function calculatePace() {
         );
 
 
-    const distanceUnit =
+    const unit =
         distanceUnitInput.value;
 
 
@@ -1623,11 +1729,10 @@ function calculatePace() {
         ""
     ) {
 
-        showError(
-            validationMessage
-        );
-
-        return;
+        return {
+            error:
+                validationMessage
+        };
 
     }
 
@@ -1643,7 +1748,7 @@ function calculatePace() {
 
 
     const distanceKm =
-        distanceUnit ===
+        unit ===
         "miles"
 
             ? distance *
@@ -1652,9 +1757,46 @@ function calculatePace() {
             : distance;
 
 
+    return {
+        distance,
+        unit,
+        totalSeconds,
+        distanceKm
+    };
+
+}
+
+
+
+function calculatePace() {
+
+    clearError();
+
+
+    const run =
+        getRunValues();
+
+
+    if (
+        run.error
+    ) {
+
+        clearRunResults();
+
+
+        showError(
+            run.error
+        );
+
+
+        return false;
+
+    }
+
+
     const paceSecondsPerKm =
-        totalSeconds /
-        distanceKm;
+        run.totalSeconds /
+        run.distanceKm;
 
 
     const paceSecondsPerMile =
@@ -1663,9 +1805,9 @@ function calculatePace() {
 
 
     const speedKmh =
-        distanceKm /
+        run.distanceKm /
         (
-            totalSeconds /
+            run.totalSeconds /
             3600
         );
 
@@ -1726,8 +1868,8 @@ function calculatePace() {
 
     const predictions =
         getPredictions(
-            totalSeconds,
-            distanceKm
+            run.totalSeconds,
+            run.distanceKm
         );
 
 
@@ -1745,6 +1887,9 @@ function calculatePace() {
 
 
     saveInputs();
+
+
+    return true;
 
 }
 
@@ -1846,11 +1991,15 @@ function calculateTargetPace() {
         target.error
     ) {
 
+        clearTargetResults();
+
+
         showTargetError(
             target.error
         );
 
-        return;
+
+        return false;
 
     }
 
@@ -1931,6 +2080,9 @@ function calculateTargetPace() {
 
 
     saveTargetInputs();
+
+
+    return true;
 
 }
 
@@ -2381,6 +2533,9 @@ function resetStrideMetrics() {
     );
 
 
+    clearError();
+
+
     calculatePace();
 
 
@@ -2422,6 +2577,9 @@ function resetTargetCalculator() {
     );
 
 
+    clearGoalShortcutSelection();
+
+
     showEverySplit =
         false;
 
@@ -2433,6 +2591,9 @@ function resetTargetCalculator() {
     localStorage.removeItem(
         "strideMetricsTargetInputs"
     );
+
+
+    clearTargetError();
 
 
     calculateTargetPace();
@@ -2460,14 +2621,28 @@ function toggleSplits() {
 
 
     if (
-        !target.error
+        target.error
     ) {
 
-        renderSplits(
-            target
+        clearTargetResults();
+
+
+        showTargetError(
+            target.error
         );
 
+
+        return;
+
     }
+
+
+    clearTargetError();
+
+
+    renderSplits(
+        target
+    );
 
 }
 
@@ -2475,38 +2650,39 @@ function toggleSplits() {
 
 function getRunSummary() {
 
-    calculatePace();
+    const valid =
+        calculatePace();
 
 
-    const distance =
-        distanceInput.value;
+    if (
+        !valid
+    ) {
+
+        return "";
+
+    }
+
+
+    const run =
+        getRunValues();
+
+
+    if (
+        run.error
+    ) {
+
+        return "";
+
+    }
 
 
     const unitLabel =
-        distanceUnitInput.value ===
+        run.unit ===
         "miles"
 
             ? "miles"
 
             : "km";
-
-
-    const totalSeconds =
-        (
-            Number(
-                hoursInput.value
-            ) *
-            3600
-        ) +
-        (
-            Number(
-                minutesInput.value
-            ) *
-            60
-        ) +
-        Number(
-            secondsInput.value
-        );
 
 
     const lines = [
@@ -2515,12 +2691,12 @@ function getRunSummary() {
 
         "",
 
-        distance +
+        run.distance +
         " " +
         unitLabel +
         " in " +
         formatTime(
-            totalSeconds
+            run.totalSeconds
         ),
 
         "",
@@ -2600,7 +2776,17 @@ function getRunSummary() {
 
 function getRacePlanSummary() {
 
-    calculateTargetPace();
+    const valid =
+        calculateTargetPace();
+
+
+    if (
+        !valid
+    ) {
+
+        return "";
+
+    }
 
 
     const target =
@@ -2763,6 +2949,17 @@ async function copyText(
 ) {
 
     if (
+        !text
+    ) {
+
+        throw new Error(
+            "No valid summary available."
+        );
+
+    }
+
+
+    if (
         navigator.clipboard &&
         window.isSecureContext
     ) {
@@ -2823,6 +3020,21 @@ async function shareText(
 ) {
 
     if (
+        !text
+    ) {
+
+        showActionMessage(
+            messageElement,
+            "Please correct the highlighted inputs before sharing."
+        );
+
+
+        return;
+
+    }
+
+
+    if (
         navigator.share
     ) {
 
@@ -2839,7 +3051,7 @@ async function shareText(
 
             showActionMessage(
                 messageElement,
-                "Share menu opened."
+                "Share completed."
             );
 
 
@@ -2931,10 +3143,29 @@ copyRunButton.addEventListener(
     "click",
     async function () {
 
+        const summary =
+            getRunSummary();
+
+
+        if (
+            !summary
+        ) {
+
+            showActionMessage(
+                runActionMessage,
+                "Please correct the run details before copying."
+            );
+
+
+            return;
+
+        }
+
+
         try {
 
             await copyText(
-                getRunSummary()
+                summary
             );
 
 
@@ -2963,9 +3194,13 @@ shareRunButton.addEventListener(
     "click",
     function () {
 
+        const summary =
+            getRunSummary();
+
+
         shareText(
             "GetYourStrideMetrics – Run Analysis",
-            getRunSummary(),
+            summary,
             runActionMessage
         );
 
@@ -2978,10 +3213,29 @@ copyRacePlanButton.addEventListener(
     "click",
     async function () {
 
+        const summary =
+            getRacePlanSummary();
+
+
+        if (
+            !summary
+        ) {
+
+            showActionMessage(
+                raceActionMessage,
+                "Please correct the race-plan details before copying."
+            );
+
+
+            return;
+
+        }
+
+
         try {
 
             await copyText(
-                getRacePlanSummary()
+                summary
             );
 
 
@@ -3010,9 +3264,13 @@ shareRacePlanButton.addEventListener(
     "click",
     function () {
 
+        const summary =
+            getRacePlanSummary();
+
+
         shareText(
             "GetYourStrideMetrics – Race Plan",
-            getRacePlanSummary(),
+            summary,
             raceActionMessage
         );
 
@@ -3162,14 +3420,7 @@ targetEnterInputs.forEach(
             "input",
             function () {
 
-                if (
-                    input !==
-                    targetDistanceInput
-                ) {
-
-                    clearGoalShortcutSelection();
-
-                }
+                clearGoalShortcutSelection();
 
             }
         );
