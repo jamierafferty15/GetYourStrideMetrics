@@ -84,10 +84,10 @@ const goalShortcuts = {
 
     "marathon": [
         {
-        label: "Sub-3:00",
-        hours: 3,
-        minutes: 0,
-        seconds: 0
+            label: "Sub-3:00",
+            hours: 3,
+            minutes: 0,
+            seconds: 0
         },
         {
             label: "Sub-3:30",
@@ -1376,6 +1376,116 @@ function loadSavedInputs() {
 
 
 
+function saveTargetInputs() {
+
+    const settings = {
+
+        distance:
+            targetDistanceInput.value,
+
+        distanceUnit:
+            targetDistanceUnitInput.value,
+
+        hours:
+            targetHoursInput.value,
+
+        minutes:
+            targetMinutesInput.value,
+
+        seconds:
+            targetSecondsInput.value,
+
+        raceKey:
+            currentTargetRaceKey
+
+    };
+
+
+    localStorage.setItem(
+        "strideMetricsTargetInputs",
+        JSON.stringify(
+            settings
+        )
+    );
+
+}
+
+
+
+function loadSavedTargetInputs() {
+
+    const savedInputs =
+        localStorage.getItem(
+            "strideMetricsTargetInputs"
+        );
+
+
+    if (
+        !savedInputs
+    ) {
+
+        return false;
+
+    }
+
+
+    try {
+
+        const settings =
+            JSON.parse(
+                savedInputs
+            );
+
+
+        targetDistanceInput.value =
+            settings.distance ??
+            "21.0975";
+
+
+        targetDistanceUnitInput.value =
+            settings.distanceUnit ??
+            "km";
+
+
+        targetHoursInput.value =
+            settings.hours ??
+            "1";
+
+
+        targetMinutesInput.value =
+            settings.minutes ??
+            "40";
+
+
+        targetSecondsInput.value =
+            settings.seconds ??
+            "0";
+
+
+        currentTargetRaceKey =
+            settings.raceKey ??
+            null;
+
+
+        return true;
+
+    } catch (
+        error
+    ) {
+
+        console.log(
+            "Could not restore saved race-planning inputs."
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+
 function saveTheme(
     theme
 ) {
@@ -1818,6 +1928,9 @@ function calculateTargetPace() {
     renderSplits(
         target
     );
+
+
+    saveTargetInputs();
 
 }
 
@@ -2315,6 +2428,11 @@ function resetTargetCalculator() {
 
     splitToggle.textContent =
         "Show every split";
+
+
+    localStorage.removeItem(
+        "strideMetricsTargetInputs"
+    );
 
 
     calculateTargetPace();
@@ -3086,8 +3204,28 @@ loadSavedInputs();
 
 calculatePace();
 
-renderGoalShortcuts(
-    currentTargetRaceKey
-);
+
+const restoredTargetInputs =
+    loadSavedTargetInputs();
+
+
+if (
+    restoredTargetInputs
+) {
+
+    updateTargetPresetSelection();
+
+} else {
+
+    currentTargetRaceKey =
+        "half";
+
+
+    renderGoalShortcuts(
+        currentTargetRaceKey
+    );
+
+}
+
 
 calculateTargetPace();
