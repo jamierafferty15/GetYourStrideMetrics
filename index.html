@@ -64,7 +64,10 @@
 
                 <div class="brand">
 
-                    <div class="brand-mark">
+                    <div
+                        class="brand-mark"
+                        aria-hidden="true"
+                    >
                         🏃
                     </div>
 
@@ -91,6 +94,7 @@
                     id="themeToggle"
                     class="theme-button"
                     type="button"
+                    aria-pressed="false"
                 >
                     🌙 Dark
                 </button>
@@ -100,7 +104,10 @@
         </header>
 
 
-        <nav class="quick-nav">
+        <nav
+            class="quick-nav"
+            aria-label="Calculator navigation"
+        >
 
             <div class="quick-nav-label">
                 What would you like to do?
@@ -156,12 +163,16 @@
             </h2>
 
 
-            <div class="presets">
+            <div
+                class="presets"
+                aria-label="Run distance presets"
+            >
 
                 <button
                     class="preset-button"
                     data-distance="5"
                     type="button"
+                    aria-pressed="false"
                 >
                     5K
                 </button>
@@ -170,6 +181,7 @@
                     class="preset-button"
                     data-distance="10"
                     type="button"
+                    aria-pressed="false"
                 >
                     10K
                 </button>
@@ -178,6 +190,7 @@
                     class="preset-button"
                     data-distance="21.0975"
                     type="button"
+                    aria-pressed="false"
                 >
                     Half marathon
                 </button>
@@ -186,6 +199,7 @@
                     class="preset-button"
                     data-distance="42.195"
                     type="button"
+                    aria-pressed="false"
                 >
                     Marathon
                 </button>
@@ -195,6 +209,7 @@
                     id="customPreset"
                     data-custom="true"
                     type="button"
+                    aria-pressed="false"
                 >
                     Custom
                 </button>
@@ -322,11 +337,15 @@
             <div
                 id="savedMessage"
                 class="saved-message"
+                role="status"
+                aria-live="polite"
             ></div>
 
             <div
                 id="errorMessage"
                 class="error-message"
+                role="alert"
+                aria-live="assertive"
             ></div>
 
 
@@ -558,6 +577,8 @@
                 <div
                     id="runActionMessage"
                     class="action-message"
+                    role="status"
+                    aria-live="polite"
                 ></div>
 
             </div>
@@ -607,13 +628,17 @@
             </div>
 
 
-            <div class="presets">
+            <div
+                class="presets"
+                aria-label="Target race distance presets"
+            >
 
                 <button
                     class="target-preset-button"
                     data-target-distance="5"
                     data-race-key="5k"
                     type="button"
+                    aria-pressed="false"
                 >
                     5K
                 </button>
@@ -623,6 +648,7 @@
                     data-target-distance="10"
                     data-race-key="10k"
                     type="button"
+                    aria-pressed="false"
                 >
                     10K
                 </button>
@@ -632,6 +658,7 @@
                     data-target-distance="21.0975"
                     data-race-key="half"
                     type="button"
+                    aria-pressed="false"
                 >
                     Half marathon
                 </button>
@@ -641,6 +668,7 @@
                     data-target-distance="42.195"
                     data-race-key="marathon"
                     type="button"
+                    aria-pressed="false"
                 >
                     Marathon
                 </button>
@@ -650,6 +678,7 @@
                     id="targetCustomPreset"
                     data-target-custom="true"
                     type="button"
+                    aria-pressed="false"
                 >
                     Custom
                 </button>
@@ -662,13 +691,17 @@
                 class="goal-shortcuts"
             >
 
-                <div class="goal-shortcuts-label">
+                <div
+                    class="goal-shortcuts-label"
+                    id="goalShortcutsLabel"
+                >
                     Popular goals
                 </div>
 
                 <div
                     id="goalShortcutButtons"
                     class="goal-shortcut-buttons"
+                    aria-labelledby="goalShortcutsLabel"
                 ></div>
 
             </div>
@@ -794,6 +827,8 @@
             <div
                 id="targetErrorMessage"
                 class="error-message"
+                role="alert"
+                aria-live="assertive"
             ></div>
 
 
@@ -841,6 +876,7 @@
                         id="splitToggle"
                         class="split-toggle"
                         type="button"
+                        aria-pressed="false"
                     >
                         Show every split
                     </button>
@@ -863,6 +899,8 @@
                 <div
                     id="splitSummary"
                     class="split-summary"
+                    role="status"
+                    aria-live="polite"
                 ></div>
 
 
@@ -925,6 +963,8 @@
                 <div
                     id="raceActionMessage"
                     class="action-message"
+                    role="status"
+                    aria-live="polite"
                 ></div>
 
             </div>
@@ -943,7 +983,7 @@
             </div>
 
             <div class="version">
-                v0.7
+                v0.8.3
             </div>
 
         </div>

@@ -119,257 +119,135 @@ let currentTargetRaceKey = "half";
 
 
 const calculateButton =
-    document.getElementById(
-        "calculate"
-    );
-
+    document.getElementById("calculate");
 
 const resetButton =
-    document.getElementById(
-        "reset"
-    );
-
+    document.getElementById("reset");
 
 const themeToggle =
-    document.getElementById(
-        "themeToggle"
-    );
-
+    document.getElementById("themeToggle");
 
 const presetButtons =
-    document.querySelectorAll(
-        ".preset-button"
-    );
-
+    document.querySelectorAll(".preset-button");
 
 const customPreset =
-    document.getElementById(
-        "customPreset"
-    );
-
+    document.getElementById("customPreset");
 
 const distanceInput =
-    document.getElementById(
-        "distance"
-    );
-
+    document.getElementById("distance");
 
 const distanceUnitInput =
-    document.getElementById(
-        "distanceUnit"
-    );
-
+    document.getElementById("distanceUnit");
 
 const hoursInput =
-    document.getElementById(
-        "hours"
-    );
-
+    document.getElementById("hours");
 
 const minutesInput =
-    document.getElementById(
-        "minutes"
-    );
-
+    document.getElementById("minutes");
 
 const secondsInput =
-    document.getElementById(
-        "seconds"
-    );
-
+    document.getElementById("seconds");
 
 const errorMessage =
-    document.getElementById(
-        "errorMessage"
-    );
-
+    document.getElementById("errorMessage");
 
 const savedMessage =
-    document.getElementById(
-        "savedMessage"
-    );
-
+    document.getElementById("savedMessage");
 
 
 const targetPresetButtons =
-    document.querySelectorAll(
-        ".target-preset-button"
-    );
-
+    document.querySelectorAll(".target-preset-button");
 
 const targetCustomPreset =
-    document.getElementById(
-        "targetCustomPreset"
-    );
-
+    document.getElementById("targetCustomPreset");
 
 const targetDistanceInput =
-    document.getElementById(
-        "targetDistance"
-    );
-
+    document.getElementById("targetDistance");
 
 const targetDistanceUnitInput =
-    document.getElementById(
-        "targetDistanceUnit"
-    );
-
+    document.getElementById("targetDistanceUnit");
 
 const targetHoursInput =
-    document.getElementById(
-        "targetHours"
-    );
-
+    document.getElementById("targetHours");
 
 const targetMinutesInput =
-    document.getElementById(
-        "targetMinutes"
-    );
-
+    document.getElementById("targetMinutes");
 
 const targetSecondsInput =
-    document.getElementById(
-        "targetSeconds"
-    );
-
+    document.getElementById("targetSeconds");
 
 const calculateTargetButton =
-    document.getElementById(
-        "calculateTarget"
-    );
-
+    document.getElementById("calculateTarget");
 
 const resetTargetButton =
-    document.getElementById(
-        "resetTarget"
-    );
-
+    document.getElementById("resetTarget");
 
 const targetErrorMessage =
-    document.getElementById(
-        "targetErrorMessage"
-    );
-
+    document.getElementById("targetErrorMessage");
 
 const goalShortcutsContainer =
-    document.getElementById(
-        "goalShortcuts"
-    );
-
+    document.getElementById("goalShortcuts");
 
 const goalShortcutButtons =
-    document.getElementById(
-        "goalShortcutButtons"
-    );
-
+    document.getElementById("goalShortcutButtons");
 
 const splitToggle =
-    document.getElementById(
-        "splitToggle"
-    );
-
+    document.getElementById("splitToggle");
 
 const splitRows =
-    document.getElementById(
-        "splitRows"
-    );
-
+    document.getElementById("splitRows");
 
 const splitSummary =
-    document.getElementById(
-        "splitSummary"
-    );
-
+    document.getElementById("splitSummary");
 
 const copyRunButton =
-    document.getElementById(
-        "copyRun"
-    );
-
+    document.getElementById("copyRun");
 
 const shareRunButton =
-    document.getElementById(
-        "shareRun"
-    );
-
+    document.getElementById("shareRun");
 
 const copyRacePlanButton =
-    document.getElementById(
-        "copyRacePlan"
-    );
-
+    document.getElementById("copyRacePlan");
 
 const shareRacePlanButton =
-    document.getElementById(
-        "shareRacePlan"
-    );
-
+    document.getElementById("shareRacePlan");
 
 const runActionMessage =
-    document.getElementById(
-        "runActionMessage"
-    );
-
+    document.getElementById("runActionMessage");
 
 const raceActionMessage =
-    document.getElementById(
-        "raceActionMessage"
-    );
+    document.getElementById("raceActionMessage");
 
 
 
-function formatTime(
-    totalSeconds
-) {
+function formatTime(totalSeconds) {
 
     totalSeconds =
-        Math.round(
-            totalSeconds
-        );
+        Math.round(totalSeconds);
 
 
     const hours =
-        Math.floor(
-            totalSeconds /
-            3600
-        );
+        Math.floor(totalSeconds / 3600);
 
 
     const minutes =
         Math.floor(
-            (
-                totalSeconds %
-                3600
-            ) /
-            60
+            (totalSeconds % 3600) / 60
         );
 
 
     const seconds =
-        totalSeconds %
-        60;
+        totalSeconds % 60;
 
 
-    if (
-        hours > 0
-    ) {
+    if (hours > 0) {
 
         return (
             hours +
             ":" +
-            String(
-                minutes
-            ).padStart(
-                2,
-                "0"
-            ) +
+            String(minutes).padStart(2, "0") +
             ":" +
-            String(
-                seconds
-            ).padStart(
-                2,
-                "0"
-            )
+            String(seconds).padStart(2, "0")
         );
 
     }
@@ -378,39 +256,24 @@ function formatTime(
     return (
         minutes +
         ":" +
-        String(
-            seconds
-        ).padStart(
-            2,
-            "0"
-        )
+        String(seconds).padStart(2, "0")
     );
 
 }
 
 
 
-function formatPace(
-    totalSeconds
-) {
+function formatPace(totalSeconds) {
 
     let minutes =
-        Math.floor(
-            totalSeconds /
-            60
-        );
+        Math.floor(totalSeconds / 60);
 
 
     let seconds =
-        Math.round(
-            totalSeconds %
-            60
-        );
+        Math.round(totalSeconds % 60);
 
 
-    if (
-        seconds === 60
-    ) {
+    if (seconds === 60) {
 
         minutes += 1;
 
@@ -422,12 +285,7 @@ function formatPace(
     return (
         minutes +
         ":" +
-        String(
-            seconds
-        ).padStart(
-            2,
-            "0"
-        )
+        String(seconds).padStart(2, "0")
     );
 
 }
@@ -440,13 +298,9 @@ function formatPaceRange(
 ) {
 
     return (
-        formatPace(
-            fasterSeconds
-        ) +
+        formatPace(fasterSeconds) +
         "–" +
-        formatPace(
-            slowerSeconds
-        ) +
+        formatPace(slowerSeconds) +
         " /km"
     );
 
@@ -476,13 +330,10 @@ function formatMileRange(
 
 
 
-function showError(
-    message
-) {
+function showError(message) {
 
     errorMessage.textContent =
         message;
-
 
     errorMessage.style.display =
         "block";
@@ -496,7 +347,6 @@ function clearError() {
     errorMessage.textContent =
         "";
 
-
     errorMessage.style.display =
         "none";
 
@@ -504,13 +354,10 @@ function clearError() {
 
 
 
-function showTargetError(
-    message
-) {
+function showTargetError(message) {
 
     targetErrorMessage.textContent =
         message;
-
 
     targetErrorMessage.style.display =
         "block";
@@ -523,7 +370,6 @@ function clearTargetError() {
 
     targetErrorMessage.textContent =
         "";
-
 
     targetErrorMessage.style.display =
         "none";
@@ -540,9 +386,7 @@ function validateInputs(
 ) {
 
     if (
-        !Number.isFinite(
-            distance
-        ) ||
+        !Number.isFinite(distance) ||
         distance <= 0
     ) {
 
@@ -554,9 +398,7 @@ function validateInputs(
 
 
     if (
-        !Number.isFinite(
-            hours
-        ) ||
+        !Number.isFinite(hours) ||
         hours < 0
     ) {
 
@@ -568,9 +410,7 @@ function validateInputs(
 
 
     if (
-        !Number.isFinite(
-            minutes
-        ) ||
+        !Number.isFinite(minutes) ||
         minutes < 0 ||
         minutes > 59
     ) {
@@ -583,9 +423,7 @@ function validateInputs(
 
 
     if (
-        !Number.isFinite(
-            seconds
-        ) ||
+        !Number.isFinite(seconds) ||
         seconds < 0 ||
         seconds > 59
     ) {
@@ -598,20 +436,12 @@ function validateInputs(
 
 
     const totalSeconds =
-        (
-            hours *
-            3600
-        ) +
-        (
-            minutes *
-            60
-        ) +
+        (hours * 3600) +
+        (minutes * 60) +
         seconds;
 
 
-    if (
-        totalSeconds <= 0
-    ) {
+    if (totalSeconds <= 0) {
 
         return (
             "Please enter a finishing time greater than 0."
@@ -621,6 +451,45 @@ function validateInputs(
 
 
     return "";
+
+}
+
+
+
+function setButtonActive(
+    button,
+    isActive
+) {
+
+    button.classList.toggle(
+        "active",
+        isActive
+    );
+
+
+    button.setAttribute(
+        "aria-pressed",
+        isActive
+            ? "true"
+            : "false"
+    );
+
+}
+
+
+
+function removeActive(buttons) {
+
+    buttons.forEach(
+        function (button) {
+
+            setButtonActive(
+                button,
+                false
+            );
+
+        }
+    );
 
 }
 
@@ -664,19 +533,13 @@ function clearRunResults() {
 
 
     ids.forEach(
-        function (
-            id
-        ) {
+        function (id) {
 
             const element =
-                document.getElementById(
-                    id
-                );
+                document.getElementById(id);
 
 
-            if (
-                element
-            ) {
+            if (element) {
 
                 element.textContent =
                     "--";
@@ -701,19 +564,13 @@ function clearTargetResults() {
 
 
     ids.forEach(
-        function (
-            id
-        ) {
+        function (id) {
 
             const element =
-                document.getElementById(
-                    id
-                );
+                document.getElementById(id);
 
 
-            if (
-                element
-            ) {
+            if (element) {
 
                 element.textContent =
                     "--";
@@ -727,29 +584,8 @@ function clearTargetResults() {
     splitRows.innerHTML =
         "";
 
-
     splitSummary.textContent =
         "";
-
-}
-
-
-
-function removeActive(
-    buttons
-) {
-
-    buttons.forEach(
-        function (
-            button
-        ) {
-
-            button.classList.remove(
-                "active"
-            );
-
-        }
-    );
 
 }
 
@@ -765,12 +601,11 @@ function clearGoalShortcutSelection() {
 
 
     buttons.forEach(
-        function (
-            button
-        ) {
+        function (button) {
 
-            button.classList.remove(
-                "active"
+            setButtonActive(
+                button,
+                false
             );
 
         }
@@ -780,25 +615,17 @@ function clearGoalShortcutSelection() {
 
 
 
-function renderGoalShortcuts(
-    raceKey
-) {
+function renderGoalShortcuts(raceKey) {
 
     goalShortcutButtons.innerHTML =
         "";
 
 
-    if (
-        !goalShortcuts[
-            raceKey
-        ]
-    ) {
+    if (!goalShortcuts[raceKey]) {
 
         goalShortcutsContainer
             .classList
-            .add(
-                "hidden"
-            );
+            .add("hidden");
 
 
         return;
@@ -808,17 +635,11 @@ function renderGoalShortcuts(
 
     goalShortcutsContainer
         .classList
-        .remove(
-            "hidden"
-        );
+        .remove("hidden");
 
 
-    goalShortcuts[
-        raceKey
-    ].forEach(
-        function (
-            shortcut
-        ) {
+    goalShortcuts[raceKey].forEach(
+        function (shortcut) {
 
             const button =
                 document.createElement(
@@ -838,6 +659,12 @@ function renderGoalShortcuts(
                 shortcut.label;
 
 
+            button.setAttribute(
+                "aria-pressed",
+                "false"
+            );
+
+
             button.addEventListener(
                 "click",
                 function () {
@@ -845,10 +672,8 @@ function renderGoalShortcuts(
                     targetHoursInput.value =
                         shortcut.hours;
 
-
                     targetMinutesInput.value =
                         shortcut.minutes;
-
 
                     targetSecondsInput.value =
                         shortcut.seconds;
@@ -857,8 +682,9 @@ function renderGoalShortcuts(
                     clearGoalShortcutSelection();
 
 
-                    button.classList.add(
-                        "active"
+                    setButtonActive(
+                        button,
+                        true
                     );
 
 
@@ -869,9 +695,7 @@ function renderGoalShortcuts(
 
 
             goalShortcutButtons
-                .appendChild(
-                    button
-                );
+                .appendChild(button);
 
         }
     );
@@ -883,9 +707,7 @@ function renderGoalShortcuts(
 function updatePresetSelection() {
 
     const distance =
-        Number(
-            distanceInput.value
-        );
+        Number(distanceInput.value);
 
 
     const unit =
@@ -901,14 +723,10 @@ function updatePresetSelection() {
     );
 
 
-    if (
-        unit === "km"
-    ) {
+    if (unit === "km") {
 
         presetButtons.forEach(
-            function (
-                button
-            ) {
+            function (button) {
 
                 if (
                     button.dataset.distance
@@ -928,8 +746,9 @@ function updatePresetSelection() {
                         0.0001
                     ) {
 
-                        button.classList.add(
-                            "active"
+                        setButtonActive(
+                            button,
+                            true
                         );
 
 
@@ -946,12 +765,11 @@ function updatePresetSelection() {
     }
 
 
-    if (
-        !matchedPreset
-    ) {
+    if (!matchedPreset) {
 
-        customPreset.classList.add(
-            "active"
+        setButtonActive(
+            customPreset,
+            true
         );
 
     }
@@ -984,14 +802,10 @@ function updateTargetPresetSelection() {
     );
 
 
-    if (
-        unit === "km"
-    ) {
+    if (unit === "km") {
 
         targetPresetButtons.forEach(
-            function (
-                button
-            ) {
+            function (button) {
 
                 if (
                     button.dataset.targetDistance
@@ -1011,8 +825,9 @@ function updateTargetPresetSelection() {
                         0.0001
                     ) {
 
-                        button.classList.add(
-                            "active"
+                        setButtonActive(
+                            button,
+                            true
                         );
 
 
@@ -1033,12 +848,11 @@ function updateTargetPresetSelection() {
     }
 
 
-    if (
-        !matchedPreset
-    ) {
+    if (!matchedPreset) {
 
-        targetCustomPreset.classList.add(
-            "active"
+        setButtonActive(
+            targetCustomPreset,
+            true
         );
 
 
@@ -1050,22 +864,31 @@ function updateTargetPresetSelection() {
             null
         );
 
-    } else {
 
-        if (
-            currentTargetRaceKey !==
-            matchedRaceKey
-        ) {
+        return;
 
-            currentTargetRaceKey =
-                matchedRaceKey;
+    }
 
 
-            renderGoalShortcuts(
-                currentTargetRaceKey
-            );
+    const shortcutsMissing =
+        goalShortcutButtons
+            .children
+            .length === 0;
 
-        }
+
+    if (
+        currentTargetRaceKey !==
+        matchedRaceKey ||
+        shortcutsMissing
+    ) {
+
+        currentTargetRaceKey =
+            matchedRaceKey;
+
+
+        renderGoalShortcuts(
+            currentTargetRaceKey
+        );
 
     }
 
@@ -1126,9 +949,7 @@ function displaySamePace(
 
 
     races.forEach(
-        function (
-            race
-        ) {
+        function (race) {
 
             document
                 .getElementById(
@@ -1237,9 +1058,7 @@ function displayPredictions(
 
 
     races.forEach(
-        function (
-            race
-        ) {
+        function (race) {
 
             document
                 .getElementById(
@@ -1327,9 +1146,7 @@ function displayTrainingPaces(
     ) {
 
         document
-            .getElementById(
-                kmId
-            )
+            .getElementById(kmId)
             .textContent =
             formatPaceRange(
                 range.fast,
@@ -1338,9 +1155,7 @@ function displayTrainingPaces(
 
 
         document
-            .getElementById(
-                mileId
-            )
+            .getElementById(mileId)
             .textContent =
             formatMileRange(
                 range.fast,
@@ -1405,9 +1220,7 @@ function saveInputs() {
 
     localStorage.setItem(
         "strideMetricsInputs",
-        JSON.stringify(
-            settings
-        )
+        JSON.stringify(settings)
     );
 
 
@@ -1426,9 +1239,7 @@ function loadSavedInputs() {
         );
 
 
-    if (
-        !savedInputs
-    ) {
+    if (!savedInputs) {
 
         return;
 
@@ -1438,30 +1249,24 @@ function loadSavedInputs() {
     try {
 
         const settings =
-            JSON.parse(
-                savedInputs
-            );
+            JSON.parse(savedInputs);
 
 
         distanceInput.value =
             settings.distance ??
             "10";
 
-
         distanceUnitInput.value =
             settings.distanceUnit ??
             "km";
-
 
         hoursInput.value =
             settings.hours ??
             "0";
 
-
         minutesInput.value =
             settings.minutes ??
             "45";
-
 
         secondsInput.value =
             settings.seconds ??
@@ -1471,9 +1276,7 @@ function loadSavedInputs() {
         savedMessage.textContent =
             "Your last run details were restored.";
 
-    } catch (
-        error
-    ) {
+    } catch (error) {
 
         console.log(
             "Could not restore saved inputs."
@@ -1512,9 +1315,7 @@ function saveTargetInputs() {
 
     localStorage.setItem(
         "strideMetricsTargetInputs",
-        JSON.stringify(
-            settings
-        )
+        JSON.stringify(settings)
     );
 
 }
@@ -1529,9 +1330,7 @@ function loadSavedTargetInputs() {
         );
 
 
-    if (
-        !savedInputs
-    ) {
+    if (!savedInputs) {
 
         return false;
 
@@ -1541,35 +1340,28 @@ function loadSavedTargetInputs() {
     try {
 
         const settings =
-            JSON.parse(
-                savedInputs
-            );
+            JSON.parse(savedInputs);
 
 
         targetDistanceInput.value =
             settings.distance ??
             "21.0975";
 
-
         targetDistanceUnitInput.value =
             settings.distanceUnit ??
             "km";
-
 
         targetHoursInput.value =
             settings.hours ??
             "1";
 
-
         targetMinutesInput.value =
             settings.minutes ??
             "40";
 
-
         targetSecondsInput.value =
             settings.seconds ??
             "0";
-
 
         currentTargetRaceKey =
             settings.raceKey ??
@@ -1578,9 +1370,7 @@ function loadSavedTargetInputs() {
 
         return true;
 
-    } catch (
-        error
-    ) {
+    } catch (error) {
 
         console.log(
             "Could not restore saved race-planning inputs."
@@ -1595,9 +1385,7 @@ function loadSavedTargetInputs() {
 
 
 
-function saveTheme(
-    theme
-) {
+function saveTheme(theme) {
 
     localStorage.setItem(
         "strideMetricsTheme",
@@ -1613,15 +1401,21 @@ function updateThemeButton() {
     const darkMode =
         document.body
             .classList
-            .contains(
-                "dark-mode"
-            );
+            .contains("dark-mode");
 
 
     themeToggle.textContent =
         darkMode
             ? "☀️ Light"
             : "🌙 Dark";
+
+
+    themeToggle.setAttribute(
+        "aria-pressed",
+        darkMode
+            ? "true"
+            : "false"
+    );
 
 }
 
@@ -1635,16 +1429,11 @@ function loadTheme() {
         );
 
 
-    if (
-        savedTheme ===
-        "dark"
-    ) {
+    if (savedTheme === "dark") {
 
         document.body
             .classList
-            .add(
-                "dark-mode"
-            );
+            .add("dark-mode");
 
     }
 
@@ -1659,17 +1448,13 @@ function toggleTheme() {
 
     document.body
         .classList
-        .toggle(
-            "dark-mode"
-        );
+        .toggle("dark-mode");
 
 
     const darkMode =
         document.body
             .classList
-            .contains(
-                "dark-mode"
-            );
+            .contains("dark-mode");
 
 
     saveTheme(
@@ -1688,31 +1473,19 @@ function toggleTheme() {
 function getRunValues() {
 
     const distance =
-        Number(
-            distanceInput.value
-        );
-
+        Number(distanceInput.value);
 
     const unit =
         distanceUnitInput.value;
 
-
     const hours =
-        Number(
-            hoursInput.value
-        );
-
+        Number(hoursInput.value);
 
     const minutes =
-        Number(
-            minutesInput.value
-        );
-
+        Number(minutesInput.value);
 
     const seconds =
-        Number(
-            secondsInput.value
-        );
+        Number(secondsInput.value);
 
 
     const validationMessage =
@@ -1724,10 +1497,7 @@ function getRunValues() {
         );
 
 
-    if (
-        validationMessage !==
-        ""
-    ) {
+    if (validationMessage !== "") {
 
         return {
             error:
@@ -1738,18 +1508,13 @@ function getRunValues() {
 
 
     const totalSeconds =
-        (
-            hours * 3600
-        ) +
-        (
-            minutes * 60
-        ) +
+        (hours * 3600) +
+        (minutes * 60) +
         seconds;
 
 
     const distanceKm =
-        unit ===
-        "miles"
+        unit === "miles"
 
             ? distance *
               KM_PER_MILE
@@ -1777,12 +1542,9 @@ function calculatePace() {
         getRunValues();
 
 
-    if (
-        run.error
-    ) {
+    if (run.error) {
 
         clearRunResults();
-
 
         showError(
             run.error
@@ -1844,9 +1606,7 @@ function calculatePace() {
             "kmhResult"
         )
         .textContent =
-        speedKmh.toFixed(
-            2
-        ) +
+        speedKmh.toFixed(2) +
         " km/h";
 
 
@@ -1855,9 +1615,7 @@ function calculatePace() {
             "mphResult"
         )
         .textContent =
-        speedMph.toFixed(
-            2
-        ) +
+        speedMph.toFixed(2) +
         " mph";
 
 
@@ -1902,22 +1660,18 @@ function getTargetValues() {
             targetDistanceInput.value
         );
 
-
     const unit =
         targetDistanceUnitInput.value;
-
 
     const hours =
         Number(
             targetHoursInput.value
         );
 
-
     const minutes =
         Number(
             targetMinutesInput.value
         );
-
 
     const seconds =
         Number(
@@ -1934,10 +1688,7 @@ function getTargetValues() {
         );
 
 
-    if (
-        validationMessage !==
-        ""
-    ) {
+    if (validationMessage !== "") {
 
         return {
             error:
@@ -1948,18 +1699,13 @@ function getTargetValues() {
 
 
     const totalSeconds =
-        (
-            hours * 3600
-        ) +
-        (
-            minutes * 60
-        ) +
+        (hours * 3600) +
+        (minutes * 60) +
         seconds;
 
 
     const distanceKm =
-        unit ===
-        "miles"
+        unit === "miles"
 
             ? distance *
               KM_PER_MILE
@@ -1987,12 +1733,9 @@ function calculateTargetPace() {
         getTargetValues();
 
 
-    if (
-        target.error
-    ) {
+    if (target.error) {
 
         clearTargetResults();
-
 
         showTargetError(
             target.error
@@ -2054,9 +1797,7 @@ function calculateTargetPace() {
             "targetKmh"
         )
         .textContent =
-        speedKmh.toFixed(
-            2
-        ) +
+        speedKmh.toFixed(2) +
         " km/h";
 
 
@@ -2065,9 +1806,7 @@ function calculateTargetPace() {
             "targetMph"
         )
         .textContent =
-        speedMph.toFixed(
-            2
-        ) +
+        speedMph.toFixed(2) +
         " mph";
 
 
@@ -2096,9 +1835,7 @@ function getKeySplitDistances(
     let candidates;
 
 
-    if (
-        unit === "miles"
-    ) {
+    if (unit === "miles") {
 
         candidates = [
             1,
@@ -2126,9 +1863,7 @@ function getKeySplitDistances(
 
 
     return candidates.filter(
-        function (
-            checkpoint
-        ) {
+        function (checkpoint) {
 
             return (
                 checkpoint <
@@ -2151,9 +1886,7 @@ function getEverySplitDistances(
 
 
     const fullUnits =
-        Math.floor(
-            distance
-        );
+        Math.floor(distance);
 
 
     for (
@@ -2162,14 +1895,9 @@ function getEverySplitDistances(
         i++
     ) {
 
-        if (
-            i <
-            distance
-        ) {
+        if (i < distance) {
 
-            splits.push(
-                i
-            );
+            splits.push(i);
 
         }
 
@@ -2188,19 +1916,12 @@ function formatSplitDistance(
 ) {
 
     const unitLabel =
-        unit ===
-        "miles"
-
+        unit === "miles"
             ? "mi"
-
             : "km";
 
 
-    if (
-        Number.isInteger(
-            distance
-        )
-    ) {
+    if (Number.isInteger(distance)) {
 
         return (
             distance +
@@ -2212,9 +1933,7 @@ function formatSplitDistance(
 
 
     return (
-        distance.toFixed(
-            2
-        ) +
+        distance.toFixed(2) +
         " " +
         unitLabel
     );
@@ -2231,32 +1950,24 @@ function createSplitRow(
 ) {
 
     const row =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
     row.className =
         isFinish
-
             ? "split-row finish"
-
             : "split-row";
 
 
     const distanceCell =
-        document.createElement(
-            "span"
-        );
+        document.createElement("span");
 
 
     distanceCell.className =
         "split-distance";
 
 
-    if (
-        isFinish
-    ) {
+    if (isFinish) {
 
         distanceCell.textContent =
             "FINISH · " +
@@ -2277,9 +1988,7 @@ function createSplitRow(
 
 
     const timeCell =
-        document.createElement(
-            "span"
-        );
+        document.createElement("span");
 
 
     timeCell.className =
@@ -2287,9 +1996,7 @@ function createSplitRow(
 
 
     timeCell.textContent =
-        formatTime(
-            time
-        );
+        formatTime(time);
 
 
     row.appendChild(
@@ -2308,9 +2015,7 @@ function createSplitRow(
 
 
 
-function renderSplits(
-    target
-) {
+function renderSplits(target) {
 
     splitRows.innerHTML =
         "";
@@ -2330,9 +2035,7 @@ function renderSplits(
 
 
     splitDistances.forEach(
-        function (
-            checkpoint
-        ) {
+        function (checkpoint) {
 
             const checkpointTime =
                 target.totalSeconds *
@@ -2374,17 +2077,12 @@ function renderSplits(
 
 
     const unitWord =
-        target.unit ===
-        "miles"
-
+        target.unit === "miles"
             ? "mile"
-
             : "kilometre";
 
 
-    if (
-        showEverySplit
-    ) {
+    if (showEverySplit) {
 
         splitSummary.textContent =
             "Showing every " +
@@ -2402,9 +2100,7 @@ function renderSplits(
 
 
 
-function selectPreset(
-    button
-) {
+function selectPreset(button) {
 
     if (
         button.dataset.custom ===
@@ -2416,8 +2112,9 @@ function selectPreset(
         );
 
 
-        button.classList.add(
-            "active"
+        setButtonActive(
+            button,
+            true
         );
 
 
@@ -2445,9 +2142,7 @@ function selectPreset(
 
 
 
-function selectTargetPreset(
-    button
-) {
+function selectTargetPreset(button) {
 
     if (
         button.dataset.targetCustom ===
@@ -2459,8 +2154,9 @@ function selectTargetPreset(
         );
 
 
-        button.classList.add(
-            "active"
+        setButtonActive(
+            button,
+            true
         );
 
 
@@ -2511,18 +2207,14 @@ function resetStrideMetrics() {
     distanceInput.value =
         "10";
 
-
     distanceUnitInput.value =
         "km";
-
 
     hoursInput.value =
         "0";
 
-
     minutesInput.value =
         "45";
-
 
     secondsInput.value =
         "0";
@@ -2551,18 +2243,14 @@ function resetTargetCalculator() {
     targetDistanceInput.value =
         "21.0975";
 
-
     targetDistanceUnitInput.value =
         "km";
-
 
     targetHoursInput.value =
         "1";
 
-
     targetMinutesInput.value =
         "40";
-
 
     targetSecondsInput.value =
         "0";
@@ -2588,6 +2276,12 @@ function resetTargetCalculator() {
         "Show every split";
 
 
+    splitToggle.setAttribute(
+        "aria-pressed",
+        "false"
+    );
+
+
     localStorage.removeItem(
         "strideMetricsTargetInputs"
     );
@@ -2610,22 +2304,25 @@ function toggleSplits() {
 
     splitToggle.textContent =
         showEverySplit
-
             ? "Show key splits"
-
             : "Show every split";
+
+
+    splitToggle.setAttribute(
+        "aria-pressed",
+        showEverySplit
+            ? "true"
+            : "false"
+    );
 
 
     const target =
         getTargetValues();
 
 
-    if (
-        target.error
-    ) {
+    if (target.error) {
 
         clearTargetResults();
-
 
         showTargetError(
             target.error
@@ -2654,9 +2351,7 @@ function getRunSummary() {
         calculatePace();
 
 
-    if (
-        !valid
-    ) {
+    if (!valid) {
 
         return "";
 
@@ -2667,9 +2362,7 @@ function getRunSummary() {
         getRunValues();
 
 
-    if (
-        run.error
-    ) {
+    if (run.error) {
 
         return "";
 
@@ -2677,11 +2370,8 @@ function getRunSummary() {
 
 
     const unitLabel =
-        run.unit ===
-        "miles"
-
+        run.unit === "miles"
             ? "miles"
-
             : "km";
 
 
@@ -2766,9 +2456,7 @@ function getRunSummary() {
     ];
 
 
-    return lines.join(
-        "\n"
-    );
+    return lines.join("\n");
 
 }
 
@@ -2780,9 +2468,7 @@ function getRacePlanSummary() {
         calculateTargetPace();
 
 
-    if (
-        !valid
-    ) {
+    if (!valid) {
 
         return "";
 
@@ -2793,9 +2479,7 @@ function getRacePlanSummary() {
         getTargetValues();
 
 
-    if (
-        target.error
-    ) {
+    if (target.error) {
 
         return "";
 
@@ -2803,11 +2487,8 @@ function getRacePlanSummary() {
 
 
     const unitLabel =
-        target.unit ===
-        "miles"
-
+        target.unit === "miles"
             ? "miles"
-
             : "km";
 
 
@@ -2870,9 +2551,7 @@ function getRacePlanSummary() {
 
 
     rows.forEach(
-        function (
-            row
-        ) {
+        function (row) {
 
             const distanceCell =
                 row.querySelector(
@@ -2909,9 +2588,7 @@ function getRacePlanSummary() {
     );
 
 
-    return lines.join(
-        "\n"
-    );
+    return lines.join("\n");
 
 }
 
@@ -2936,6 +2613,9 @@ function showActionMessage(
             element.style.display =
                 "none";
 
+            element.textContent =
+                "";
+
         },
         3000
     );
@@ -2944,13 +2624,9 @@ function showActionMessage(
 
 
 
-async function copyText(
-    text
-) {
+async function copyText(text) {
 
-    if (
-        !text
-    ) {
+    if (!text) {
 
         throw new Error(
             "No valid summary available."
@@ -2964,9 +2640,8 @@ async function copyText(
         window.isSecureContext
     ) {
 
-        await navigator.clipboard.writeText(
-            text
-        );
+        await navigator.clipboard
+            .writeText(text);
 
 
         return;
@@ -3019,9 +2694,7 @@ async function shareText(
     messageElement
 ) {
 
-    if (
-        !text
-    ) {
+    if (!text) {
 
         showActionMessage(
             messageElement,
@@ -3034,9 +2707,7 @@ async function shareText(
     }
 
 
-    if (
-        navigator.share
-    ) {
+    if (navigator.share) {
 
         try {
 
@@ -3057,9 +2728,7 @@ async function shareText(
 
             return;
 
-        } catch (
-            error
-        ) {
+        } catch (error) {
 
             if (
                 error.name ===
@@ -3077,9 +2746,7 @@ async function shareText(
 
     try {
 
-        await copyText(
-            text
-        );
+        await copyText(text);
 
 
         showActionMessage(
@@ -3087,9 +2754,7 @@ async function shareText(
             "Sharing isn't available here, so the summary was copied instead."
         );
 
-    } catch (
-        error
-    ) {
+    } catch (error) {
 
         showActionMessage(
             messageElement,
@@ -3147,9 +2812,7 @@ copyRunButton.addEventListener(
             getRunSummary();
 
 
-        if (
-            !summary
-        ) {
+        if (!summary) {
 
             showActionMessage(
                 runActionMessage,
@@ -3174,9 +2837,7 @@ copyRunButton.addEventListener(
                 "Run summary copied."
             );
 
-        } catch (
-            error
-        ) {
+        } catch (error) {
 
             showActionMessage(
                 runActionMessage,
@@ -3217,9 +2878,7 @@ copyRacePlanButton.addEventListener(
             getRacePlanSummary();
 
 
-        if (
-            !summary
-        ) {
+        if (!summary) {
 
             showActionMessage(
                 raceActionMessage,
@@ -3244,9 +2903,7 @@ copyRacePlanButton.addEventListener(
                 "Race plan copied."
             );
 
-        } catch (
-            error
-        ) {
+        } catch (error) {
 
             showActionMessage(
                 raceActionMessage,
@@ -3280,9 +2937,7 @@ shareRacePlanButton.addEventListener(
 
 
 presetButtons.forEach(
-    function (
-        button
-    ) {
+    function (button) {
 
         button.addEventListener(
             "click",
@@ -3301,9 +2956,7 @@ presetButtons.forEach(
 
 
 targetPresetButtons.forEach(
-    function (
-        button
-    ) {
+    function (button) {
 
         button.addEventListener(
             "click",
@@ -3352,6 +3005,7 @@ distanceUnitInput.addEventListener(
 );
 
 
+
 targetDistanceUnitInput.addEventListener(
     "change",
     function () {
@@ -3376,15 +3030,11 @@ const enterInputs = [
 
 
 enterInputs.forEach(
-    function (
-        input
-    ) {
+    function (input) {
 
         input.addEventListener(
             "keydown",
-            function (
-                event
-            ) {
+            function (event) {
 
                 if (
                     event.key ===
@@ -3412,9 +3062,7 @@ const targetEnterInputs = [
 
 
 targetEnterInputs.forEach(
-    function (
-        input
-    ) {
+    function (input) {
 
         input.addEventListener(
             "input",
@@ -3428,9 +3076,7 @@ targetEnterInputs.forEach(
 
         input.addEventListener(
             "keydown",
-            function (
-                event
-            ) {
+            function (event) {
 
                 if (
                     event.key ===
@@ -3460,9 +3106,7 @@ const restoredTargetInputs =
     loadSavedTargetInputs();
 
 
-if (
-    restoredTargetInputs
-) {
+if (restoredTargetInputs) {
 
     updateTargetPresetSelection();
 

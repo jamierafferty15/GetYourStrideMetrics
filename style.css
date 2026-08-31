@@ -116,6 +116,38 @@ body {
 }
 
 
+button:focus-visible,
+a:focus-visible {
+    outline:
+        3px solid var(--accent);
+
+    outline-offset: 3px;
+}
+
+
+.analysis-panel button:focus-visible,
+.quick-nav-button:not(.primary):focus-visible {
+    outline-color:
+        var(--analysis-accent);
+}
+
+
+input:focus-visible,
+select:focus-visible {
+    outline:
+        3px solid var(--accent);
+
+    outline-offset: 2px;
+}
+
+
+.analysis-panel input:focus-visible,
+.analysis-panel select:focus-visible {
+    outline-color:
+        var(--analysis-accent);
+}
+
+
 .app-header {
     background-color: var(--card-bg);
 
@@ -447,22 +479,6 @@ select {
     color: var(--text);
 
     font-size: 16px;
-}
-
-
-input:focus,
-select:focus {
-    outline:
-        2px solid var(--accent);
-
-    outline-offset: 2px;
-}
-
-
-.analysis-panel input:focus,
-.analysis-panel select:focus {
-    outline-color:
-        var(--analysis-accent);
 }
 
 
