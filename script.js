@@ -1,9 +1,29 @@
 const KM_PER_MILE = 1.609344;
 const RIEGEL_EXPONENT = 1.06;
 
+const NEGATIVE_SPLIT_OPENING_FRACTION = 0.20;
+const NEGATIVE_SPLIT_MIDDLE_FRACTION = 0.60;
+const NEGATIVE_SPLIT_FINISH_FRACTION =
+    1 -
+    NEGATIVE_SPLIT_OPENING_FRACTION -
+    NEGATIVE_SPLIT_MIDDLE_FRACTION;
+
 const NEGATIVE_SPLIT_OPENING_FACTOR = 1.03;
 const NEGATIVE_SPLIT_MIDDLE_FACTOR = 1.00;
-const NEGATIVE_SPLIT_FINISH_FACTOR = 0.97;
+
+const NEGATIVE_SPLIT_FINISH_FACTOR =
+    (
+        1 -
+        (
+            NEGATIVE_SPLIT_OPENING_FRACTION *
+            NEGATIVE_SPLIT_OPENING_FACTOR
+        ) -
+        (
+            NEGATIVE_SPLIT_MIDDLE_FRACTION *
+            NEGATIVE_SPLIT_MIDDLE_FACTOR
+        )
+    ) /
+    NEGATIVE_SPLIT_FINISH_FRACTION;
 
 
 const raceDistances = {
@@ -1886,7 +1906,8 @@ function updateStrategyDisplay(target) {
         strategyPhaseOneDistance.textContent =
             "First " +
             formatSplitDistance(
-                target.distance * 0.20,
+                target.distance *
+                NEGATIVE_SPLIT_OPENING_FRACTION,
                 target.unit
             );
 
@@ -1894,7 +1915,8 @@ function updateStrategyDisplay(target) {
         strategyPhaseTwoDistance.textContent =
             "Next " +
             formatSplitDistance(
-                target.distance * 0.60,
+                target.distance *
+                NEGATIVE_SPLIT_MIDDLE_FRACTION,
                 target.unit
             );
 
@@ -1902,7 +1924,8 @@ function updateStrategyDisplay(target) {
         strategyPhaseThreeDistance.textContent =
             "Final " +
             formatSplitDistance(
-                target.distance * 0.20,
+                target.distance *
+                NEGATIVE_SPLIT_FINISH_FRACTION,
                 target.unit
             );
 
@@ -1982,11 +2005,16 @@ function getStrategyCumulativeTime(
 
 
     const openingEnd =
-        target.distance * 0.20;
+        target.distance *
+        NEGATIVE_SPLIT_OPENING_FRACTION;
 
 
     const middleEnd =
-        target.distance * 0.80;
+        target.distance *
+        (
+            NEGATIVE_SPLIT_OPENING_FRACTION +
+            NEGATIVE_SPLIT_MIDDLE_FRACTION
+        );
 
 
     if (
