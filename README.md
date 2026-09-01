@@ -1,6 +1,6 @@
 # GetYourStrideMetrics
 
-GetYourStrideMetrics is a simple running calculator and race-planning web app.
+GetYourStrideMetrics is a lightweight running calculator and race-planning web app.
 
 It helps runners understand a completed run, estimate equivalent race performances, calculate suggested training paces, and plan target race pacing.
 
@@ -45,6 +45,7 @@ Popular target-time shortcuts are included for:
 ### Other features
 
 - kilometres and miles
+- automatic distance conversion when switching units
 - dark mode
 - saved inputs using browser local storage
 - copyable run summaries
