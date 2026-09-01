@@ -1,4 +1,4 @@
-const APP_VERSION = "v1.0.0-rc2";
+const APP_VERSION = "v1.0.0-rc3";
 
 const KM_PER_MILE = 1.609344;
 const RIEGEL_EXPONENT = 1.06;
@@ -99,6 +99,9 @@ const goalShortcuts = {
 let showEverySplit = false;
 let currentTargetRaceKey = "half";
 let currentRaceStrategy = "even";
+
+let previousRunDistanceUnit = "km";
+let previousTargetDistanceUnit = "km";
 
 
 /* DOM */
@@ -664,6 +667,108 @@ function clearElements(ids) {
 }
 
 
+/* DISTANCE CONVERSION */
+
+function distanceToKm(
+    distance,
+    unit
+) {
+
+    return (
+        unit === "miles"
+
+            ? distance *
+              KM_PER_MILE
+
+            : distance
+    );
+
+}
+
+
+function distanceFromKm(
+    distanceKm,
+    unit
+) {
+
+    return (
+        unit === "miles"
+
+            ? distanceKm /
+              KM_PER_MILE
+
+            : distanceKm
+    );
+
+}
+
+
+function formatConvertedDistance(
+    distance
+) {
+
+    return Number(
+        distance.toFixed(4)
+    ).toString();
+
+}
+
+
+function convertDistanceUnit(
+    input,
+    oldUnit,
+    newUnit
+) {
+
+    if (
+        oldUnit === newUnit
+    ) {
+
+        return;
+
+    }
+
+
+    const currentDistance =
+        Number(
+            input.value
+        );
+
+
+    if (
+        !Number.isFinite(
+            currentDistance
+        ) ||
+        currentDistance <= 0
+    ) {
+
+        return;
+
+    }
+
+
+    const distanceKm =
+        distanceToKm(
+            currentDistance,
+            oldUnit
+        );
+
+
+    const convertedDistance =
+        distanceFromKm(
+            distanceKm,
+            newUnit
+        );
+
+
+    input.value =
+        formatConvertedDistance(
+            convertedDistance
+        );
+
+}
+
+
 /* FORMATTING */
 
 function formatTime(totalSeconds) {
@@ -1082,9 +1187,11 @@ function findMatchingPreset(
     distanceAttribute
 ) {
 
-    if (unit !== "km") {
-        return null;
-    }
+    const distanceKm =
+        distanceToKm(
+            distance,
+            unit
+        );
 
 
     return (
@@ -1104,12 +1211,21 @@ function findMatchingPreset(
                 }
 
 
+                /*
+                    Preset distances are stored in
+                    kilometres.
+
+                    Allow a small tolerance because a
+                    converted mile value is displayed
+                    to four decimal places.
+                */
+
                 return (
                     Math.abs(
-                        distance -
+                        distanceKm -
                         Number(rawDistance)
                     ) <
-                    0.0001
+                    0.001
                 );
 
             }
@@ -2790,6 +2906,10 @@ function selectPreset(button) {
         "km";
 
 
+    previousRunDistanceUnit =
+        "km";
+
+
     calculatePace();
 
 }
@@ -2840,6 +2960,10 @@ function selectTargetPreset(button) {
         "km";
 
 
+    previousTargetDistanceUnit =
+        "km";
+
+
     currentTargetRaceKey =
         button.dataset.raceKey;
 
@@ -2862,6 +2986,10 @@ function resetStrideMetrics() {
         runFields,
         runDefaults
     );
+
+
+    previousRunDistanceUnit =
+        runDefaults.unit;
 
 
     localStorage.removeItem(
@@ -2887,6 +3015,10 @@ function resetTargetCalculator() {
         targetFields,
         targetDefaults
     );
+
+
+    previousTargetDistanceUnit =
+        targetDefaults.unit;
 
 
     currentTargetRaceKey =
@@ -3662,9 +3794,32 @@ targetDistanceInput.addEventListener(
 );
 
 
+/*
+    v1.0.0-rc3
+
+    Changing units now converts the existing
+    distance rather than reinterpreting the
+    same number in the new unit.
+*/
+
 distanceUnitInput.addEventListener(
     "change",
     function () {
+
+        const newUnit =
+            distanceUnitInput.value;
+
+
+        convertDistanceUnit(
+            distanceInput,
+            previousRunDistanceUnit,
+            newUnit
+        );
+
+
+        previousRunDistanceUnit =
+            newUnit;
+
 
         updatePresetSelection();
 
@@ -3677,6 +3832,21 @@ distanceUnitInput.addEventListener(
 targetDistanceUnitInput.addEventListener(
     "change",
     function () {
+
+        const newUnit =
+            targetDistanceUnitInput.value;
+
+
+        convertDistanceUnit(
+            targetDistanceInput,
+            previousTargetDistanceUnit,
+            newUnit
+        );
+
+
+        previousTargetDistanceUnit =
+            newUnit;
+
 
         clearGoalShortcutSelection();
 
@@ -3758,13 +3928,23 @@ initialiseAccessibility();
 
 loadTheme();
 
+
 loadSavedInputs();
+
+
+previousRunDistanceUnit =
+    distanceUnitInput.value;
+
 
 calculatePace();
 
 
 const restoredTargetInputs =
     loadSavedTargetInputs();
+
+
+previousTargetDistanceUnit =
+    targetDistanceUnitInput.value;
 
 
 if (restoredTargetInputs) {
