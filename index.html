@@ -386,37 +386,53 @@
             </h2>
 
 
-            <div class="data-table">
+            <div class="table-wrapper">
 
-                <div class="data-row table-header">
-                    <span>Distance</span>
-                    <span class="time-value">Time</span>
-                    <span class="pace-value">Pace</span>
-                </div>
+                <table class="data-table">
 
-                <div class="data-row">
-                    <span class="distance-name">5K</span>
-                    <span class="time-value" id="same5k">--</span>
-                    <span class="pace-value" id="samePace5k">--</span>
-                </div>
+                    <caption class="sr-only">
+                        Same-pace equivalent race times
+                    </caption>
 
-                <div class="data-row">
-                    <span class="distance-name">10K</span>
-                    <span class="time-value" id="same10k">--</span>
-                    <span class="pace-value" id="samePace10k">--</span>
-                </div>
+                    <thead>
 
-                <div class="data-row">
-                    <span class="distance-name">Half marathon</span>
-                    <span class="time-value" id="sameHalf">--</span>
-                    <span class="pace-value" id="samePaceHalf">--</span>
-                </div>
+                        <tr class="table-header">
+                            <th scope="col">Distance</th>
+                            <th scope="col" class="time-value">Time</th>
+                            <th scope="col" class="pace-value">Pace</th>
+                        </tr>
 
-                <div class="data-row">
-                    <span class="distance-name">Marathon</span>
-                    <span class="time-value" id="sameMarathon">--</span>
-                    <span class="pace-value" id="samePaceMarathon">--</span>
-                </div>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <th scope="row" class="distance-name">5K</th>
+                            <td class="time-value" id="same5k">--</td>
+                            <td class="pace-value" id="samePace5k">--</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" class="distance-name">10K</th>
+                            <td class="time-value" id="same10k">--</td>
+                            <td class="pace-value" id="samePace10k">--</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" class="distance-name">Half marathon</th>
+                            <td class="time-value" id="sameHalf">--</td>
+                            <td class="pace-value" id="samePaceHalf">--</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" class="distance-name">Marathon</th>
+                            <td class="time-value" id="sameMarathon">--</td>
+                            <td class="pace-value" id="samePaceMarathon">--</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -445,37 +461,53 @@
             </div>
 
 
-            <div class="data-table">
+            <div class="table-wrapper">
 
-                <div class="data-row table-header">
-                    <span>Distance</span>
-                    <span class="time-value">Prediction</span>
-                    <span class="pace-value">Avg pace</span>
-                </div>
+                <table class="data-table">
 
-                <div class="data-row">
-                    <span class="distance-name">5K</span>
-                    <span class="time-value" id="predicted5k">--</span>
-                    <span class="pace-value" id="predictedPace5k">--</span>
-                </div>
+                    <caption class="sr-only">
+                        Predicted race times
+                    </caption>
 
-                <div class="data-row">
-                    <span class="distance-name">10K</span>
-                    <span class="time-value" id="predicted10k">--</span>
-                    <span class="pace-value" id="predictedPace10k">--</span>
-                </div>
+                    <thead>
 
-                <div class="data-row">
-                    <span class="distance-name">Half marathon</span>
-                    <span class="time-value" id="predictedHalf">--</span>
-                    <span class="pace-value" id="predictedPaceHalf">--</span>
-                </div>
+                        <tr class="table-header">
+                            <th scope="col">Distance</th>
+                            <th scope="col" class="time-value">Prediction</th>
+                            <th scope="col" class="pace-value">Avg pace</th>
+                        </tr>
 
-                <div class="data-row">
-                    <span class="distance-name">Marathon</span>
-                    <span class="time-value" id="predictedMarathon">--</span>
-                    <span class="pace-value" id="predictedPaceMarathon">--</span>
-                </div>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <th scope="row" class="distance-name">5K</th>
+                            <td class="time-value" id="predicted5k">--</td>
+                            <td class="pace-value" id="predictedPace5k">--</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" class="distance-name">10K</th>
+                            <td class="time-value" id="predicted10k">--</td>
+                            <td class="pace-value" id="predictedPace10k">--</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" class="distance-name">Half marathon</th>
+                            <td class="time-value" id="predictedHalf">--</td>
+                            <td class="pace-value" id="predictedPaceHalf">--</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row" class="distance-name">Marathon</th>
+                            <td class="time-value" id="predictedMarathon">--</td>
+                            <td class="pace-value" id="predictedPaceMarathon">--</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
 
             </div>
 
@@ -908,6 +940,7 @@
                         data-strategy="even"
                         aria-pressed="true"
                     >
+
                         <span class="strategy-button-title">
                             Even pace
                         </span>
@@ -915,6 +948,7 @@
                         <span class="strategy-button-description">
                             Hold the same pace throughout
                         </span>
+
                     </button>
 
 
@@ -925,6 +959,7 @@
                         data-strategy="negative"
                         aria-pressed="false"
                     >
+
                         <span class="strategy-button-title">
                             Slight negative split
                         </span>
@@ -932,6 +967,7 @@
                         <span class="strategy-button-description">
                             Controlled start, stronger finish
                         </span>
+
                     </button>
 
                 </div>
@@ -1032,7 +1068,7 @@
             </div>
 
 
-            <!-- SPLITS -->
+            <!-- RACE SPLITS -->
 
             <div class="split-section">
 
@@ -1075,17 +1111,37 @@
                 ></div>
 
 
-                <div
-                    id="splitTable"
-                    class="split-table"
-                >
+                <div class="table-wrapper">
 
-                    <div class="split-row header">
-                        <span>Checkpoint</span>
-                        <span class="split-time">Cumulative time</span>
-                    </div>
+                    <table
+                        id="splitTable"
+                        class="split-table"
+                    >
 
-                    <div id="splitRows"></div>
+                        <caption class="sr-only">
+                            Race pacing checkpoints and cumulative times
+                        </caption>
+
+                        <thead>
+
+                            <tr>
+                                <th scope="col">
+                                    Checkpoint
+                                </th>
+
+                                <th
+                                    scope="col"
+                                    class="split-time"
+                                >
+                                    Cumulative time
+                                </th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="splitRows"></tbody>
+
+                    </table>
 
                 </div>
 
@@ -1143,7 +1199,7 @@
         </section>
 
 
-        <div class="footer">
+        <footer class="footer">
 
             <div class="footer-brand">
                 GetYourStrideMetrics
@@ -1154,10 +1210,10 @@
             </div>
 
             <div class="version">
-                v0.9.0
+                v0.9.4
             </div>
 
-        </div>
+        </footer>
 
     </div>
 

@@ -118,6 +118,24 @@ body {
 
 /* ACCESSIBILITY */
 
+.sr-only {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+
+    border: 0;
+}
+
+
 button:focus-visible,
 a:focus-visible {
     outline:
@@ -861,56 +879,74 @@ body.dark-mode .goal-shortcuts {
 }
 
 
-/* TABLES */
+/* SEMANTIC TABLES */
+
+.table-wrapper {
+    width: 100%;
+
+    margin-top: 20px;
+
+    overflow-x: auto;
+
+    border-radius: 12px;
+}
+
 
 .data-table,
 .split-table {
-    margin-top: 20px;
+    width: 100%;
 
-    overflow: hidden;
-
-    border-radius: 12px;
+    border-collapse: separate;
+    border-spacing: 0;
 
     background-color:
         var(--card-bg);
+
+    overflow: hidden;
+
+    font-size: 16px;
 }
 
 
 .analysis-panel .data-table {
     border:
         1px solid var(--analysis-border);
+
+    border-radius: 12px;
 }
 
 
 .goal-panel .split-table {
     border:
         1px solid var(--accent-border);
+
+    border-radius: 12px;
 }
 
 
-.data-row {
-    display: grid;
-
-    grid-template-columns:
-        1.5fr 1fr 1fr;
-
-    align-items: center;
-
-    gap: 15px;
-
+.data-table th,
+.data-table td,
+.split-table th,
+.split-table td {
     padding: 14px 18px;
 
     border-bottom:
         1px solid var(--row-border);
+
+    text-align: left;
 }
 
 
-.data-row:last-child {
+.data-table tbody tr:last-child th,
+.data-table tbody tr:last-child td,
+.split-table tbody tr:last-child th,
+.split-table tbody tr:last-child td {
     border-bottom: none;
 }
 
 
-.table-header {
+.data-table thead th,
+.split-table thead th {
     background-color:
         var(--header-bg);
 
@@ -922,14 +958,27 @@ body.dark-mode .goal-shortcuts {
 }
 
 
+.data-table tbody th,
+.split-table tbody th {
+    background-color:
+        transparent;
+
+    color:
+        var(--text);
+
+    font-size: inherit;
+}
+
+
 .distance-name {
     font-weight: bold;
 }
 
 
 .time-value,
-.pace-value {
-    text-align: right;
+.pace-value,
+.split-time {
+    text-align: right !important;
 
     font-variant-numeric:
         tabular-nums;
@@ -1318,41 +1367,13 @@ body.dark-mode .goal-shortcuts {
 }
 
 
-.split-row {
-    display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 13px 18px;
-
-    border-bottom:
-        1px solid var(--row-border);
-}
-
-
-.split-row:last-child {
-    border-bottom: none;
-}
-
-
-.split-row.header {
-    background-color:
-        var(--header-bg);
-
-    color:
-        var(--muted-text);
-
-    font-size: 13px;
+.split-distance {
     font-weight: bold;
 }
 
 
-.split-row.finish {
+.split-table tbody tr.finish th,
+.split-table tbody tr.finish td {
     background-color:
         var(--accent-soft);
 
@@ -1360,20 +1381,7 @@ body.dark-mode .goal-shortcuts {
 }
 
 
-.split-distance {
-    font-weight: bold;
-}
-
-
-.split-time {
-    text-align: right;
-
-    font-variant-numeric:
-        tabular-nums;
-}
-
-
-.split-row.finish .split-time {
+.split-table tbody tr.finish .split-time {
     color:
         var(--accent);
 
@@ -1673,18 +1681,6 @@ body.dark-mode .goal-shortcuts {
     }
 
 
-    .data-row {
-        grid-template-columns:
-            1.3fr 1fr 1fr;
-
-        gap: 8px;
-
-        padding: 13px 12px;
-
-        font-size: 14px;
-    }
-
-
     .goal-shortcut-button {
         flex: 1 1 auto;
     }
@@ -1743,7 +1739,16 @@ body.dark-mode .goal-shortcuts {
     }
 
 
-    .split-row {
+    .data-table,
+    .split-table {
+        font-size: 14px;
+    }
+
+
+    .data-table th,
+    .data-table td,
+    .split-table th,
+    .split-table td {
         padding: 13px 12px;
     }
 
@@ -1768,6 +1773,37 @@ body.dark-mode .goal-shortcuts {
         padding: 8px 12px;
 
         font-size: 13px;
+    }
+
+
+    .data-table th,
+    .data-table td,
+    .split-table th,
+    .split-table td {
+        padding: 12px 8px;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+
+    *,
+    *::before,
+    *::after {
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
     }
 
 }
