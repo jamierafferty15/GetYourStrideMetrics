@@ -1,15 +1,31 @@
+const APP_VERSION = "v0.9.3";
+
 const KM_PER_MILE = 1.609344;
 const RIEGEL_EXPONENT = 1.06;
 
+
+/* NEGATIVE SPLIT MODEL */
+
 const NEGATIVE_SPLIT_OPENING_FRACTION = 0.20;
 const NEGATIVE_SPLIT_MIDDLE_FRACTION = 0.60;
+
 const NEGATIVE_SPLIT_FINISH_FRACTION =
     1 -
     NEGATIVE_SPLIT_OPENING_FRACTION -
     NEGATIVE_SPLIT_MIDDLE_FRACTION;
 
+
 const NEGATIVE_SPLIT_OPENING_FACTOR = 1.03;
 const NEGATIVE_SPLIT_MIDDLE_FACTOR = 1.00;
+
+
+/*
+    Derive the finishing factor rather than
+    hard-coding it.
+
+    This guarantees that the weighted pacing
+    strategy still equals the target finish time.
+*/
 
 const NEGATIVE_SPLIT_FINISH_FACTOR =
     (
@@ -26,12 +42,16 @@ const NEGATIVE_SPLIT_FINISH_FACTOR =
     NEGATIVE_SPLIT_FINISH_FRACTION;
 
 
+/* STORAGE */
+
 const STORAGE_KEYS = {
     run: "strideMetricsInputs",
     target: "strideMetricsTargetInputs",
     theme: "strideMetricsTheme"
 };
 
+
+/* RACE DISTANCES */
 
 const raceDistances = {
     fiveK: 5,
@@ -41,36 +61,118 @@ const raceDistances = {
 };
 
 
+const raceLabels = {
+    "5k": "5K",
+    "10k": "10K",
+    "half": "Half marathon",
+    "marathon": "Marathon"
+};
+
+
+/* POPULAR GOALS */
+
 const goalShortcuts = {
 
     "5k": [
-        { label: "Sub-20", hours: 0, minutes: 20, seconds: 0 },
-        { label: "Sub-25", hours: 0, minutes: 25, seconds: 0 },
-        { label: "Sub-30", hours: 0, minutes: 30, seconds: 0 }
+        {
+            label: "Sub-20",
+            hours: 0,
+            minutes: 20,
+            seconds: 0
+        },
+        {
+            label: "Sub-25",
+            hours: 0,
+            minutes: 25,
+            seconds: 0
+        },
+        {
+            label: "Sub-30",
+            hours: 0,
+            minutes: 30,
+            seconds: 0
+        }
     ],
 
     "10k": [
-        { label: "Sub-40", hours: 0, minutes: 40, seconds: 0 },
-        { label: "Sub-45", hours: 0, minutes: 45, seconds: 0 },
-        { label: "Sub-50", hours: 0, minutes: 50, seconds: 0 }
+        {
+            label: "Sub-40",
+            hours: 0,
+            minutes: 40,
+            seconds: 0
+        },
+        {
+            label: "Sub-45",
+            hours: 0,
+            minutes: 45,
+            seconds: 0
+        },
+        {
+            label: "Sub-50",
+            hours: 0,
+            minutes: 50,
+            seconds: 0
+        }
     ],
 
     "half": [
-        { label: "Sub-1:30", hours: 1, minutes: 30, seconds: 0 },
-        { label: "Sub-1:40", hours: 1, minutes: 40, seconds: 0 },
-        { label: "Sub-1:45", hours: 1, minutes: 45, seconds: 0 },
-        { label: "Sub-2:00", hours: 2, minutes: 0, seconds: 0 }
+        {
+            label: "Sub-1:30",
+            hours: 1,
+            minutes: 30,
+            seconds: 0
+        },
+        {
+            label: "Sub-1:40",
+            hours: 1,
+            minutes: 40,
+            seconds: 0
+        },
+        {
+            label: "Sub-1:45",
+            hours: 1,
+            minutes: 45,
+            seconds: 0
+        },
+        {
+            label: "Sub-2:00",
+            hours: 2,
+            minutes: 0,
+            seconds: 0
+        }
     ],
 
     "marathon": [
-        { label: "Sub-3:00", hours: 3, minutes: 0, seconds: 0 },
-        { label: "Sub-3:30", hours: 3, minutes: 30, seconds: 0 },
-        { label: "Sub-4:00", hours: 4, minutes: 0, seconds: 0 },
-        { label: "Sub-4:30", hours: 4, minutes: 30, seconds: 0 }
+        {
+            label: "Sub-3:00",
+            hours: 3,
+            minutes: 0,
+            seconds: 0
+        },
+        {
+            label: "Sub-3:30",
+            hours: 3,
+            minutes: 30,
+            seconds: 0
+        },
+        {
+            label: "Sub-4:00",
+            hours: 4,
+            minutes: 0,
+            seconds: 0
+        },
+        {
+            label: "Sub-4:30",
+            hours: 4,
+            minutes: 30,
+            seconds: 0
+        }
     ]
 
 };
 
+
+/* APP STATE */
 
 let showEverySplit = false;
 let currentTargetRaceKey = "half";
@@ -286,14 +388,7 @@ const raceActionMessage =
     );
 
 
-/*
-    Shared calculator field definitions.
-
-    This is one of the main v0.9.2 changes.
-    Run Analysis and Race Planning have the same
-    basic input structure, so we describe that
-    structure once and reuse the same functions.
-*/
+/* FIELD GROUPS */
 
 const runFields = {
     distance: distanceInput,
@@ -357,6 +452,11 @@ function setButtonActive(
     isActive
 ) {
 
+    if (!button) {
+        return;
+    }
+
+
     button.classList.toggle(
         "active",
         isActive
@@ -414,15 +514,6 @@ function setFieldValues(
 }
 
 
-/*
-    Reads either the Run Analysis fields
-    or the Race Planning fields.
-
-    Previously getRunValues() and
-    getTargetValues() duplicated most
-    of this logic.
-*/
-
 function readCalculatorValues(
     fields
 ) {
@@ -460,9 +551,7 @@ function readCalculatorValues(
         );
 
 
-    if (
-        validationMessage
-    ) {
+    if (validationMessage) {
 
         return {
             error:
@@ -505,11 +594,6 @@ function readCalculatorValues(
 
 }
 
-
-/*
-    Pace and speed calculations are identical
-    for a completed run and a race target.
-*/
 
 function getCalculatedMetrics(
     values
@@ -599,9 +683,7 @@ function loadJson(
         );
 
 
-    if (
-        !storedValue
-    ) {
+    if (!storedValue) {
 
         return null;
 
@@ -614,9 +696,7 @@ function loadJson(
             storedValue
         );
 
-    } catch (
-        error
-    ) {
+    } catch (error) {
 
         console.log(
             `Could not restore ${storageKey}.`
@@ -630,14 +710,6 @@ function loadJson(
 }
 
 
-/*
-    Generic restore routine.
-
-    distanceUnit is also accepted here so that
-    previously saved v0.9.1 data continues
-    to work after this refactor.
-*/
-
 function loadFields(
     storageKey,
     fields,
@@ -650,9 +722,7 @@ function loadFields(
         );
 
 
-    if (
-        !settings
-    ) {
+    if (!settings) {
 
         return false;
 
@@ -745,9 +815,7 @@ function formatTime(
         60;
 
 
-    if (
-        hours > 0
-    ) {
+    if (hours > 0) {
 
         return (
             hours +
@@ -802,9 +870,7 @@ function formatPace(
         );
 
 
-    if (
-        seconds === 60
-    ) {
+    if (seconds === 60) {
 
         minutes += 1;
         seconds = 0;
@@ -982,9 +1048,7 @@ function validateInputs(
         seconds;
 
 
-    if (
-        totalSeconds <= 0
-    ) {
+    if (totalSeconds <= 0) {
 
         return (
             "Please enter a finishing time greater than 0."
@@ -1190,9 +1254,7 @@ function findMatchingPreset(
     distanceAttribute
 ) {
 
-    if (
-        unit !== "km"
-    ) {
+    if (unit !== "km") {
 
         return null;
 
@@ -1211,9 +1273,7 @@ function findMatchingPreset(
                     ];
 
 
-                if (
-                    !rawDistance
-                ) {
+                if (!rawDistance) {
 
                     return false;
 
@@ -1299,9 +1359,7 @@ function updateTargetPresetSelection() {
         );
 
 
-    if (
-        !matchedButton
-    ) {
+    if (!matchedButton) {
 
         setButtonActive(
             targetCustomPreset,
@@ -1355,10 +1413,19 @@ function updateTargetPresetSelection() {
 
     }
 
+
+    /*
+        v0.9.3:
+        Keep Popular Goal visual state in sync
+        with the current target time.
+    */
+
+    updateGoalShortcutSelection();
+
 }
 
 
-/* GOAL SHORTCUTS */
+/* POPULAR GOALS */
 
 function clearGoalShortcutSelection() {
 
@@ -1371,6 +1438,102 @@ function clearGoalShortcutSelection() {
 
     removeActive(
         buttons
+    );
+
+}
+
+
+/*
+    v0.9.3
+
+    Determine whether the current target time
+    exactly matches one of the Popular Goals.
+
+    This allows the selected shortcut to be
+    restored after refreshing the page.
+*/
+
+function updateGoalShortcutSelection() {
+
+    const shortcuts =
+        goalShortcuts[
+            currentTargetRaceKey
+        ];
+
+
+    const buttons =
+        goalShortcutButtons
+            .querySelectorAll(
+                ".goal-shortcut-button"
+            );
+
+
+    if (
+        !shortcuts ||
+        buttons.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const currentHours =
+        Number(
+            targetHoursInput.value
+        );
+
+
+    const currentMinutes =
+        Number(
+            targetMinutesInput.value
+        );
+
+
+    const currentSeconds =
+        Number(
+            targetSecondsInput.value
+        );
+
+
+    buttons.forEach(
+        function (
+            button,
+            index
+        ) {
+
+            const shortcut =
+                shortcuts[index];
+
+
+            if (!shortcut) {
+
+                setButtonActive(
+                    button,
+                    false
+                );
+
+
+                return;
+
+            }
+
+
+            const matches =
+                currentHours ===
+                    shortcut.hours &&
+                currentMinutes ===
+                    shortcut.minutes &&
+                currentSeconds ===
+                    shortcut.seconds;
+
+
+            setButtonActive(
+                button,
+                matches
+            );
+
+        }
     );
 
 }
@@ -1390,9 +1553,7 @@ function renderGoalShortcuts(
         ];
 
 
-    if (
-        !shortcuts
-    ) {
+    if (!shortcuts) {
 
         goalShortcutsContainer
             .classList
@@ -1411,6 +1572,11 @@ function renderGoalShortcuts(
         .remove(
             "hidden"
         );
+
+
+    const raceLabel =
+        raceLabels[raceKey] ??
+        "race";
 
 
     shortcuts.forEach(
@@ -1437,6 +1603,21 @@ function renderGoalShortcuts(
             button.setAttribute(
                 "aria-pressed",
                 "false"
+            );
+
+
+            /*
+                v0.9.3:
+                Give screen-reader users more context
+                than simply "Sub-1:40".
+            */
+
+            button.setAttribute(
+                "aria-label",
+                shortcut.label +
+                " " +
+                raceLabel +
+                " target"
             );
 
 
@@ -1478,6 +1659,15 @@ function renderGoalShortcuts(
 
         }
     );
+
+
+    /*
+        If a stored or manually entered time
+        matches a Popular Goal, restore its
+        selected state immediately.
+    */
+
+    updateGoalShortcutSelection();
 
 }
 
@@ -1822,9 +2012,7 @@ function loadSavedInputs() {
         );
 
 
-    if (
-        restored
-    ) {
+    if (restored) {
 
         savedMessage.textContent =
             "Your last run details were restored.";
@@ -1866,9 +2054,7 @@ function loadSavedTargetInputs() {
         );
 
 
-    if (
-        !settings
-    ) {
+    if (!settings) {
 
         return false;
 
@@ -2002,11 +2188,10 @@ function calculatePace() {
         getRunValues();
 
 
-    if (
-        run.error
-    ) {
+    if (run.error) {
 
         clearRunResults();
+
 
         showError(
             run.error
@@ -2084,6 +2269,7 @@ function calculatePace() {
 
     updatePresetSelection();
 
+
     saveInputs();
 
 
@@ -2112,11 +2298,10 @@ function calculateTargetPace() {
         getTargetValues();
 
 
-    if (
-        target.error
-    ) {
+    if (target.error) {
 
         clearTargetResults();
+
 
         showTargetError(
             target.error
@@ -2172,13 +2357,16 @@ function calculateTargetPace() {
 
     updateTargetPresetSelection();
 
+
     updateStrategyDisplay(
         target
     );
 
+
     renderSplits(
         target
     );
+
 
     saveTargetInputs();
 
@@ -2256,35 +2444,34 @@ function getStrategyPaces(
 }
 
 
+/*
+    v0.9.3
+
+    pacePerInputUnit is already expressed in
+    the same unit selected by the user.
+
+    Therefore:
+      km target    -> seconds per kilometre
+      miles target -> seconds per mile
+*/
+
 function formatStrategyPace(
     pacePerInputUnit,
     unit
 ) {
 
-    if (
+    const unitLabel =
         unit === "miles"
-    ) {
-
-        const paceKm =
-            pacePerInputUnit /
-            KM_PER_MILE;
-
-
-        return (
-            formatPace(
-                paceKm
-            ) +
-            " /km"
-        );
-
-    }
+            ? "/mile"
+            : "/km";
 
 
     return (
         formatPace(
             pacePerInputUnit
         ) +
-        " /km"
+        " " +
+        unitLabel
     );
 
 }
@@ -2559,9 +2746,7 @@ function selectRaceStrategy(
         getTargetValues();
 
 
-    if (
-        target.error
-    ) {
+    if (target.error) {
 
         return;
 
@@ -2786,6 +2971,11 @@ function renderSplits(
     );
 
 
+    /*
+        Finish time always uses the requested
+        target value exactly.
+    */
+
     splitRows.appendChild(
         createSplitRow(
             target.distance,
@@ -2950,6 +3140,7 @@ function resetStrideMetrics() {
 
     clearError();
 
+
     calculatePace();
 
 
@@ -3007,6 +3198,7 @@ function resetTargetCalculator() {
 
     clearTargetError();
 
+
     calculateTargetPace();
 
 }
@@ -3040,9 +3232,7 @@ function toggleSplits() {
         getTargetValues();
 
 
-    if (
-        target.error
-    ) {
+    if (target.error) {
 
         clearTargetResults();
 
@@ -3071,9 +3261,7 @@ function toggleSplits() {
 
 function getRunSummary() {
 
-    if (
-        !calculatePace()
-    ) {
+    if (!calculatePace()) {
 
         return "";
 
@@ -3084,9 +3272,7 @@ function getRunSummary() {
         getRunValues();
 
 
-    if (
-        run.error
-    ) {
+    if (run.error) {
 
         return "";
 
@@ -3186,9 +3372,7 @@ function getRunSummary() {
 
 function getRacePlanSummary() {
 
-    if (
-        !calculateTargetPace()
-    ) {
+    if (!calculateTargetPace()) {
 
         return "";
 
@@ -3199,9 +3383,7 @@ function getRacePlanSummary() {
         getTargetValues();
 
 
-    if (
-        target.error
-    ) {
+    if (target.error) {
 
         return "";
 
@@ -3345,9 +3527,7 @@ async function copyText(
     text
 ) {
 
-    if (
-        !text
-    ) {
+    if (!text) {
 
         throw new Error(
             "No valid summary available."
@@ -3416,9 +3596,7 @@ async function shareText(
     messageElement
 ) {
 
-    if (
-        !text
-    ) {
+    if (!text) {
 
         showActionMessage(
             messageElement,
@@ -3431,9 +3609,7 @@ async function shareText(
     }
 
 
-    if (
-        navigator.share
-    ) {
+    if (navigator.share) {
 
         try {
 
@@ -3451,9 +3627,7 @@ async function shareText(
 
             return;
 
-        } catch (
-            error
-        ) {
+        } catch (error) {
 
             if (
                 error.name ===
@@ -3481,13 +3655,77 @@ async function shareText(
             "Sharing isn't available here, so the summary was copied instead."
         );
 
-    } catch (
-        error
-    ) {
+    } catch (error) {
 
         showActionMessage(
             messageElement,
             "Unable to share or copy the summary."
+        );
+
+    }
+
+}
+
+
+/* VERSION */
+
+function updateVersionDisplay() {
+
+    const versionElement =
+        document.querySelector(
+            ".version"
+        );
+
+
+    if (versionElement) {
+
+        versionElement.textContent =
+            APP_VERSION;
+
+    }
+
+}
+
+
+/* ACCESSIBILITY SETUP */
+
+function initialiseAccessibility() {
+
+    /*
+        These groups already work visually.
+
+        Adding explicit group roles gives assistive
+        technology a little more context without
+        altering the layout.
+    */
+
+    if (goalShortcutButtons) {
+
+        goalShortcutButtons.setAttribute(
+            "role",
+            "group"
+        );
+
+    }
+
+
+    const strategyContainer =
+        document.querySelector(
+            ".strategy-buttons"
+        );
+
+
+    if (strategyContainer) {
+
+        strategyContainer.setAttribute(
+            "role",
+            "group"
+        );
+
+
+        strategyContainer.setAttribute(
+            "aria-label",
+            "Race pacing strategy"
         );
 
     }
@@ -3559,9 +3797,7 @@ copyRunButton.addEventListener(
             getRunSummary();
 
 
-        if (
-            !summary
-        ) {
+        if (!summary) {
 
             showActionMessage(
                 runActionMessage,
@@ -3586,9 +3822,7 @@ copyRunButton.addEventListener(
                 "Run summary copied."
             );
 
-        } catch (
-            error
-        ) {
+        } catch (error) {
 
             showActionMessage(
                 runActionMessage,
@@ -3623,9 +3857,7 @@ copyRacePlanButton.addEventListener(
             getRacePlanSummary();
 
 
-        if (
-            !summary
-        ) {
+        if (!summary) {
 
             showActionMessage(
                 raceActionMessage,
@@ -3650,9 +3882,7 @@ copyRacePlanButton.addEventListener(
                 "Race plan copied."
             );
 
-        } catch (
-            error
-        ) {
+        } catch (error) {
 
             showActionMessage(
                 raceActionMessage,
@@ -3727,6 +3957,7 @@ targetDistanceInput.addEventListener(
 
         clearGoalShortcutSelection();
 
+
         updateTargetPresetSelection();
 
     }
@@ -3738,6 +3969,7 @@ distanceUnitInput.addEventListener(
     function () {
 
         updatePresetSelection();
+
 
         calculatePace();
 
@@ -3751,7 +3983,9 @@ targetDistanceUnitInput.addEventListener(
 
         clearGoalShortcutSelection();
 
+
         updateTargetPresetSelection();
+
 
         calculateTargetPace();
 
@@ -3823,6 +4057,10 @@ targetDistanceUnitInput.addEventListener(
 
 /* INITIALISE */
 
+updateVersionDisplay();
+
+initialiseAccessibility();
+
 loadTheme();
 
 loadSavedInputs();
@@ -3834,9 +4072,7 @@ const restoredTargetInputs =
     loadSavedTargetInputs();
 
 
-if (
-    restoredTargetInputs
-) {
+if (restoredTargetInputs) {
 
     updateTargetPresetSelection();
 
