@@ -1,28 +1,62 @@
 # GetYourStrideMetrics
 
-A simple running pace, race prediction and training pace calculator.
+GetYourStrideMetrics is a simple running calculator and race-planning web app.
 
-Live site: https://getyourstridemetrics.com
+It helps runners understand a completed run, estimate equivalent race performances, calculate suggested training paces, and plan target race pacing.
+
+Live site:
+
+https://getyourstridemetrics.com
 
 ## Features
 
-- Pace per kilometre and per mile
-- Speed in km/h and mph
-- Same-pace race equivalents
-- Predicted race times
-- Suggested training pace ranges
-- Kilometres and miles
-- One-click race distance presets
-- Dark mode
-- Remembers your last inputs
+### Analyse a Run
 
-## Built with
+Enter a completed run using either kilometres or miles to calculate:
 
-- HTML
-- CSS
-- JavaScript
-- GitHub Pages
+- pace per kilometre
+- pace per mile
+- speed in km/h
+- speed in mph
+- same-pace race equivalents
+- predicted 5K, 10K, half-marathon and marathon performances
+- suggested easy, steady, tempo and interval training pace ranges
 
-## Status
+### Plan a Race Goal
 
-Early public version — actively being developed.
+Choose a race distance and target finish time to calculate:
+
+- required average pace per kilometre
+- required average pace per mile
+- average speed in km/h
+- average speed in mph
+- cumulative race splits
+- every-kilometre or every-mile splits
+- even-pacing strategy
+- slight negative-split pacing strategy
+
+Popular target-time shortcuts are included for:
+
+- 5K
+- 10K
+- half marathon
+- marathon
+
+### Other features
+
+- kilometres and miles
+- dark mode
+- saved inputs using browser local storage
+- copyable run summaries
+- shareable race plans
+- responsive mobile layout
+- keyboard-friendly controls
+- accessible button states and semantic data tables
+- installable web-app support
+
+## Race predictions
+
+Predicted race times use the Riegel formula:
+
+```text
+T₂ = T₁ × (D₂ / D₁)^1.06
