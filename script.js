@@ -1,4 +1,4 @@
-const APP_VERSION = "v0.9.4";
+const APP_VERSION = "v0.9.5";
 
 const KM_PER_MILE = 1.609344;
 const RIEGEL_EXPONENT = 1.06;
