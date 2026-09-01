@@ -1,4 +1,4 @@
-const APP_VERSION = "v1.0.0-rc1";
+const APP_VERSION = "v1.0.0-rc2";
 
 const KM_PER_MILE = 1.609344;
 const RIEGEL_EXPONENT = 1.06;
@@ -346,6 +346,7 @@ function setText(id, value) {
     const element =
         document.getElementById(id);
 
+
     if (element) {
         element.textContent = value;
     }
@@ -362,10 +363,12 @@ function setButtonActive(
         return;
     }
 
+
     button.classList.toggle(
         "active",
         isActive
     );
+
 
     button.setAttribute(
         "aria-pressed",
@@ -585,6 +588,7 @@ function loadJson(storageKey) {
         console.log(
             `Could not restore ${storageKey}.`
         );
+
 
         return null;
 
@@ -2586,16 +2590,6 @@ function getEverySplitDistances(distance) {
 }
 
 
-/*
-    v0.9.4
-
-    Race split rows are now real semantic
-    table rows.
-
-    Each checkpoint is a row header <th>
-    and its cumulative time is a data cell <td>.
-*/
-
 function createSplitRow(
     checkpoint,
     time,
@@ -3267,6 +3261,7 @@ async function copyText(text) {
         await navigator.clipboard
             .writeText(text);
 
+
         return;
 
     }
@@ -3320,6 +3315,7 @@ async function shareText(
             messageElement,
             "Please correct the highlighted inputs before sharing."
         );
+
 
         return;
 
@@ -3511,6 +3507,7 @@ copyRunButton.addEventListener(
                 "Please correct the run details before copying."
             );
 
+
             return;
 
         }
@@ -3567,6 +3564,7 @@ copyRacePlanButton.addEventListener(
                 raceActionMessage,
                 "Please correct the race-plan details before copying."
             );
+
 
             return;
 

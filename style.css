@@ -1525,6 +1525,177 @@ body.dark-mode .goal-shortcuts {
 }
 
 
+/* HOW IT WORKS */
+
+.how-panel {
+    background-color:
+        var(--card-bg);
+
+    border-color:
+        var(--border);
+}
+
+
+.how-kicker {
+    color:
+        var(--muted-text);
+}
+
+
+.how-list {
+    display: grid;
+
+    gap: 10px;
+}
+
+
+.how-item {
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    background-color:
+        var(--soft-bg);
+
+    overflow: hidden;
+}
+
+
+.how-item summary {
+    position: relative;
+
+    padding: 16px 48px 16px 18px;
+
+    color:
+        var(--text);
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    list-style: none;
+}
+
+
+.how-item summary::-webkit-details-marker {
+    display: none;
+}
+
+
+.how-item summary::after {
+    content: "+";
+
+    position: absolute;
+
+    right: 18px;
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    color:
+        var(--muted-text);
+
+    font-size: 22px;
+    font-weight: normal;
+}
+
+
+.how-item[open] summary::after {
+    content: "−";
+}
+
+
+.how-item[open] summary {
+    border-bottom:
+        1px solid var(--border);
+}
+
+
+.how-item summary:hover {
+    background-color:
+        var(--preset-hover);
+}
+
+
+.how-item summary:focus-visible {
+    outline:
+        3px solid var(--accent);
+
+    outline-offset:
+        -3px;
+}
+
+
+.how-content {
+    padding:
+        4px 18px 16px;
+
+    color:
+        var(--muted-text);
+
+    font-size: 14px;
+}
+
+
+.how-content p {
+    margin:
+        12px 0 0;
+}
+
+
+.how-content ul {
+    margin:
+        12px 0 0;
+
+    padding-left:
+        22px;
+}
+
+
+.how-content li {
+    margin:
+        6px 0;
+
+    line-height:
+        1.5;
+}
+
+
+.formula-box {
+    margin-top: 14px;
+
+    padding:
+        14px 16px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        9px;
+
+    background-color:
+        var(--card-bg);
+
+    color:
+        var(--text);
+
+    font-size:
+        18px;
+
+    font-weight:
+        bold;
+
+    font-variant-numeric:
+        tabular-nums;
+
+    text-align:
+        center;
+}
+
+
 /* FOOTER */
 
 .footer {
@@ -1750,6 +1921,18 @@ body.dark-mode .goal-shortcuts {
     .split-table th,
     .split-table td {
         padding: 13px 12px;
+    }
+
+
+    .how-item summary {
+        padding:
+            15px 44px 15px 15px;
+    }
+
+
+    .how-content {
+        padding:
+            3px 15px 15px;
     }
 
 }
